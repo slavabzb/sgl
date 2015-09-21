@@ -4,3 +4,6 @@
 [submodule "cmake"]
 	path = cmake
 	url = git@bitbucket.org:vyacheslav_bezborodov/cmake.git
+[submodule "FakeIt"]
+	path = FakeIt
+	url = https://github.com/eranpeer/FakeIt.git

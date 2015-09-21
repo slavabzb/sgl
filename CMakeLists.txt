@@ -10,10 +10,15 @@ set(LIB_INSTALL_PATH lib)
 set(INCLUDE_PATH "include")
 set(SRC_PATH "src")
 set(CMAKE_MODULE_PATH "cmake")
+set(FAKEIT_MODULE_PATH "FakeIt")
 set(LINK_LIBS )
 
 project(${PROJECT_NAME})
+
 include_directories(${INCLUDE_PATH})
+include_directories(${FAKEIT_MODULE_PATH}/include)
+include_directories(${FAKEIT_MODULE_PATH}/single_header/standalone)
+
 add_compile_options(-std=c++11)
 
 file(GLOB SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${SRC_PATH}/*.cpp")
