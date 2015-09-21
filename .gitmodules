@@ -1,0 +1,6 @@
+[submodule "cxxtest"]
+	path = cxxtest
+	url = https://github.com/CxxTest/cxxtest.git
+[submodule "cmake"]
+	path = cmake
+	url = git@bitbucket.org:vyacheslav_bezborodov/cmake.git
