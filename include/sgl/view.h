@@ -15,7 +15,7 @@ public:
     virtual void add_node() = 0;
     virtual void add_edge(const_edge_t& edge) = 0;
     
-    virtual void remove_node(const_node_t& node) = 0;
+    virtual void remove_node(const node_t& node) = 0;
     virtual void remove_edge(const_edge_t& edge) = 0;
 };
 
