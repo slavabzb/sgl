@@ -20,3 +20,5 @@ target_link_libraries(
     ${TARGET}
     ${LINK_LIBS}
 )
+
+file(COPY "res/file.txt" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
