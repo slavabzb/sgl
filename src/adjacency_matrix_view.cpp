@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <sgl/adjacency_matrix_view.h>
 
 using namespace sgl;
@@ -19,12 +20,15 @@ adjacency_matrix_view::~adjacency_matrix_view()
 
 
 
-void adjacency_matrix_view::add_node(const_node_t& node)
+void adjacency_matrix_view::add_node()
 {
-    if(node->get_id() < this->matrix.size())
-    {
-        
-    } 
+	this->matrix.push_back(matrix_row_t(this->matrix.size() + 1, 0));
+	
+	std::for_each(this->matrix.begin(), this->matrix.end(),
+		[](matrix_row_t& row)
+		{
+			row.push_back(0);
+		});
 }
 
 
@@ -36,7 +40,7 @@ void adjacency_matrix_view::add_edge(const_edge_t& edge)
     
 
 
-void remove_node(const_node_t& node)
+void adjacency_matrix_view::remove_node(const_node_t& node)
 {
     
 }
