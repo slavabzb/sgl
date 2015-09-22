@@ -21,7 +21,7 @@ public:
     
     virtual void remove_node(const_node_t& node) override;
     virtual void remove_edge(const_edge_t& edge) override;
-    
+	
 #ifndef TESTS
 private:
 #endif

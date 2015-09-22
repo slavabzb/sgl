@@ -15,7 +15,7 @@ public:
     node(const node_id_t& node_id);
     
     node_id_t get_id() const;
-    
+	
 private:
     node_id_t node_id;
 };
