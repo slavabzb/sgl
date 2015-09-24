@@ -1,36 +1,38 @@
 cmake_minimum_required(VERSION 2.8.5)
 
-set(PROJECT_NAME sgl)
+project(sgl)
+
 set(PROJECT_VERSION_MAJOR "0")
 set(PROJECT_VERSION_MINOR "1")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
 
-set(LIB_NAME ${PROJECT_NAME})
-set(LIB_INSTALL_PATH lib)
-set(INCLUDE_PATH "include")
-set(SRC_PATH "src")
+set(TARGET ${PROJECT_NAME})
+set(TARGET_INSTALL_PATH "lib")
+set(TARGET_INCLUDE_PATH "include")
+set(TARGET_SRC_PATH "src")
+set(TARGET_LINK_LIBS )
+
 set(CMAKE_MODULE_PATH "cmake")
 set(FAKEIT_MODULE_PATH "FakeIt")
-set(LINK_LIBS )
 
-project(${PROJECT_NAME})
+set(LIBRARY_OUTPUT_PATH "lib")
 
-include_directories(${INCLUDE_PATH})
+include_directories(${TARGET_INCLUDE_PATH})
 include_directories(${FAKEIT_MODULE_PATH}/include)
 include_directories(${FAKEIT_MODULE_PATH}/single_header/standalone)
 
 add_compile_options(-std=c++11)
 
-file(GLOB SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${SRC_PATH}/*.cpp")
+file(GLOB TARGET_SRC "${TARGET_SRC_PATH}/*.cpp")
 
 add_library(
-    ${LIB_NAME} SHARED
-    ${SRC}
+    ${TARGET} SHARED
+    ${TARGET_SRC}
 )
 
 target_link_libraries(
-    ${LIB_NAME}
-    ${LINK_LIBS}
+    ${TARGET}
+    ${TARGET_LINK_LIBS}
 )
 
 if(BUILD_TESTS)
@@ -41,8 +43,8 @@ if(BUILD_EXAMPLES)
     include(${CMAKE_MODULE_PATH}/examples/build.cmake)
 endif()
 
-install(TARGETS ${LIB_NAME}
-    LIBRARY DESTINATION ${LIB_INSTALL_PATH}
+install(TARGETS ${TARGET}
+    LIBRARY DESTINATION ${TARGET_INSTALL_PATH}
     PERMISSIONS 
     OWNER_WRITE OWNER_READ OWNER_EXECUTE
     GROUP_WRITE GROUP_READ OWNER_EXECUTE
