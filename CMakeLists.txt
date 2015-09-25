@@ -12,8 +12,8 @@ set(TARGET_INCLUDE_PATH "include")
 set(TARGET_SRC_PATH "src")
 set(TARGET_LINK_LIBS )
 
-set(CMAKE_MODULE_PATH "cmake")
-set(FAKEIT_MODULE_PATH "FakeIt")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+set(FAKEIT_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/FakeIt")
 
 set(LIBRARY_OUTPUT_PATH "lib")
 
@@ -36,7 +36,7 @@ target_link_libraries(
 )
 
 if(BUILD_TESTS)
-    include(${CMAKE_MODULE_PATH}/tests/build.cmake)
+    include(${CMAKE_MODULE_PATH}/tests/make.cmake)
 endif()
 
 if(BUILD_EXAMPLES)
@@ -53,4 +53,4 @@ install(TARGETS ${TARGET}
 
 add_custom_target(uninstall
     COMMAND "${CMAKE_COMMAND}" -DINSTALL_DIR=${CMAKE_INSTALL_PREFIX} -P
-    "${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_MODULE_PATH}/project/uninstall.cmake")
+    "${CMAKE_MODULE_PATH}/project/uninstall.cmake")
