@@ -35,6 +35,11 @@ target_link_libraries(
     ${TARGET_LINK_LIBS}
 )
 
+#add_custom_command(
+#    TARGET ${TARGET} POST_BUILD
+#    COMMAND ln -sf ${TARGET} ${LIBRARY_OUTPUT_PATH}/"ahahahah"
+#)
+
 if(BUILD_TESTS)
     include(${CMAKE_MODULE_PATH}/tests/make.cmake)
 endif()

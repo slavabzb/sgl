@@ -4,9 +4,7 @@
 #include <sgl/view.h>
 
 namespace sgl {
-    
-    
-    
+
 class adjacency_matrix_view: public view
 {
     typedef std::vector<node_id_t> matrix_row_t;
@@ -28,10 +26,6 @@ private:
     matrix_t matrix;
 };
 
-
-
 typedef std::shared_ptr<adjacency_matrix_view> adjacency_matrix_view_t;
-
-
 
 } // sgl

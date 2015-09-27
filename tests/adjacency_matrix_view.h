@@ -3,8 +3,6 @@
 #include <sgl/adjacency_matrix_view.h>
 #include <cxxtest/TestSuite.h>
 
-
-
 class adjacency_matrix_view_test: public CxxTest::TestSuite
 {
 public:

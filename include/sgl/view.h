@@ -5,8 +5,6 @@
 
 namespace sgl {
 
-
-
 class view
 {
 public:
@@ -19,10 +17,7 @@ public:
     virtual void remove_edge(const_edge_t& edge) = 0;
 };
 
-
-
 typedef std::shared_ptr<view> view_t;
-
-
+typedef std::shared_ptr<const view> const_view_t;
 
 } // sgl

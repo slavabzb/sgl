@@ -7,8 +7,6 @@ namespace sgl {
 
 typedef uint32_t node_id_t;
 
-
-
 class node
 {
 public:
@@ -20,11 +18,7 @@ private:
     node_id_t node_id;
 };
 
-
-
 typedef std::shared_ptr<node> node_t;
 typedef std::shared_ptr<const node> const_node_t;
-
-
 
 } // sgl
