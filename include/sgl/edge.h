@@ -15,6 +15,9 @@ public:
     const_node_t get_to() const;
     
     void set_weight(const weight_t& weight);
+    weight_t get_weight() const;
+    
+    bool operator< (const edge& rhs) const;
     
 private:
     node_t from;
@@ -22,6 +25,7 @@ private:
     weight_t weight;
 };
 
+typedef std::set<edge> edge_set_t;
 typedef std::shared_ptr<edge> edge_t;
 typedef std::shared_ptr<const edge> const_edge_t;
 

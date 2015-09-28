@@ -13,8 +13,11 @@ public:
     virtual void add_node() = 0;
     virtual void add_edge(const_edge_t& edge) = 0;
     
-    virtual void remove_node(const node_t& node) = 0;
+    virtual void remove_node(const_node_t& node) = 0;
     virtual void remove_edge(const_edge_t& edge) = 0;
+    
+    virtual node_set_t get_nodes() = 0;
+    virtual edge_set_t get_edges() = 0;
 };
 
 typedef std::shared_ptr<view> view_t;

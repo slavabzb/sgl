@@ -1,18 +1,23 @@
 #include <sgl/node.h>
 
-using namespace sgl;
 
 
-
-node::node(const node_id_t& node_id)
+sgl::node::node(const sgl::node_id_t& node_id)
     : node_id(node_id)
 {
-    
+
 }
-    
 
 
-node_id_t node::get_id() const
+
+sgl::node_id_t sgl::node::get_id() const
 {
     return this->node_id;
+}
+
+
+
+bool sgl::node::operator<(const sgl::node& rhs) const
+{
+    return this->node_id < rhs.node_id;
 }
