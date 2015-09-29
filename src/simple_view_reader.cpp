@@ -1,8 +1,8 @@
 #include <sgl/simple_view_reader.h>
 
-namespace sgl {
 
-simple_view_reader::simple_view_reader(std::istream& istream)
+
+sgl::simple_view_reader::simple_view_reader(std::istream& istream)
 	: istream(istream)
 {
 	
@@ -10,17 +10,14 @@ simple_view_reader::simple_view_reader(std::istream& istream)
 
 
 
-simple_view_reader::~simple_view_reader()
+sgl::simple_view_reader::~simple_view_reader()
 {
 	
 }
 
 
 
-view_t simple_view_reader::read()
+sgl::view_t sgl::simple_view_reader::read()
 {
 	// TODO
 }
-
-} // sgl
-

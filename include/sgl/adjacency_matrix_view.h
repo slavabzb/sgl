@@ -15,10 +15,10 @@ public:
     virtual ~adjacency_matrix_view();
     
     virtual void add_node() override;
-    virtual void add_edge(const_edge_t& edge) override;
+    virtual void add_edge(const_edge_t edge) override;
     
-    virtual void remove_node(const_node_t& node) override;
-    virtual void remove_edge(const_edge_t& edge) override;
+    virtual void remove_node(const_node_t node) override;
+    virtual void remove_edge(const_edge_t edge) override;
     
     virtual node_set_t get_nodes() override;
     virtual edge_set_t get_edges() override;

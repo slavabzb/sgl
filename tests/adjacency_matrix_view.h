@@ -60,7 +60,7 @@ public:
         TS_ASSERT_EQUALS(nodes.find(*node), nodes.end());
         TS_ASSERT(nodes.find(sgl::node(0)) != nodes.end());
         
-        TS_ASSERT_THROWS(this->view->remove_node(node), std::out_of_range);
+        TS_ASSERT_THROWS(this->view->remove_node(node), std::invalid_argument);
     }
     
     
@@ -82,12 +82,54 @@ public:
     
     
     void test_add_edge()
-    {/*
+    {
         sgl::node_t from = std::make_shared<sgl::node>(0);
         sgl::node_t to = std::make_shared<sgl::node>(1);
         sgl::weight_t weight = 1;
         sgl::edge_t edge = std::make_shared<sgl::edge>(from, to, weight);
         
-        TS_ASSERT_THROWS_NOTHING(this->view->add_edge(edge));*/
+        TS_ASSERT_THROWS(this->view->add_edge(edge), std::invalid_argument);
+		
+		this->view->add_node();
+		this->view->add_node();
+		TS_ASSERT_THROWS_NOTHING(this->view->add_edge(edge));
+		
+		sgl::edge_set_t edges = this->view->get_edges();
+		TS_ASSERT_EQUALS(edges.size(), 1);
+		TS_ASSERT(edges.find(*edge) != edges.end());
     }
+	
+	
+	
+	void test_get_edges()
+	{
+		sgl::edge_set_t edges;
+		TS_ASSERT_THROWS_NOTHING(edges = this->view->get_edges());
+		TS_ASSERT_EQUALS(edges.size(), 0);
+		
+		this->view->add_node();
+		this->view->add_node();
+	
+		sgl::node_t from = std::make_shared<sgl::node>(0);
+        sgl::node_t to = std::make_shared<sgl::node>(1);
+        sgl::weight_t weight = 1;
+        sgl::edge_t edge = std::make_shared<sgl::edge>(from, to, weight);
+		this->view->add_edge(edge);
+		
+		TS_ASSERT_THROWS_NOTHING(edges = this->view->get_edges());
+		TS_ASSERT_EQUALS(edges.size(), 1);
+		TS_ASSERT(edges.find(*edge) != edges.end());
+	}
+	
+	
+	
+	void test_remove_edge()
+	{
+		sgl::node_t from = std::make_shared<sgl::node>(0);
+        sgl::node_t to = std::make_shared<sgl::node>(1);
+        sgl::weight_t weight = 1;
+        sgl::edge_t edge = std::make_shared<sgl::edge>(from, to, weight);		
+		
+		TS_ASSERT_THROWS(this->view->remove_edge(edge), std::invalid_argument);
+	}
 };

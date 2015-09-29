@@ -27,6 +27,6 @@ private:
 
 typedef std::set<edge> edge_set_t;
 typedef std::shared_ptr<edge> edge_t;
-typedef std::shared_ptr<const edge> const_edge_t;
+typedef const std::shared_ptr<const edge> const_edge_t;
 
 } // sgl
