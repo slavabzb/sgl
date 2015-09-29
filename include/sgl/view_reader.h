@@ -12,4 +12,6 @@ public:
 	virtual view_t read() = 0;
 };
 
+typedef std::shared_ptr<view_reader> view_reader_t;
+
 } // sgl
