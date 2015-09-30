@@ -32,11 +32,11 @@ void sgl::adjacency_matrix_view::add_node()
 
 
 
-void sgl::adjacency_matrix_view::add_edge(sgl::const_edge_t edge)
+void sgl::adjacency_matrix_view::add_edge(const sgl::edge& edge)
 {
-    sgl::node_id_t from = edge->get_from()->get_id();
-    sgl::node_id_t to = edge->get_to()->get_id();
-    sgl::weight_t weight = edge->get_weight();
+    sgl::node_id_t from = edge.get_from().get_id();
+    sgl::node_id_t to = edge.get_to().get_id();
+    sgl::weight_t weight = edge.get_weight();
     sgl::node_id_t max = std::max(from, to);
     bool in_range = (max < this->matrix.size());
 
@@ -57,9 +57,9 @@ void sgl::adjacency_matrix_view::add_edge(sgl::const_edge_t edge)
 
 
 
-void sgl::adjacency_matrix_view::remove_node(sgl::const_node_t node)
+void sgl::adjacency_matrix_view::remove_node(const sgl::node& node)
 {
-    matrix_t::iterator it = this->matrix.begin() + node->get_id();
+    matrix_t::iterator it = this->matrix.begin() + node.get_id();
     std::size_t distance = std::distance(this->matrix.begin(), it);
 
     if(distance >= this->matrix.size())
@@ -75,19 +75,19 @@ void sgl::adjacency_matrix_view::remove_node(sgl::const_node_t node)
     std::for_each(this->matrix.begin(), this->matrix.end(),
         [&](matrix_row_t& row)
         {
-            row.erase(row.begin() + node->get_id());
+            row.erase(row.begin() + node.get_id());
         });
 }
 
 
 
-void sgl::adjacency_matrix_view::remove_edge(sgl::const_edge_t edge)
+void sgl::adjacency_matrix_view::remove_edge(const sgl::edge& edge)
 {
-	sgl::node_id_t from = edge->get_from()->get_id();
-    sgl::node_id_t to = edge->get_to()->get_id();
+	sgl::node_id_t from = edge.get_from().get_id();
+    sgl::node_id_t to = edge.get_to().get_id();
     sgl::node_id_t max = std::max(from, to);
     bool in_range = (max < this->matrix.size());
-	
+
     if(!in_range)
     {
         throw std::invalid_argument("adjacency_matrix_view::remove_edge: "
@@ -95,7 +95,7 @@ void sgl::adjacency_matrix_view::remove_edge(sgl::const_edge_t edge)
             std::to_string(max) +
             " doesn't exists");
     }
-	
+
 	this->matrix[from][to] = 0;
 	this->matrix[to][from] = 0;
 }
@@ -133,8 +133,8 @@ sgl::edge_set_t sgl::adjacency_matrix_view::get_edges()
 
 				if(weight != 0)
 				{
-					sgl::node_t from = std::make_shared<sgl::node>(row);
-					sgl::node_t to = std::make_shared<sgl::node>(column);
+					sgl::node from(row);
+					sgl::node to(column);
 					sgl::edge edge(from, to, weight);
 					edges.insert(edge);
 				}

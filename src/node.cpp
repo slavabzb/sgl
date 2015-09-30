@@ -21,3 +21,10 @@ bool sgl::node::operator<(const sgl::node& rhs) const
 {
     return this->node_id < rhs.node_id;
 }
+
+
+
+bool sgl::node::operator==(const sgl::node& rhs) const
+{
+    return this->node_id == rhs.node_id;
+}
