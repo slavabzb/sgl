@@ -49,12 +49,22 @@ sgl::weight_t sgl::edge::get_weight() const
 
 bool sgl::edge::operator<(const edge& rhs) const
 {
-    return (this->from < rhs.from) && (this->to < rhs.to);
+	bool less =
+		(this->from < rhs.from) ||
+		(this->to < rhs.to) ||
+		(this->weight < rhs.weight);
+
+    return less;
 }
 
 
 
 bool sgl::edge::operator==(const edge& rhs) const
 {
-    return (this->from == rhs.from) && (this->to == rhs.to);
+	bool equal =
+		(this->from == rhs.from) &&
+		(this->to == rhs.to) &&
+		(this->weight == rhs.weight);
+
+    return equal;
 }

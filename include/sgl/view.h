@@ -8,6 +8,13 @@ namespace sgl {
 class view
 {
 public:
+	enum type
+	{
+		adjacency_matrix,
+		adjacency_list,
+		edge_list
+	};
+
     virtual ~view() {}
 
     virtual void add_node() = 0;
@@ -18,6 +25,8 @@ public:
 
     virtual node_set_t get_nodes() = 0;
     virtual edge_set_t get_edges() = 0;
+
+
 };
 
 typedef std::shared_ptr<view> view_t;

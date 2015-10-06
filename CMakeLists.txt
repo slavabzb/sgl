@@ -25,6 +25,11 @@ include_directories(${FAKEIT_MODULE_PATH}/single_header/standalone)
 add_compile_options(-std=c++11)
 
 file(GLOB TARGET_SRC "${TARGET_SRC_PATH}/*.cpp")
+file(GLOB VIEW_SRC "${TARGET_SRC_PATH}/view/*.cpp")
+
+list(APPEND TARGET_SRC
+	${VIEW_SRC}
+)
 
 add_library(
     ${TARGET} SHARED
@@ -52,7 +57,7 @@ install(TARGETS ${TARGET}
     LIBRARY
 	DESTINATION
 		${TARGET_INSTALL_PATH}
-    PERMISSIONS 
+    PERMISSIONS
 		OWNER_WRITE OWNER_READ OWNER_EXECUTE
 		GROUP_WRITE GROUP_READ OWNER_EXECUTE
 		WORLD_READ
