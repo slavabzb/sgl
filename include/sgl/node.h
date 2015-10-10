@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <set>
 
 namespace sgl {
@@ -14,6 +15,7 @@ public:
     node(node_id_t node_id);
 
     node_id_t get_id() const;
+    std::string to_string() const;
 
     bool operator<(const node& rhs) const;
     bool operator==(const node& rhs) const;

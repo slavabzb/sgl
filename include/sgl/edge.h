@@ -1,6 +1,6 @@
 #pragma once
 
-#include <initializer_list>
+#include <string>
 
 #include <sgl/node.h>
 
@@ -19,6 +19,8 @@ public:
     void set_weight(weight_t weight);
     weight_t get_weight() const;
 
+    std::string to_string() const;
+    
     bool operator<(const edge& rhs) const;
     bool operator==(const edge& rhs) const;
 

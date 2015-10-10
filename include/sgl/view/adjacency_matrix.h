@@ -14,11 +14,15 @@ class adjacency_matrix: public view
     friend class ::adjacency_matrix_test;
 #endif
 
-    typedef std::vector<node_id_t> matrix_row_t;
-    typedef std::vector<matrix_row_t> matrix_t;
+    using matrix_row_t = std::vector<node_id_t>;
+    using matrix_t = std::vector<matrix_row_t>;
 
 public:
-    adjacency_matrix(std::size_t nodes = 0);
+    adjacency_matrix(
+        std::size_t nodes = 0,
+        bool oriented = false,
+        bool weighted = false);
+    
     virtual ~adjacency_matrix();
 
     virtual void add_node() override;

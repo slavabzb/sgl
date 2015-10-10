@@ -10,7 +10,7 @@ namespace view {
 class view
 {
 public:
-    view();
+    view(bool oriented = false, bool weighted = false);
     virtual ~view();
 
     virtual void add_node() = 0;
@@ -29,9 +29,6 @@ public:
     
     bool is_oriented() const;
     bool is_weighted() const;
-    
-    void set_oriented(bool oriented);
-    void set_weighted(bool weighted);
     
 private:
     bool oriented;

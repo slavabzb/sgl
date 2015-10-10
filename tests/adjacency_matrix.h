@@ -1,7 +1,8 @@
 #pragma once
 
-#include <sgl/view/adjacency_matrix.h>
 #include <cxxtest/TestSuite.h>
+
+#include <sgl/view/adjacency_matrix.h>
 
 class adjacency_matrix_test: public CxxTest::TestSuite
 {
@@ -109,6 +110,8 @@ public:
         TS_ASSERT_EQUALS(this->view->matrix.at(0).at(1), weight);
         TS_ASSERT_EQUALS(this->view->matrix.at(1).at(0), weight);
         TS_ASSERT_EQUALS(this->view->matrix.at(1).at(1), 0);
+        
+        TS_ASSERT_THROWS(this->view->add_edge(edge), std::invalid_argument);
     }
 
     
@@ -128,7 +131,7 @@ public:
         this->add_edge(node_id_from, node_id_to, weight);
 
         TS_ASSERT_THROWS_NOTHING(edges = this->view->get_edges());
-        TS_ASSERT_EQUALS(edges.size(), 1);
+        TS_ASSERT_EQUALS(edges.size(), 2);
 
         sgl::node_t from = std::make_shared<sgl::node>(node_id_from);
         sgl::node_t to = std::make_shared<sgl::node>(node_id_to);

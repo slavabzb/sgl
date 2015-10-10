@@ -49,15 +49,14 @@ void sgl::view::simple_reader::read_adjacency_matrix(sgl::view::view_t& view)
     std::size_t nodes = 0;
     this->istream >> nodes;
 
-    view = std::make_shared<sgl::view::adjacency_matrix>(nodes);
-
     bool oriented = false;
     this->istream >> oriented;
-    view->set_oriented(oriented);
 
     bool weighted = false;
     this->istream >> weighted;
-    view->set_weighted(weighted);
+
+    view = std::make_shared<sgl::view::adjacency_matrix>(
+        nodes, oriented, weighted);
 
     for(std::size_t row = 0; row < nodes; ++row)
     {
@@ -70,7 +69,10 @@ void sgl::view::simple_reader::read_adjacency_matrix(sgl::view::view_t& view)
             sgl::node_t to = std::make_shared<sgl::node>(column);
             sgl::edge_t edge = std::make_shared<sgl::edge>(from, to, weight);
 
-            view->add_edge(edge);
+            if(!view->exists(edge))
+            {
+                view->add_edge(edge);
+            }
         }
     }
 }

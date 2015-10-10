@@ -42,6 +42,19 @@ sgl::weight_t sgl::edge::get_weight() const
 }
 
 
+
+std::string sgl::edge::to_string() const
+{
+    std::string string =
+        "from: " + std::to_string(this->from->get_id()) + ", "
+        "to: " + std::to_string(this->to->get_id()) + ", "
+        "weight: " + std::to_string(this->weight);
+    
+    return string;
+}
+
+
+
 bool sgl::edge::operator<(const edge& rhs) const
 {
     bool less =
