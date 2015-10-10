@@ -2,7 +2,7 @@
 
 
 
-sgl::node::node(const sgl::node_id_t& node_id)
+sgl::node::node(sgl::node_id_t node_id)
     : node_id(node_id)
 {
 

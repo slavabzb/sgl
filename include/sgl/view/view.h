@@ -2,34 +2,44 @@
 
 #include <sgl/node.h>
 #include <sgl/edge.h>
+#include <sgl/view/type.h>
 
 namespace sgl {
+namespace view {
 
 class view
 {
 public:
-	enum type
-	{
-		adjacency_matrix,
-		adjacency_list,
-		edge_list
-	};
-
-    virtual ~view() {}
+    view();
+    virtual ~view();
 
     virtual void add_node() = 0;
-    virtual void add_edge(const edge& edge) = 0;
+    virtual void add_edge(const_edge_t edge) = 0;
 
-    virtual void remove_node(const node& node) = 0;
-    virtual void remove_edge(const edge& edge) = 0;
+    virtual void remove_node(const_node_t node) = 0;
+    virtual void remove_edge(const_edge_t edge) = 0;
 
-    virtual node_set_t get_nodes() = 0;
-    virtual edge_set_t get_edges() = 0;
-
-
+    virtual const_node_set_t get_nodes() const = 0;
+    virtual const_edge_set_t get_edges() const = 0;
+    
+    virtual type get_type() const = 0;
+    
+    virtual bool exists(const_edge_t edge) const = 0;
+    virtual bool exists(const_node_t node) const = 0;
+    
+    bool is_oriented() const;
+    bool is_weighted() const;
+    
+    void set_oriented(bool oriented);
+    void set_weighted(bool weighted);
+    
+private:
+    bool oriented;
+    bool weighted;
 };
 
 typedef std::shared_ptr<view> view_t;
 typedef const std::shared_ptr<const view> const_view_t;
 
+} // view
 } // sgl

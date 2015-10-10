@@ -1,15 +1,19 @@
 #pragma once
 
-#include <sgl/view.h>
+#include <sgl/view/view.h>
 
 namespace sgl {
+namespace view {
 
-class view_writer
+class writer
 {
 public:
-	virtual ~view_writer() {}
-	
-	virtual void write(const_view_t& view) = 0;
+    virtual ~writer() {}
+
+    virtual void write(const_view_t& view) = 0;
 };
 
+typedef std::shared_ptr<writer> writer_t;
+
+} // view
 } // sgl

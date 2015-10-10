@@ -1,17 +1,19 @@
 #pragma once
 
-#include <sgl/view.h>
+#include <sgl/view/view.h>
 
 namespace sgl {
+namespace view {
 
-class view_reader
+class reader
 {
 public:
-	virtual ~view_reader() {}
-	
-	virtual view_t read() = 0;
+    virtual ~reader() {}
+
+    virtual view_t read() = 0;
 };
 
-typedef std::shared_ptr<view_reader> view_reader_t;
+typedef std::shared_ptr<reader> reader_t;
 
+} // view
 } // sgl
