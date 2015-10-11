@@ -106,16 +106,16 @@ void sgl::view::adjacency_list::add_edge(const_edge_t edge)
             if(it != this->list.end())
             {
                 adjacency_nodes_t::const_iterator pos =
-                std::find_if(it->second.begin(), it->second.end(),
-                    [&edge](const edge_info_t& edge_info)
-                    {
-                        if(edge_info.first == *edge->get_to())
+                    std::find_if(it->second.begin(), it->second.end(),
+                        [&edge](const edge_info_t& edge_info)
                         {
-                            return true;
-                        }
+                            if(edge_info.first == *edge->get_from())
+                            {
+                                return true;
+                            }
 
-                        return false;
-                    });
+                            return false;
+                        });
 
                 if(pos != it->second.end())
                 {
@@ -138,11 +138,31 @@ void sgl::view::adjacency_list::add_edge(const_edge_t edge)
 
 void sgl::view::adjacency_list::remove_node(sgl::const_node_t node)
 {
-    list_t::const_iterator it = this->list.find(*node);
-
-    if(it == this->list.end())
+    for(list_t::iterator it = this->list.begin(); it != this->list.end(); ++it)
     {
-        return;
+        if(it->first == *node)
+        {
+            this->list.erase(it);
+        }
+        else
+        {
+            adjacency_nodes_t::const_iterator pos =
+                std::find_if(it->second.begin(), it->second.end(),
+                    [&node](const edge_info_t& edge_info)
+                    {
+                        if(edge_info.first == *node)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    });
+
+            if(pos != it->second.end())
+            {
+                it->second.erase(pos);
+            }
+        }
     }
 }
 

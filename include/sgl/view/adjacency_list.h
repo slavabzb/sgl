@@ -16,17 +16,8 @@ class adjacency_list: public view
     friend class ::adjacency_list_test;
 #endif
 
-    using edge_info_t = std::pair<node, weight_t>;
-    
-    /*struct edge_info_comparer
-    {
-        bool operator() (const edge_info_t& lhs, const edge_info_t& rhs)
-        {
-            return lhs.first < rhs.first;
-        }
-    };*/
-    
-    using adjacency_nodes_t = std::set<edge_info_t/*, edge_info_comparer*/>;
+    using edge_info_t = std::pair<node, weight_t>;    
+    using adjacency_nodes_t = std::set<edge_info_t>;
     using adjacency_info_t = std::pair<node, adjacency_nodes_t>;
     using list_t = std::map<adjacency_info_t::first_type,
         adjacency_info_t::second_type>;
