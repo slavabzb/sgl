@@ -185,10 +185,103 @@ public:
         TS_ASSERT_EQUALS(it, this->not_oriented_view->list.end());
         
         it = this->not_oriented_view->list.find(*node2);
+        TS_ASSERT(it != this->not_oriented_view->list.end());
         TS_ASSERT_EQUALS(it->first, *node2);
         TS_ASSERT_EQUALS(it->second.size(), 1);
         TS_ASSERT_EQUALS(it->second.begin()->first, *node0);
         TS_ASSERT_EQUALS(it->second.begin()->second, weight1);
+    }
+    
+    
+    
+    void test_remove_edge()
+    {
+        const std::size_t nodes = 3;
+        this->add_nodes(this->not_oriented_view, nodes);
+        
+        sgl::node_id_t node_id_0 = 0;
+        sgl::node_id_t node_id_1 = 1;
+        sgl::node_id_t node_id_2 = 2;
+        sgl::weight_t weight0 = 2;
+        sgl::weight_t weight1 = 5;
+        sgl::node_t node0 = std::make_shared<sgl::node>(node_id_0);
+        sgl::node_t node1 = std::make_shared<sgl::node>(node_id_1);
+        sgl::node_t node2 = std::make_shared<sgl::node>(node_id_2);
+                
+        this->not_oriented_view->list[0].insert(std::make_pair(*node1, weight0));
+        this->not_oriented_view->list[0].insert(std::make_pair(*node2, weight1));
+        this->not_oriented_view->list[1].insert(std::make_pair(*node0, weight0));
+        this->not_oriented_view->list[2].insert(std::make_pair(*node0, weight1));
+        
+        sgl::edge_t edge = std::make_shared<sgl::edge>(node0, node1, weight1);
+        TS_ASSERT_THROWS_NOTHING(this->not_oriented_view->remove_edge(edge));
+        
+        TS_ASSERT_EQUALS(this->not_oriented_view->list.size(), 3);
+        
+         sgl::view::adjacency_list::list_t::const_iterator it =
+            this->not_oriented_view->list.find(*node0);
+        TS_ASSERT(it != this->not_oriented_view->list.end());
+        TS_ASSERT_EQUALS(it->first, *node0);
+        TS_ASSERT_EQUALS(it->second.size(), 1);
+        TS_ASSERT_EQUALS(it->second.begin()->first, *node2);
+        TS_ASSERT_EQUALS(it->second.begin()->second, weight1);
+        
+        it = this->not_oriented_view->list.find(*node1);
+        TS_ASSERT(it != this->not_oriented_view->list.end());
+        TS_ASSERT_EQUALS(it->first, *node1);
+        TS_ASSERT_EQUALS(it->second.size(), 0);
+        
+        it = this->not_oriented_view->list.find(*node2);
+        TS_ASSERT(it != this->not_oriented_view->list.end());
+        TS_ASSERT_EQUALS(it->first, *node2);
+        TS_ASSERT_EQUALS(it->second.size(), 1);
+        TS_ASSERT_EQUALS(it->second.begin()->first, *node0);
+        TS_ASSERT_EQUALS(it->second.begin()->second, weight1);
+    }
+    
+    
+    
+    void test_exists()
+    {
+        const std::size_t nodes = 3;
+        this->add_nodes(this->not_oriented_view, nodes);
+        
+        sgl::node_id_t node_id_0 = 0;
+        sgl::node_id_t node_id_1 = 1;
+        sgl::node_id_t node_id_2 = 2;
+        sgl::weight_t weight0 = 2;
+        sgl::weight_t weight1 = 5;
+        sgl::node_t node0 = std::make_shared<sgl::node>(node_id_0);
+        sgl::node_t node1 = std::make_shared<sgl::node>(node_id_1);
+        sgl::node_t node2 = std::make_shared<sgl::node>(node_id_2);
+                
+        this->not_oriented_view->list[0].insert(std::make_pair(*node1, weight0));
+        this->not_oriented_view->list[0].insert(std::make_pair(*node2, weight1));
+        this->not_oriented_view->list[1].insert(std::make_pair(*node0, weight0));
+        this->not_oriented_view->list[2].insert(std::make_pair(*node0, weight1));
+        
+        sgl::edge_t existing_edge = std::make_shared<sgl::edge>(node0, node1, weight0);
+        sgl::edge_t not_existing_edge = std::make_shared<sgl::edge>(node1, node2, weight0);
+        
+        bool exists = false;
+        TS_ASSERT_THROWS_NOTHING(exists = this->not_oriented_view->exists(existing_edge));
+        TS_ASSERT_EQUALS(exists, true);
+        
+        TS_ASSERT_THROWS_NOTHING(exists = this->not_oriented_view->exists(not_existing_edge));
+        TS_ASSERT_EQUALS(exists, false);
+        
+        TS_ASSERT_THROWS_NOTHING(exists = this->not_oriented_view->exists(node0));
+        TS_ASSERT_EQUALS(exists, true);
+        
+        TS_ASSERT_THROWS_NOTHING(exists = this->not_oriented_view->exists(node1));
+        TS_ASSERT_EQUALS(exists, true);
+        
+        TS_ASSERT_THROWS_NOTHING(exists = this->not_oriented_view->exists(node2));
+        TS_ASSERT_EQUALS(exists, true);
+        
+        sgl::node_t not_existing_node = std::make_shared<sgl::node>(node_id_2 + 1);
+        TS_ASSERT_THROWS_NOTHING(exists = this->not_oriented_view->exists(not_existing_node));
+        TS_ASSERT_EQUALS(exists, false);
     }
     
     

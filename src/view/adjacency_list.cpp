@@ -170,7 +170,54 @@ void sgl::view::adjacency_list::remove_node(sgl::const_node_t node)
 
 void sgl::view::adjacency_list::remove_edge(sgl::const_edge_t edge)
 {
+    list_t::iterator it = this->list.find(*edge->get_from());
 
+    if(it != this->list.end())
+    {
+        adjacency_nodes_t::const_iterator pos =
+            std::find_if(it->second.begin(), it->second.end(),
+                [&edge](const edge_info_t& edge_info)
+                {
+                    if(edge_info.first == *edge->get_to())
+                    {
+                        return true;
+                    }
+
+                    return false;
+                });
+
+        if(pos != it->second.end())
+        {
+            it->second.erase(pos);
+        }
+
+        it = this->list.find(*edge->get_to());
+
+        if(it != this->list.end())
+        {
+            adjacency_nodes_t::const_iterator pos =
+                std::find_if(it->second.begin(), it->second.end(),
+                    [&edge](const edge_info_t& edge_info)
+                    {
+                        if(edge_info.first == *edge->get_from())
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    });
+
+            if(pos != it->second.end())
+            {
+                it->second.erase(pos);
+            }
+        }
+        else
+        {
+            throw std::runtime_error("adjacency_list::remove_edge: "
+                "internal list corrupted");
+        }
+    }
 }
 
 
@@ -202,11 +249,29 @@ sgl::view::type sgl::view::adjacency_list::get_type() const
 
 bool sgl::view::adjacency_list::exists(sgl::const_edge_t edge) const
 {
-    bool exists = true;
+    bool exists = false;
 
-    list_t::const_iterator it = this->list.end();
-    it = this->list.find(*edge->get_from());
-    exists = it != this->list.end();
+    list_t::const_iterator it = this->list.find(*edge->get_from());
+
+    if(it != this->list.end())
+    {
+        adjacency_nodes_t::const_iterator pos =
+            std::find_if(it->second.begin(), it->second.end(),
+                [&edge](const edge_info_t& edge_info)
+                {
+                    if(edge_info.first == *edge->get_to())
+                    {
+                        return true;
+                    }
+
+                    return false;
+                });
+
+        if(pos != it->second.end())
+        {
+            exists = true;
+        }
+    }
 
     return exists;
 }
@@ -217,15 +282,35 @@ bool sgl::view::adjacency_list::exists(sgl::const_node_t node) const
 {
     bool exists = false;
 
+    list_t::const_iterator it = this->list.find(*node);
 
+    if(it != this->list.end())
+    {
+        exists = true;
+    }
+    else
+    {
+        for(list_t::const_iterator it = this->list.begin();
+            it != this->list.end(); ++it)
+        {
+            adjacency_nodes_t::const_iterator pos =
+                std::find_if(it->second.begin(), it->second.end(),
+                    [&node](const edge_info_t& edge_info)
+                    {
+                        if(edge_info.first == *node)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    });
+
+            if(pos != it->second.end())
+            {
+                exists = true;
+            }
+        }
+    }
 
     return exists;
-}
-
-
-
-bool sgl::view::adjacency_list::in_range(
-    const sgl::node& from, const sgl::node& to) const
-{
-
 }

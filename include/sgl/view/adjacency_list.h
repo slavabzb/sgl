@@ -39,9 +39,6 @@ public:
     
     virtual bool exists(const_edge_t edge) const override;
     virtual bool exists(const_node_t node) const override;
-
-private:
-    bool in_range(const node& from, const node& to) const;
     
 private:
     list_t list;
