@@ -1,6 +1,8 @@
 #include <sgl/view/simple_writer.h>
 #include <sgl/view/converter.h>
 
+#include "sgl/view/adjacency_matrix.h"
+
 
 
 sgl::view::simple_writer::simple_writer(std::ostream& ostream)
@@ -41,23 +43,28 @@ void sgl::view::simple_writer::write(sgl::view::const_view_t& view)
 void sgl::view::simple_writer::write_adjacency_matrix(
     sgl::view::const_view_t& view)
 {
-    std::size_t nodes_count = view->get_nodes().size();
-    this->ostream << nodes_count << ' ';
-    // why?
-    this->ostream << '0' << '\n';
+    sgl::view::const_adjacency_matrix_t adjacency_matrix =
+        std::dynamic_pointer_cast<const sgl::view::adjacency_matrix>(view);
 
-    sgl::edge_set_t edges = view->get_edges();
-
-    std::size_t line_limit = 0;
-    for(sgl::edge_set_t::const_iterator it = edges.begin();
-        it != edges.end(); ++it)
+    if(!adjacency_matrix)
     {
-        this->ostream << it->get_weight() << ' ';
-        
-        if(line_limit == nodes_count)
+        throw std::invalid_argument("simple_writer::write_adjacency_matrix: "
+            "can't write: the type of view is not a adjacency_matrix");
+    }
+
+    const std::size_t nodes_count = adjacency_matrix->get_nodes_count();
+
+    this->ostream << nodes_count << '\n';
+    this->ostream << adjacency_matrix->is_oriented() << ' ';
+    this->ostream << adjacency_matrix->is_weighted() << '\n';
+
+    for(sgl::node_id_t first = 0; first < nodes_count; ++first)
+    {
+        for(sgl::node_id_t second = 0; second < nodes_count; ++second)
         {
-            this->ostream << '\n';
-            line_limit = 0;
+            this->ostream << adjacency_matrix->get_weight(first, second) << ' ';
         }
+
+        this->ostream << '\n';
     }
 }

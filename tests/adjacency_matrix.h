@@ -76,24 +76,7 @@ public:
         );
     }
 
-    
-    
-    void test_get_nodes()
-    {
-        sgl::node_set_t node_set;
-        TS_ASSERT_THROWS_NOTHING(node_set = this->view->get_nodes());
-        TS_ASSERT_EQUALS(node_set.size(), 0);
-
-        std::size_t nodes = 2;
-        this->add_nodes(nodes);
-
-        TS_ASSERT_THROWS_NOTHING(node_set = this->view->get_nodes());
-        TS_ASSERT_EQUALS(node_set.size(), nodes);
-        TS_ASSERT_EQUALS(node_set.begin()->get_id(), 0);
-        TS_ASSERT_EQUALS((++node_set.begin())->get_id(), 1);
-    }
-
-    
+       
     
     void test_add_edge()
     {
@@ -112,31 +95,6 @@ public:
         TS_ASSERT_EQUALS(this->view->matrix.at(1).at(1), 0);
         
         TS_ASSERT_THROWS(this->view->add_edge(edge), std::invalid_argument);
-    }
-
-    
-    
-    void test_get_edges()
-    {
-        sgl::edge_set_t edges;
-        TS_ASSERT_THROWS_NOTHING(edges = this->view->get_edges());
-        TS_ASSERT_EQUALS(edges.size(), 0);
-
-        std::size_t nodes = 2;
-        this->add_nodes(nodes);
-
-        sgl::node_id_t node_id_from = 0;
-        sgl::node_id_t node_id_to = 1;
-        sgl::weight_t weight = 1;
-        this->add_edge(node_id_from, node_id_to, weight);
-
-        TS_ASSERT_THROWS_NOTHING(edges = this->view->get_edges());
-        TS_ASSERT_EQUALS(edges.size(), 2);
-
-        sgl::node_t from = std::make_shared<sgl::node>(node_id_from);
-        sgl::node_t to = std::make_shared<sgl::node>(node_id_to);
-        sgl::edge edge(from, to, weight);
-        TS_ASSERT(edges.find(edge) != edges.end());
     }
 
         
@@ -192,6 +150,29 @@ public:
         TS_ASSERT(this->view->exists(edge));
         TS_ASSERT(this->view->exists(from));
         TS_ASSERT(this->view->exists(to));
+    }
+    
+    
+    
+    void test_get_weight()
+    {
+        std::size_t nodes = 2;
+        this->add_nodes(nodes);
+        
+        const sgl::weight_t weight = 1;
+        this->view->matrix.at(0).at(0) = 0;
+        this->view->matrix.at(0).at(1) = weight;
+        this->view->matrix.at(1).at(0) = weight;
+        this->view->matrix.at(1).at(1) = 0;
+        
+        sgl::weight_t weight_retrieved = 0;
+        TS_ASSERT_THROWS_NOTHING(
+            weight_retrieved = this->view->get_weight(0, 1));
+        TS_ASSERT_EQUALS(weight_retrieved, weight);
+                
+        TS_ASSERT_THROWS(
+            this->view->get_weight(0, 2),
+            std::out_of_range);
     }
     
     

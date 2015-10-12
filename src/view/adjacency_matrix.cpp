@@ -115,74 +115,16 @@ void sgl::view::adjacency_matrix::remove_edge(sgl::const_edge_t edge)
 
 
 
-sgl::const_node_set_t sgl::view::adjacency_matrix::get_nodes() const
-{
-    sgl::node_set_t nodes;
-
-    for(matrix_t::size_type node_id = 0; node_id < this->matrix.size();
-        ++node_id)
-    {
-        sgl::node node(node_id);
-        nodes.insert(node);
-    }
-
-    return nodes;
-}
-
-
-
-sgl::const_edge_set_t sgl::view::adjacency_matrix::get_edges() const
-{
-    sgl::edge_set_t edges;
-
-    if(this->matrix.size() > 0)
-    {
-        for(matrix_t::size_type row = 0; row < this->matrix.size() - 1; ++row)
-        {
-            for(matrix_row_t::size_type column = row + 1;
-                column < this->matrix[row].size(); ++column)
-            {
-                sgl::weight_t weight = this->matrix[row][column];
-
-                if(weight != 0)
-                {
-                    sgl::node_t from = std::make_shared<sgl::node>(row);
-                    sgl::node_t to = std::make_shared<sgl::node>(column);
-                    sgl::edge edge(from, to, weight);
-
-                    edges.insert(edge);
-
-                    if(!this->is_oriented())
-                    {
-                        sgl::weight_t backward_weight =
-                            this->matrix[column][row];
-
-                        if(backward_weight != weight)
-                        {
-                            throw std::runtime_error(
-                                "adjacency_matrix::get_edges: "
-                                "internal matrix corrupted");
-                        }
-
-                        sgl::node_t from = std::make_shared<sgl::node>(column);
-                        sgl::node_t to = std::make_shared<sgl::node>(row);
-                        sgl::edge edge(from, to, backward_weight);
-
-                        edges.insert(edge);
-                    }
-                }
-            }
-        }
-    }
-
-    return edges;
-}
-
-
-
 sgl::view::type sgl::view::adjacency_matrix::get_type() const
 {
     return sgl::view::type::adjacency_matrix;
+}
+
+
+
+std::size_t sgl::view::adjacency_matrix::get_nodes_count() const
+{
+    return this->matrix.size();
 }
 
 
@@ -235,6 +177,23 @@ bool sgl::view::adjacency_matrix::exists(sgl::const_node_t node) const
     }
 
     return exists;
+}
+
+
+
+sgl::weight_t sgl::view::adjacency_matrix::get_weight(
+    sgl::node_id_t first, sgl::node_id_t second) const
+{
+    if(!this->in_range(first, second))
+    {
+        throw std::out_of_range("adjacency_matrix::get_weight(): "
+            "can't retrieve a weight of edge: "
+            "the node with node_id = " +
+            std::to_string(std::max(first, second)) +
+            " doesn't exists");
+    }
+
+    return this->matrix[first][second];
 }
 
 

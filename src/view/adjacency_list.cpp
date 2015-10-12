@@ -178,7 +178,8 @@ void sgl::view::adjacency_list::remove_edge(sgl::const_edge_t edge)
             std::find_if(it->second.begin(), it->second.end(),
                 [&edge](const edge_info_t& edge_info)
                 {
-                    if(edge_info.first == *edge->get_second())
+                    if(edge_info.first == *edge->get_second() &&
+                       edge_info.second == edge->get_weight())
                     {
                         return true;
                     }
@@ -199,7 +200,8 @@ void sgl::view::adjacency_list::remove_edge(sgl::const_edge_t edge)
                 std::find_if(it->second.begin(), it->second.end(),
                     [&edge](const edge_info_t& edge_info)
                     {
-                        if(edge_info.first == *edge->get_first())
+                        if(edge_info.first == *edge->get_first() &&
+                           edge_info.second == edge->get_weight())
                         {
                             return true;
                         }
@@ -222,27 +224,17 @@ void sgl::view::adjacency_list::remove_edge(sgl::const_edge_t edge)
 
 
 
-sgl::const_node_set_t sgl::view::adjacency_list::get_nodes() const
-{
-    sgl::node_set_t nodes;
-
-    return nodes;
-}
-
-
-
-sgl::const_edge_set_t sgl::view::adjacency_list::get_edges() const
-{
-    sgl::edge_set_t edges;
-
-    return edges;
-}
-
-
-
 sgl::view::type sgl::view::adjacency_list::get_type() const
 {
     return sgl::view::type::adjacency_list;
+}
+
+
+
+std::size_t sgl::view::adjacency_list::get_nodes_count() const
+{
+    // TODO
+    return 0;
 }
 
 
@@ -259,7 +251,8 @@ bool sgl::view::adjacency_list::exists(sgl::const_edge_t edge) const
             std::find_if(it->second.begin(), it->second.end(),
                 [&edge](const edge_info_t& edge_info)
                 {
-                    if(edge_info.first == *edge->get_second())
+                    if(edge_info.first == *edge->get_second() &&
+                       edge_info.second == edge->get_weight())
                     {
                         return true;
                     }
@@ -308,6 +301,7 @@ bool sgl::view::adjacency_list::exists(sgl::const_node_t node) const
             if(pos != it->second.end())
             {
                 exists = true;
+                break;
             }
         }
     }
