@@ -3,11 +3,11 @@
 
 
 sgl::edge::edge(
-    sgl::node_t from,
-    sgl::node_t to,
+    sgl::node_t first,
+    sgl::node_t second,
     sgl::weight_t weight)
-        : from(from)
-        , to(to)
+        : first(first)
+        , second(second)
         , weight(weight)
 {
 
@@ -15,16 +15,16 @@ sgl::edge::edge(
 
 
 
-sgl::const_node_t sgl::edge::get_from() const
+sgl::const_node_t sgl::edge::get_first() const
 {
-    return this->from;
+    return this->first;
 }
 
 
 
-sgl::const_node_t sgl::edge::get_to() const
+sgl::const_node_t sgl::edge::get_second() const
 {
-    return this->to;
+    return this->second;
 }
 
 
@@ -46,8 +46,8 @@ sgl::weight_t sgl::edge::get_weight() const
 std::string sgl::edge::to_string() const
 {
     std::string string =
-        "from: " + std::to_string(this->from->get_id()) + ", "
-        "to: " + std::to_string(this->to->get_id()) + ", "
+        "from: " + std::to_string(this->first->get_id()) + ", "
+        "to: " + std::to_string(this->second->get_id()) + ", "
         "weight: " + std::to_string(this->weight);
     
     return string;
@@ -58,8 +58,8 @@ std::string sgl::edge::to_string() const
 bool sgl::edge::operator<(const edge& rhs) const
 {
     bool less =
-        (*this->from < *rhs.from) ||
-        (*this->to < *rhs.to) ||
+        (*this->first < *rhs.first) ||
+        (*this->second < *rhs.second) ||
         (this->weight < rhs.weight);
 
     return less;
@@ -70,8 +70,8 @@ bool sgl::edge::operator<(const edge& rhs) const
 bool sgl::edge::operator==(const edge& rhs) const
 {
     bool equal =
-        (*this->from == *rhs.from) &&
-        (*this->to == *rhs.to) &&
+        (*this->first == *rhs.first) &&
+        (*this->second == *rhs.second) &&
         (this->weight == rhs.weight);
 
     return equal;

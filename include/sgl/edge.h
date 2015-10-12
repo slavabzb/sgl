@@ -11,10 +11,10 @@ typedef uint32_t weight_t;
 class edge
 {
 public:
-    edge(node_t from, node_t to, weight_t weight = 0);
+    edge(node_t first, node_t second, weight_t weight = 0);
  
-    const_node_t get_from() const;
-    const_node_t get_to() const;
+    const_node_t get_first() const;
+    const_node_t get_second() const;
 
     void set_weight(weight_t weight);
     weight_t get_weight() const;
@@ -25,8 +25,8 @@ public:
     bool operator==(const edge& rhs) const;
 
 private:
-    node_t from;
-    node_t to;
+    node_t first;
+    node_t second;
     weight_t weight;
 };
 

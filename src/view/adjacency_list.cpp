@@ -43,38 +43,38 @@ void sgl::view::adjacency_list::add_node()
 
 void sgl::view::adjacency_list::add_edge(const_edge_t edge)
 {
-    list_t::iterator it = this->list.find(*edge->get_from());
+    list_t::iterator it = this->list.find(*edge->get_first());
 
     if(it == this->list.end())
     {
         sgl::view::adjacency_list::adjacency_nodes_t adjacency_nodes;
         adjacency_nodes.insert(std::make_pair(
-            *edge->get_to(), edge->get_weight()));
+            *edge->get_second(), edge->get_weight()));
 
         sgl::view::adjacency_list::adjacency_info_t adjacency_info =
-            std::make_pair(*edge->get_from(), adjacency_nodes);
+            std::make_pair(*edge->get_first(), adjacency_nodes);
 
         this->list.insert(adjacency_info);
 
         if(!this->is_oriented())
         {
-            it = this->list.find(*edge->get_to());
+            it = this->list.find(*edge->get_second());
 
             if(it == this->list.end())
             {
                 sgl::view::adjacency_list::adjacency_nodes_t adjacency_nodes;
                 adjacency_nodes.insert(std::make_pair(
-                    *edge->get_from(), edge->get_weight()));
+                    *edge->get_first(), edge->get_weight()));
 
                 sgl::view::adjacency_list::adjacency_info_t adjacency_info =
-                    std::make_pair(*edge->get_to(), adjacency_nodes);
+                    std::make_pair(*edge->get_second(), adjacency_nodes);
 
                 this->list.insert(adjacency_info);
             }
             else
             {
                 it->second.insert(std::make_pair(
-                    *edge->get_from(), edge->get_weight()));
+                    *edge->get_first(), edge->get_weight()));
             }
         }
     }
@@ -84,7 +84,7 @@ void sgl::view::adjacency_list::add_edge(const_edge_t edge)
             std::find_if(it->second.begin(), it->second.end(),
                 [&edge](const edge_info_t& edge_info)
                 {
-                    if(edge_info.first == *edge->get_to())
+                    if(edge_info.first == *edge->get_second())
                     {
                         return true;
                     }
@@ -97,11 +97,11 @@ void sgl::view::adjacency_list::add_edge(const_edge_t edge)
             it->second.erase(pos);
         }
 
-        it->second.insert(std::make_pair(*edge->get_to(), edge->get_weight()));
+        it->second.insert(std::make_pair(*edge->get_second(), edge->get_weight()));
 
         if(!this->is_oriented())
         {
-            it = this->list.find(*edge->get_to());
+            it = this->list.find(*edge->get_second());
 
             if(it != this->list.end())
             {
@@ -109,7 +109,7 @@ void sgl::view::adjacency_list::add_edge(const_edge_t edge)
                     std::find_if(it->second.begin(), it->second.end(),
                         [&edge](const edge_info_t& edge_info)
                         {
-                            if(edge_info.first == *edge->get_from())
+                            if(edge_info.first == *edge->get_first())
                             {
                                 return true;
                             }
@@ -123,7 +123,7 @@ void sgl::view::adjacency_list::add_edge(const_edge_t edge)
                 }
 
                 it->second.insert(std::make_pair(
-                    *edge->get_from(), edge->get_weight()));
+                    *edge->get_first(), edge->get_weight()));
             }
             else
             {
@@ -170,7 +170,7 @@ void sgl::view::adjacency_list::remove_node(sgl::const_node_t node)
 
 void sgl::view::adjacency_list::remove_edge(sgl::const_edge_t edge)
 {
-    list_t::iterator it = this->list.find(*edge->get_from());
+    list_t::iterator it = this->list.find(*edge->get_first());
 
     if(it != this->list.end())
     {
@@ -178,7 +178,7 @@ void sgl::view::adjacency_list::remove_edge(sgl::const_edge_t edge)
             std::find_if(it->second.begin(), it->second.end(),
                 [&edge](const edge_info_t& edge_info)
                 {
-                    if(edge_info.first == *edge->get_to())
+                    if(edge_info.first == *edge->get_second())
                     {
                         return true;
                     }
@@ -191,7 +191,7 @@ void sgl::view::adjacency_list::remove_edge(sgl::const_edge_t edge)
             it->second.erase(pos);
         }
 
-        it = this->list.find(*edge->get_to());
+        it = this->list.find(*edge->get_second());
 
         if(it != this->list.end())
         {
@@ -199,7 +199,7 @@ void sgl::view::adjacency_list::remove_edge(sgl::const_edge_t edge)
                 std::find_if(it->second.begin(), it->second.end(),
                     [&edge](const edge_info_t& edge_info)
                     {
-                        if(edge_info.first == *edge->get_from())
+                        if(edge_info.first == *edge->get_first())
                         {
                             return true;
                         }
@@ -251,7 +251,7 @@ bool sgl::view::adjacency_list::exists(sgl::const_edge_t edge) const
 {
     bool exists = false;
 
-    list_t::const_iterator it = this->list.find(*edge->get_from());
+    list_t::const_iterator it = this->list.find(*edge->get_first());
 
     if(it != this->list.end())
     {
@@ -259,7 +259,7 @@ bool sgl::view::adjacency_list::exists(sgl::const_edge_t edge) const
             std::find_if(it->second.begin(), it->second.end(),
                 [&edge](const edge_info_t& edge_info)
                 {
-                    if(edge_info.first == *edge->get_to())
+                    if(edge_info.first == *edge->get_second())
                     {
                         return true;
                     }

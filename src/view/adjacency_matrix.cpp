@@ -35,8 +35,8 @@ void sgl::view::adjacency_matrix::add_node()
 
 void sgl::view::adjacency_matrix::add_edge(const_edge_t edge)
 {
-    sgl::node_id_t from = edge->get_from()->get_id();
-    sgl::node_id_t to = edge->get_to()->get_id();
+    sgl::node_id_t from = edge->get_first()->get_id();
+    sgl::node_id_t to = edge->get_second()->get_id();
     sgl::weight_t weight = edge->get_weight();
 
     if(!this->in_range(from, to))
@@ -93,8 +93,8 @@ void sgl::view::adjacency_matrix::remove_node(sgl::const_node_t node)
 
 void sgl::view::adjacency_matrix::remove_edge(sgl::const_edge_t edge)
 {
-    sgl::node_id_t from = edge->get_from()->get_id();
-    sgl::node_id_t to = edge->get_to()->get_id();
+    sgl::node_id_t from = edge->get_first()->get_id();
+    sgl::node_id_t to = edge->get_second()->get_id();
 
     if(!this->in_range(from, to))
     {
@@ -191,8 +191,8 @@ bool sgl::view::adjacency_matrix::exists(sgl::const_edge_t edge) const
 {
     bool exists = true;
 
-    sgl::node_id_t from = edge->get_from()->get_id();
-    sgl::node_id_t to = edge->get_to()->get_id();
+    sgl::node_id_t from = edge->get_first()->get_id();
+    sgl::node_id_t to = edge->get_second()->get_id();
 
     if(this->in_range(from, to))
     {
