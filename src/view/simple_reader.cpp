@@ -65,10 +65,7 @@ void sgl::view::simple_reader::read_adjacency_matrix(sgl::view::view_t& view)
             sgl::weight_t weight;
             this->istream >> weight;
 
-            sgl::node_t from = std::make_shared<sgl::node>(row);
-            sgl::node_t to = std::make_shared<sgl::node>(column);
-            sgl::edge_t edge = std::make_shared<sgl::edge>(from, to, weight);
-
+            sgl::edge edge(row, column, weight);
             if(!view->exists(edge))
             {
                 view->add_edge(edge);

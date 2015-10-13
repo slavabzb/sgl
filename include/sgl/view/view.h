@@ -14,16 +14,16 @@ public:
     virtual ~view();
 
     virtual void add_node() = 0;
-    virtual void add_edge(const_edge_t edge) = 0;
+    virtual void add_edge(const edge& edge) = 0;
 
-    virtual void remove_node(const_node_t node) = 0;
-    virtual void remove_edge(const_edge_t edge) = 0;
+    virtual void remove_node(const node& node) = 0;
+    virtual void remove_edge(const edge& edge) = 0;
     
     virtual type get_type() const = 0;
     virtual std::size_t get_nodes_count() const = 0;
     
-    virtual bool exists(const_edge_t edge) const = 0;
-    virtual bool exists(const_node_t node) const = 0;
+    virtual bool exists(const edge& edge) const = 0;
+    virtual bool exists(const node& node) const = 0;
     
     bool is_oriented() const;
     bool is_weighted() const;

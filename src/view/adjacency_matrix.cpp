@@ -33,11 +33,11 @@ void sgl::view::adjacency_matrix::add_node()
 
 
 
-void sgl::view::adjacency_matrix::add_edge(const_edge_t edge)
+void sgl::view::adjacency_matrix::add_edge(const sgl::edge& edge)
 {
-    sgl::node_id_t from = edge->get_first()->get_id();
-    sgl::node_id_t to = edge->get_second()->get_id();
-    sgl::weight_t weight = edge->get_weight();
+    sgl::node_id_t from = edge.get_first().get_id();
+    sgl::node_id_t to = edge.get_second().get_id();
+    sgl::weight_t weight = edge.get_weight();
 
     if(!this->in_range(from, to))
     {
@@ -52,7 +52,7 @@ void sgl::view::adjacency_matrix::add_edge(const_edge_t edge)
         if(this->exists(edge))
         {
             throw std::invalid_argument("adjacency_matrix::add_edge: "
-                "can't add edge (" + edge->to_string() + "): "
+                "can't add edge (" + edge.to_string() + "): "
                 "edge already exists");
         }
         else
@@ -69,37 +69,37 @@ void sgl::view::adjacency_matrix::add_edge(const_edge_t edge)
 
 
 
-void sgl::view::adjacency_matrix::remove_node(sgl::const_node_t node)
+void sgl::view::adjacency_matrix::remove_node(const sgl::node& node)
 {
     if(!this->exists(node))
     {
         throw std::invalid_argument("adjacency_matrix::remove_node: "
             "can't remove node: the node with node_id = " +
-            std::to_string(node->get_id()) +
+            std::to_string(node.get_id()) +
             " doesn't exists");
     }
 
-    matrix_t::iterator it = this->matrix.begin() + node->get_id();
+    matrix_t::iterator it = this->matrix.begin() + node.get_id();
     this->matrix.erase(it);
 
     std::for_each(this->matrix.begin(), this->matrix.end(),
         [&](matrix_row_t& row)
         {
-            row.erase(row.begin() + node->get_id());
+            row.erase(row.begin() + node.get_id());
         });
 }
 
 
 
-void sgl::view::adjacency_matrix::remove_edge(sgl::const_edge_t edge)
+void sgl::view::adjacency_matrix::remove_edge(const sgl::edge& edge)
 {
-    sgl::node_id_t from = edge->get_first()->get_id();
-    sgl::node_id_t to = edge->get_second()->get_id();
+    sgl::node_id_t from = edge.get_first().get_id();
+    sgl::node_id_t to = edge.get_second().get_id();
 
     if(!this->in_range(from, to))
     {
         throw std::out_of_range("adjacency_matrix::remove_edge: "
-            "can't remove edge (" + edge->to_string() + "): "
+            "can't remove edge (" + edge.to_string() + "): "
             "the node with node_id = " +
             std::to_string(std::max(from, to)) +
             " doesn't exists");
@@ -129,12 +129,12 @@ std::size_t sgl::view::adjacency_matrix::get_nodes_count() const
 
 
 
-bool sgl::view::adjacency_matrix::exists(sgl::const_edge_t edge) const
+bool sgl::view::adjacency_matrix::exists(const sgl::edge& edge) const
 {
     bool exists = true;
 
-    sgl::node_id_t from = edge->get_first()->get_id();
-    sgl::node_id_t to = edge->get_second()->get_id();
+    sgl::node_id_t from = edge.get_first().get_id();
+    sgl::node_id_t to = edge.get_second().get_id();
 
     if(this->in_range(from, to))
     {
@@ -163,13 +163,13 @@ bool sgl::view::adjacency_matrix::exists(sgl::const_edge_t edge) const
 
 
 
-bool sgl::view::adjacency_matrix::exists(sgl::const_node_t node) const
+bool sgl::view::adjacency_matrix::exists(const sgl::node& node) const
 {
     bool exists = false;
 
     std::size_t distance = std::distance(
         this->matrix.begin(),
-        this->matrix.begin() + node->get_id());
+        this->matrix.begin() + node.get_id());
 
     if(distance < this->matrix.size())
     {

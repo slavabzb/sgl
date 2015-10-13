@@ -24,9 +24,7 @@ private:
     node_id_t node_id;
 };
 
-typedef std::shared_ptr<node> node_t;
-typedef const std::shared_ptr<const node> const_node_t;
 typedef std::set<node> node_set_t;
-typedef const std::set<node> const_node_set_t;
+//typedef const std::set<node> const_node_set_t;
 
 } // sgl

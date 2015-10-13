@@ -26,12 +26,8 @@ public:
         
         this->view = std::make_shared<sgl::view::adjacency_matrix>(3);
         
-        sgl::node_t node0 = std::make_shared<sgl::node>(0);
-        sgl::node_t node1 = std::make_shared<sgl::node>(1);
-        sgl::node_t node2 = std::make_shared<sgl::node>(2);
-        
-        sgl::edge_t edge0 = std::make_shared<sgl::edge>(node0, node1, 2);
-        sgl::edge_t edge1 = std::make_shared<sgl::edge>(node1, node2, 5);
+        sgl::edge edge0(0, 1, 2);
+        sgl::edge edge1(1, 2, 5);
         
         this->view->add_edge(edge0);       
         this->view->add_edge(edge1);

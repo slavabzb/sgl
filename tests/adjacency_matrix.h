@@ -60,8 +60,7 @@ public:
         this->view->matrix.at(1).at(0) = 2;
         this->view->matrix.at(1).at(1) = 3;
 
-        sgl::node_id_t node_id = 0;
-        sgl::node_t node = std::make_shared<sgl::node>(node_id);
+        sgl::node node(0);
 
         TS_ASSERT_THROWS_NOTHING(this->view->remove_node(node));
 
@@ -69,29 +68,25 @@ public:
         TS_ASSERT_EQUALS(this->view->matrix.at(0).size(), 1);
         TS_ASSERT_EQUALS(this->view->matrix.at(0).at(0), 3);
 
-        sgl::node_t bad_node = std::make_shared<sgl::node>(node_id + 1);
+        sgl::node bad_node(node.get_id() + 1);
         TS_ASSERT_THROWS(
             this->view->remove_node(bad_node),
-            std::invalid_argument
-        );
+            std::invalid_argument);
     }
 
        
     
     void test_add_edge()
     {
-        sgl::node_t from = std::make_shared<sgl::node>(0);
-        sgl::node_t to = std::make_shared<sgl::node>(1);
-        sgl::weight_t weight = 1;
-        sgl::edge_t edge = std::make_shared<sgl::edge>(from, to, weight);
+        sgl::edge edge(0, 1, 1);
 
         TS_ASSERT_THROWS(this->view->add_edge(edge), std::out_of_range);
 
         this->add_nodes(2);
         TS_ASSERT_THROWS_NOTHING(this->view->add_edge(edge));
         TS_ASSERT_EQUALS(this->view->matrix.at(0).at(0), 0);
-        TS_ASSERT_EQUALS(this->view->matrix.at(0).at(1), weight);
-        TS_ASSERT_EQUALS(this->view->matrix.at(1).at(0), weight);
+        TS_ASSERT_EQUALS(this->view->matrix.at(0).at(1), edge.get_weight());
+        TS_ASSERT_EQUALS(this->view->matrix.at(1).at(0), edge.get_weight());
         TS_ASSERT_EQUALS(this->view->matrix.at(1).at(1), 0);
         
         TS_ASSERT_THROWS(this->view->add_edge(edge), std::invalid_argument);
@@ -101,19 +96,13 @@ public:
         
     void test_remove_edge()
     {
-        sgl::node_id_t node_id_from = 0;
-        sgl::node_id_t node_id_to = 1;
-        sgl::weight_t weight = 1;
-
-        sgl::node_t from = std::make_shared<sgl::node>(node_id_from);
-        sgl::node_t to = std::make_shared<sgl::node>(node_id_to);
-        sgl::edge_t edge = std::make_shared<sgl::edge>(from, to, weight);
+        sgl::edge edge(0, 1, 1);
 
         TS_ASSERT_THROWS(this->view->remove_edge(edge), std::out_of_range);
 
         std::size_t nodes = 2;
         this->add_nodes(nodes);
-        this->add_edge(node_id_from, node_id_to, weight);
+        this->add_edge(edge);
 
         TS_ASSERT_THROWS_NOTHING(this->view->remove_edge(edge));
         TS_ASSERT_EQUALS(this->view->matrix.at(0).at(0), 0);
@@ -126,30 +115,24 @@ public:
         
     void test_exists()
     {
-        sgl::node_id_t node_id_from = 0;
-        sgl::node_id_t node_id_to = 1;
-        sgl::weight_t weight = 1;
-
-        sgl::node_t from = std::make_shared<sgl::node>(node_id_from);
-        sgl::node_t to = std::make_shared<sgl::node>(node_id_to);
-        sgl::edge_t edge = std::make_shared<sgl::edge>(from, to, weight);
+        sgl::edge edge(0, 1, 1);
         
         TS_ASSERT(!this->view->exists(edge));
-        TS_ASSERT(!this->view->exists(from));
-        TS_ASSERT(!this->view->exists(to));
+        TS_ASSERT(!this->view->exists(edge.get_first()));
+        TS_ASSERT(!this->view->exists(edge.get_second()));
         
         const std::size_t nodes = 2;
         this->add_nodes(nodes);
         
         TS_ASSERT(!this->view->exists(edge));
-        TS_ASSERT(this->view->exists(from));
-        TS_ASSERT(this->view->exists(to));
+        TS_ASSERT(this->view->exists(edge.get_first()));
+        TS_ASSERT(this->view->exists(edge.get_second()));
         
-        this->add_edge(node_id_from, node_id_to, weight);
+        this->add_edge(edge);
         
         TS_ASSERT(this->view->exists(edge));
-        TS_ASSERT(this->view->exists(from));
-        TS_ASSERT(this->view->exists(to));
+        TS_ASSERT(this->view->exists(edge.get_first()));
+        TS_ASSERT(this->view->exists(edge.get_second()));
     }
     
     
@@ -189,9 +172,16 @@ private:
 
         
         
-    void add_edge(sgl::node_id_t from, sgl::node_id_t to, sgl::weight_t weight)
+    void add_edge(const sgl::edge& edge)
     {
-        this->view->matrix.at(from).at(to) = weight;
-        this->view->matrix.at(to).at(from) = weight;
+        this->view->matrix
+            .at(edge.get_first().get_id())
+                .at(edge.get_second().get_id()) =
+                    edge.get_weight();
+        
+        this->view->matrix
+            .at(edge.get_second().get_id())
+                .at(edge.get_first().get_id()) =
+                    edge.get_weight();
     }
 };
