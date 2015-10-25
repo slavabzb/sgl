@@ -3,6 +3,8 @@
 #include <cxxtest/TestSuite.h>
 
 #include <sgl/view/edge_list.h>
+#include <sgl/view/adjacency_list.h>
+#include <sgl/view/adjacency_matrix.h>
 
 
 
@@ -137,5 +139,57 @@ public:
         
         TS_ASSERT(this->not_oriented_view->exists(sgl::edge(0, 1, 4)));
         TS_ASSERT(this->not_oriented_view->exists(sgl::edge(1, 0, 4)));
+    }
+    
+    void test_conversion()
+    {
+        sgl::edge edge(1, 2, 3);
+        
+        {
+            sgl::view::edge_list rhs(0, 1);
+            rhs.add_edge(edge);
+            rhs.add_node();
+            
+            TS_ASSERT_THROWS(*this->oriented_view = rhs, std::invalid_argument);
+            
+            TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
+            TS_ASSERT_EQUALS(*this->not_oriented_view, rhs);
+        }
+        
+        {
+            sgl::view::adjacency_matrix rhs(3, 0, 1);
+            rhs.add_edge(edge);
+            
+            TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
+            
+            sgl::node_set_t nodes = this->not_oriented_view->get_nodes();
+            TS_ASSERT_EQUALS(nodes.size(), 3);
+            TS_ASSERT(nodes.find(0) != nodes.end());
+            TS_ASSERT(nodes.find(1) != nodes.end());
+            TS_ASSERT(nodes.find(2) != nodes.end());
+            
+            sgl::edge_set_t edges = this->not_oriented_view->get_edges();
+            TS_ASSERT_EQUALS(edges.size(), 1);
+            TS_ASSERT_EQUALS(*edges.begin(), edge);
+        }
+        
+        {
+            sgl::view::adjacency_list rhs(0, 1);
+            rhs.add_edge(edge);
+            rhs.add_node();
+            
+            TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
+            
+            sgl::node_set_t nodes = this->not_oriented_view->get_nodes();
+            TS_ASSERT_EQUALS(nodes.size(), 3);
+            TS_ASSERT(nodes.find(0) == nodes.end());
+            TS_ASSERT(nodes.find(1) != nodes.end());
+            TS_ASSERT(nodes.find(2) != nodes.end());
+            TS_ASSERT(nodes.find(3) != nodes.end());
+            
+            sgl::edge_set_t edges = this->not_oriented_view->get_edges();
+            TS_ASSERT_EQUALS(edges.size(), 1);
+            TS_ASSERT_EQUALS(*edges.begin(), edge);
+        }
     }
 };

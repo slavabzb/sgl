@@ -33,6 +33,11 @@ public:
     virtual bool exists(const edge& edge) const override;
     virtual bool exists(const node& node) const override;
     
+    bool operator==(const edge_list& rhs) const;
+    
+    edge_list& operator=(const edge_list& rhs);
+    edge_list& operator=(const view& rhs);
+    
 private:
     edge_set_t edges;
     node_set_t nodes;

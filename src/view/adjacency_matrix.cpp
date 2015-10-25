@@ -250,24 +250,22 @@ bool sgl::view::adjacency_matrix::in_range(
 
 bool sgl::view::adjacency_matrix::operator==(const adjacency_matrix& rhs) const
 {
-    bool equal = true;
-
     if(this->is_oriented() != rhs.is_oriented())
     {
-        equal = false;
+        return false;
     }
 
     if(this->is_weighted() != rhs.is_weighted())
     {
-        equal = false;
+        return false;
     }
 
     if(this->matrix != rhs.matrix)
     {
-        equal = false;
+        return false;
     }
 
-    return equal;
+    return true;
 }
 
 

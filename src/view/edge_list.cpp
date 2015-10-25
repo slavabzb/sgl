@@ -127,7 +127,7 @@ bool sgl::view::edge_list::exists(const sgl::edge& edge) const
         sgl::edge edge_backward(edge.get_second(), edge.get_first(), edge.get_weight());
         it_backward = this->edges.find(edge_backward);
     }
-    
+
     if(it_forward != this->edges.end() || it_backward != this->edges.end())
     {
         return true;
@@ -141,4 +141,60 @@ bool sgl::view::edge_list::exists(const sgl::edge& edge) const
 bool sgl::view::edge_list::exists(const sgl::node& node) const
 {
     return this->nodes.find(node) != this->nodes.end();
+}
+
+
+
+bool sgl::view::edge_list::operator==(const edge_list& rhs) const
+{
+    if(this->is_oriented() != rhs.is_oriented())
+    {
+        return false;
+    }
+
+    if(this->is_weighted() != rhs.is_weighted())
+    {
+        return false;
+    }
+
+    if(this->nodes != rhs.nodes)
+    {
+        return false;
+    }
+
+    if(this->edges != rhs.edges)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+
+
+sgl::view::edge_list& sgl::view::edge_list::operator=(const sgl::view::edge_list& rhs)
+{
+    if(this == &rhs)
+    {
+        return *this;
+    }
+
+    this->check_flags(rhs);
+
+    this->nodes = rhs.nodes;
+    this->edges = rhs.edges;
+
+    return *this;
+}
+
+
+
+sgl::view::edge_list& sgl::view::edge_list::operator=(const sgl::view::view& rhs)
+{
+    this->check_flags(rhs);
+
+    this->nodes = rhs.get_nodes();
+    this->edges = rhs.get_edges();
+
+    return *this;
 }

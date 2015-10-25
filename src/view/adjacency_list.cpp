@@ -358,3 +358,67 @@ sgl::view::adjacency_list::get_adjacency_nodes(const sgl::node& node) const
 {
     return this->list.at(node);
 }
+
+
+
+bool sgl::view::adjacency_list::operator==(const adjacency_list& rhs) const
+{
+    if(this->is_oriented() != rhs.is_oriented())
+    {
+        return false;
+    }
+
+    if(this->is_weighted() != rhs.is_weighted())
+    {
+        return false;
+    }
+
+    if(this->list != rhs.list)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+
+
+sgl::view::adjacency_list& sgl::view::adjacency_list::operator=(const sgl::view::adjacency_list& rhs)
+{
+    if(this == &rhs)
+    {
+        return *this;
+    }
+
+    this->check_flags(rhs);
+
+    this->list = rhs.list;
+
+    return *this;
+}
+
+
+sgl::view::adjacency_list& sgl::view::adjacency_list::operator=(const sgl::view::view& rhs)
+{
+    this->check_flags(rhs);
+
+    this->list.clear();
+
+    sgl::edge_set_t edges = rhs.get_edges();
+    for(const sgl::edge& edge : edges)
+    {
+        this->add_edge(edge);
+    }
+
+    sgl::node_set_t nodes = rhs.get_nodes();
+    for(const sgl::node& node : nodes)
+    {
+        if(!this->exists(node))
+        {
+            adjacency_info_t adjacency_info = std::make_pair(node, adjacency_nodes_t());
+            this->list.insert(adjacency_info);
+        }
+    }
+
+    return *this;
+}

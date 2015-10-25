@@ -43,6 +43,11 @@ public:
     
     adjacency_nodes_t get_adjacency_nodes(const node& node) const;
     
+    bool operator==(const adjacency_list& rhs) const;
+    
+    adjacency_list& operator=(const adjacency_list& rhs);
+    adjacency_list& operator=(const view& rhs);
+    
 private:
     list_t list;
 };

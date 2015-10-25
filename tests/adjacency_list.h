@@ -3,6 +3,10 @@
 #include <cxxtest/TestSuite.h>
 
 #include <sgl/view/adjacency_list.h>
+#include <sgl/view/adjacency_matrix.h>
+#include <sgl/view/edge_list.h>
+
+
 
 class adjacency_list_test: public CxxTest::TestSuite
 {
@@ -318,6 +322,95 @@ public:
         TS_ASSERT_EQUALS(this->not_oriented_view->get_edges(), edges);
     }
     
+    
+    
+    void test_conversion()
+    {
+        {
+            sgl::view::adjacency_list rhs;
+            rhs.add_edge(sgl::edge(0, 1, 2));
+            
+            TS_ASSERT_THROWS(*this->oriented_view = rhs, std::invalid_argument);
+            TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
+            TS_ASSERT_EQUALS(*this->not_oriented_view, rhs);
+        }
+        
+        {
+            sgl::view::adjacency_matrix rhs(3);
+            sgl::edge edge(0, 1, 2);
+            rhs.add_edge(edge);
+            
+            TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
+            
+            sgl::node_set_t nodes = this->not_oriented_view->get_nodes();
+            TS_ASSERT_EQUALS(nodes.size(), 3);
+            TS_ASSERT(this->not_oriented_view->list.find(0) != this->not_oriented_view->list.end());
+            TS_ASSERT(this->not_oriented_view->list.find(1) != this->not_oriented_view->list.end());
+            TS_ASSERT(this->not_oriented_view->list.find(2) != this->not_oriented_view->list.end());
+            
+            TS_ASSERT(this->not_oriented_view->exists(edge));
+            
+            sgl::edge_set_t edges = this->not_oriented_view->get_edges();
+            TS_ASSERT_EQUALS(edges.size(), 1);
+            TS_ASSERT(edges.find(edge) != edges.end());
+            
+            sgl::view::adjacency_list::adjacency_nodes_t adjacency_nodes = this->not_oriented_view->get_adjacency_nodes(0);
+            TS_ASSERT_EQUALS(adjacency_nodes.size(), 1);
+            TS_ASSERT_EQUALS(adjacency_nodes.begin()->first, 1);
+            TS_ASSERT_EQUALS(adjacency_nodes.begin()->second, 2);
+            
+            adjacency_nodes = this->not_oriented_view->get_adjacency_nodes(1);
+            TS_ASSERT_EQUALS(adjacency_nodes.size(), 1);
+            TS_ASSERT_EQUALS(adjacency_nodes.begin()->first, 0);
+            TS_ASSERT_EQUALS(adjacency_nodes.begin()->second, 2);
+            
+            adjacency_nodes = this->not_oriented_view->get_adjacency_nodes(2);
+            TS_ASSERT_EQUALS(adjacency_nodes.size(), 0);
+        }
+        
+        {
+            sgl::node first(1);
+            sgl::node second(2);
+            sgl::weight_t weight = 3;
+            sgl::edge edge(first, second, weight);
+            
+            sgl::view::edge_list rhs;
+            rhs.add_edge(edge);
+            rhs.add_node();
+            
+            TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
+            TS_ASSERT(this->not_oriented_view->exists(edge));
+            TS_ASSERT(this->not_oriented_view->exists(first));
+            TS_ASSERT(this->not_oriented_view->exists(second));
+            
+            sgl::node_set_t nodes = this->not_oriented_view->get_nodes();
+            TS_ASSERT_EQUALS(nodes.size(), 3);
+            TS_ASSERT(nodes.find(0) == nodes.end());
+            TS_ASSERT(nodes.find(1) != nodes.end());
+            TS_ASSERT(nodes.find(2) != nodes.end());
+            TS_ASSERT(nodes.find(3) != nodes.end());
+            
+            sgl::edge_set_t edges = this->not_oriented_view->get_edges();
+            TS_ASSERT_EQUALS(edges.size(), 1);
+            TS_ASSERT(edges.find(edge) != edges.end());
+            
+            sgl::view::adjacency_list::adjacency_nodes_t adjacency_nodes;
+            TS_ASSERT_THROWS(adjacency_nodes = this->not_oriented_view->get_adjacency_nodes(0), std::out_of_range);
+            
+            adjacency_nodes = this->not_oriented_view->get_adjacency_nodes(1);
+            TS_ASSERT_EQUALS(adjacency_nodes.size(), 1);
+            TS_ASSERT_EQUALS(adjacency_nodes.begin()->first, 2);
+            TS_ASSERT_EQUALS(adjacency_nodes.begin()->second, 3);
+            
+            adjacency_nodes = this->not_oriented_view->get_adjacency_nodes(2);
+            TS_ASSERT_EQUALS(adjacency_nodes.size(), 1);
+            TS_ASSERT_EQUALS(adjacency_nodes.begin()->first, 1);
+            TS_ASSERT_EQUALS(adjacency_nodes.begin()->second, 3);
+            
+            adjacency_nodes = this->not_oriented_view->get_adjacency_nodes(3);
+            TS_ASSERT_EQUALS(adjacency_nodes.size(), 0);
+        }
+    }
     
     
     
