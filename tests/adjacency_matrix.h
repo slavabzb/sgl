@@ -3,6 +3,10 @@
 #include <cxxtest/TestSuite.h>
 
 #include <sgl/view/adjacency_matrix.h>
+#include <sgl/view/adjacency_list.h>
+#include <sgl/view/edge_list.h>
+
+
 
 class adjacency_matrix_test: public CxxTest::TestSuite
 {
@@ -186,6 +190,54 @@ public:
         edges.insert(sgl::edge(0, 1, 1));
         
         TS_ASSERT_EQUALS(this->view->get_edges(), edges);
+    }
+    
+    
+    
+    void test_conversion()
+    {
+        {
+            sgl::view::adjacency_matrix rhs(5, 0, 1);
+            TS_ASSERT_THROWS(*this->view = rhs, std::invalid_argument);
+        }
+        
+        {
+            sgl::view::adjacency_matrix rhs(5);
+            rhs.add_node();
+            rhs.add_node();
+            rhs.add_edge(sgl::edge(0, 1, 2));
+            
+            TS_ASSERT_THROWS_NOTHING(*this->view = rhs);
+            TS_ASSERT_EQUALS(*this->view, rhs);
+        }
+        
+        {
+            sgl::view::adjacency_list rhs;
+            rhs.add_node();
+            rhs.add_node();
+            rhs.add_edge(sgl::edge(0, 1, 2));
+            
+            TS_ASSERT_THROWS_NOTHING(*this->view = rhs);            
+            TS_ASSERT_EQUALS(this->view->get_edges().size(), 1);
+            TS_ASSERT_EQUALS(rhs.get_edges().size(), 1);
+            TS_ASSERT_EQUALS(this->view->get_edges().begin()->get_first(), rhs.get_edges().begin()->get_first());
+            TS_ASSERT_EQUALS(this->view->get_edges().begin()->get_second(), rhs.get_edges().begin()->get_second());
+            TS_ASSERT_EQUALS(this->view->get_nodes(), rhs.get_nodes());
+        }
+        
+        {
+            sgl::view::edge_list rhs;
+            rhs.add_node();
+            rhs.add_node();
+            rhs.add_edge(sgl::edge(0, 1, 2));
+            
+            TS_ASSERT_THROWS_NOTHING(*this->view = rhs);            
+            TS_ASSERT_EQUALS(this->view->get_edges().size(), 1);
+            TS_ASSERT_EQUALS(rhs.get_edges().size(), 1);
+            TS_ASSERT_EQUALS(this->view->get_edges().begin()->get_first(), rhs.get_edges().begin()->get_first());
+            TS_ASSERT_EQUALS(this->view->get_edges().begin()->get_second(), rhs.get_edges().begin()->get_second());
+            TS_ASSERT_EQUALS(this->view->get_nodes(), rhs.get_nodes());
+        }
     }
     
     

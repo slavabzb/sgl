@@ -29,6 +29,11 @@ public:
     bool is_oriented() const;
     bool is_weighted() const;
     
+protected:
+    using base_t = view;
+    
+    void check_flags(const view& view) const;
+    
 private:
     bool oriented;
     bool weighted;

@@ -3,9 +3,8 @@
 
 
 
-sgl::view::adjacency_matrix::adjacency_matrix(
-    std::size_t nodes, bool oriented, bool weighted)
-    : view(oriented, weighted)
+sgl::view::adjacency_matrix::adjacency_matrix(std::size_t nodes, bool oriented, bool weighted)
+    : base_t(oriented, weighted)
     , matrix(nodes, matrix_row_t(nodes))
 {
 
@@ -245,4 +244,84 @@ bool sgl::view::adjacency_matrix::in_range(
     sgl::node_id_t max = std::max(from, to);
 
     return max < this->matrix.size();
+}
+
+
+
+bool sgl::view::adjacency_matrix::operator==(const adjacency_matrix& rhs) const
+{
+    bool equal = true;
+
+    if(this->is_oriented() != rhs.is_oriented())
+    {
+        equal = false;
+    }
+
+    if(this->is_weighted() != rhs.is_weighted())
+    {
+        equal = false;
+    }
+
+    if(this->matrix != rhs.matrix)
+    {
+        equal = false;
+    }
+
+    return equal;
+}
+
+
+sgl::view::adjacency_matrix& sgl::view::adjacency_matrix::operator=(const sgl::view::adjacency_matrix& rhs)
+{
+    if(this == &rhs)
+    {
+        return *this;
+    }
+
+    this->check_flags(rhs);
+
+    this->matrix = rhs.matrix;
+
+    return *this;
+}
+
+
+
+sgl::view::adjacency_matrix& sgl::view::adjacency_matrix::operator=(const sgl::view::view& rhs)
+{
+    this->check_flags(rhs);
+
+    this->matrix.clear();
+
+    sgl::node_set_t nodes = rhs.get_nodes();
+    this->matrix.resize(nodes.size(), matrix_row_t(nodes.size()));
+
+    sgl::edge_set_t edges = rhs.get_edges();
+    for(const sgl::edge& edge : edges)
+    {
+        sgl::node_id_t first = edge.get_first().get_id();
+        sgl::node_id_t second = edge.get_second().get_id();
+        sgl::weight_t weight = edge.get_weight();
+
+        if(this->is_weighted())
+        {
+            this->matrix[first][second] = weight;
+
+            if(!this->is_oriented())
+            {
+                this->matrix[second][first] = weight;
+            }
+        }
+        else
+        {
+            this->matrix[first][second] = 1;
+
+            if(!this->is_oriented())
+            {
+                this->matrix[second][first] = 1;
+            }
+        }
+    }
+
+    return *this;
 }

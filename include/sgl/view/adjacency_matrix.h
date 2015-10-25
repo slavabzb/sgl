@@ -3,6 +3,8 @@
 #include <vector>
 #include <sgl/view/view.h>
 
+
+
 class adjacency_matrix_test;
 
 namespace sgl {
@@ -15,7 +17,7 @@ class adjacency_matrix: public view
 #endif
 
     using matrix_row_t = std::vector<node_id_t>;
-    using matrix_t = std::vector<matrix_row_t>;
+    using matrix_t = std::vector<matrix_row_t>;    
 
 public:
     adjacency_matrix(
@@ -39,6 +41,11 @@ public:
     virtual bool exists(const node& node) const override;
     
     weight_t get_weight(const node& first, const node& second) const;
+    
+    bool operator==(const adjacency_matrix& rhs) const;
+
+    adjacency_matrix& operator=(const sgl::view::adjacency_matrix& rhs);
+    adjacency_matrix& operator=(const sgl::view::view& rhs);
 
 private:
     bool in_range(node_id_t from, node_id_t to) const;
