@@ -16,6 +16,8 @@ public:
 
 private:
     void write_adjacency_matrix(const_view_t& view);
+    void write_adjacency_list(const_view_t& view);
+    void write_edge_list(const_view_t& view);
     
 private:
     std::ostream& ostream;

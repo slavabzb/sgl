@@ -20,7 +20,8 @@ public:
     virtual void remove_edge(const edge& edge) = 0;
     
     virtual type get_type() const = 0;
-    virtual std::size_t get_nodes_count() const = 0;
+    virtual node_set_t get_nodes() const = 0;
+    virtual edge_set_t get_edges() const = 0;
     
     virtual bool exists(const edge& edge) const = 0;
     virtual bool exists(const node& node) const = 0;

@@ -16,6 +16,8 @@ public:
 
 private:
     void read_adjacency_matrix(view_t& view);
+    void read_adjacency_list(view_t& view);
+    void read_edge_list(view_t& view);
     
 private:
     std::istream& istream;

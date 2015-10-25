@@ -37,3 +37,12 @@ bool sgl::node::operator==(const sgl::node& rhs) const
 {
     return this->node_id == rhs.node_id;
 }
+
+
+
+std::ostream& operator<<(std::ostream& ostream, const sgl::node& node)
+{
+    ostream << node.get_id();
+
+    return ostream;
+}

@@ -42,15 +42,16 @@ public:
         TS_ASSERT_EQUALS(this->oriented_view->list.size(), 0);
         TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_node());
         TS_ASSERT_EQUALS(this->oriented_view->list.size(), 1);
-        TS_ASSERT_EQUALS(this->oriented_view->list.begin()->first, 1);
-        TS_ASSERT_EQUALS(this->oriented_view->list[1].size(), 0);
+        TS_ASSERT_EQUALS(this->oriented_view->list.begin()->first, 0);
+        TS_ASSERT_EQUALS(this->oriented_view->list.at(0).size(), 0);
         
+        TS_ASSERT_EQUALS(this->oriented_view->list.size(), 1);
         TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_node());
         TS_ASSERT_EQUALS(this->oriented_view->list.size(), 2);
-        TS_ASSERT_EQUALS(this->oriented_view->list.begin()->first, 1);
-        TS_ASSERT_EQUALS((++this->oriented_view->list.begin())->first, 2);
-        TS_ASSERT_EQUALS(this->oriented_view->list[1].size(), 0);
-        TS_ASSERT_EQUALS(this->oriented_view->list[2].size(), 0);
+        TS_ASSERT_EQUALS(this->oriented_view->list.begin()->first, 0);
+        TS_ASSERT_EQUALS((++this->oriented_view->list.begin())->first, 1);
+        TS_ASSERT_EQUALS(this->oriented_view->list.at(0).size(), 0);
+        TS_ASSERT_EQUALS(this->oriented_view->list.at(1).size(), 0);
         
         TS_ASSERT_EQUALS(this->oriented_view->list.size(), 2);
     }
@@ -255,6 +256,68 @@ public:
         TS_ASSERT_THROWS_NOTHING(exists = this->not_oriented_view->exists(not_existing_node));
         TS_ASSERT_EQUALS(exists, false);
     }
+    
+    
+    
+    void test_get_nodes()
+    {
+        const std::size_t nodes_count = 3;
+        this->add_nodes(this->oriented_view, nodes_count);
+        
+        sgl::weight_t weight0 = 2;
+        sgl::weight_t weight1 = 5;
+        
+        sgl::node node0(0);
+        sgl::node node1(1);
+        sgl::node node2(2);
+                
+        this->oriented_view->list[0].insert(std::make_pair(node2, weight1));
+        this->oriented_view->list[1].insert(std::make_pair(node0, weight0));
+        
+        sgl::node_set_t nodes;
+        nodes.insert(node0);
+        nodes.insert(node1);
+        nodes.insert(node2);
+        
+        TS_ASSERT_EQUALS(this->oriented_view->get_nodes(), nodes);
+    }
+    
+    
+    
+    void test_get_edges()
+    {
+        const std::size_t nodes_count = 3;
+        this->add_nodes(this->oriented_view, nodes_count);
+        this->add_nodes(this->not_oriented_view, nodes_count);
+        
+        sgl::weight_t weight0 = 2;
+        sgl::weight_t weight1 = 5;
+        
+        sgl::node node0(0);
+        sgl::node node1(1);
+        sgl::node node2(2);
+                
+        this->oriented_view->list[0].insert(std::make_pair(node2, weight1));
+        this->oriented_view->list[1].insert(std::make_pair(node0, weight0));
+        
+        this->not_oriented_view->list[0].insert(std::make_pair(node1, weight0));
+        this->not_oriented_view->list[0].insert(std::make_pair(node2, weight1));
+        this->not_oriented_view->list[1].insert(std::make_pair(node0, weight0));
+        this->not_oriented_view->list[2].insert(std::make_pair(node0, weight1));
+        
+        sgl::edge_set_t edges;
+        edges.insert(sgl::edge(node0, node2, weight1));
+        edges.insert(sgl::edge(node1, node0, weight0));
+        
+        TS_ASSERT_EQUALS(this->oriented_view->get_edges(), edges);
+        
+        edges.clear();
+        edges.insert(sgl::edge(node0, node1, weight0));
+        edges.insert(sgl::edge(node0, node2, weight1));
+        
+        TS_ASSERT_EQUALS(this->not_oriented_view->get_edges(), edges);
+    }
+    
     
     
     

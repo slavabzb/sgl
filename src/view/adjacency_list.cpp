@@ -1,6 +1,6 @@
 #include <sgl/view/adjacency_list.h>
 #include <algorithm>
-#include <iostream>
+
 
 
 sgl::view::adjacency_list::adjacency_list(bool oriented, bool weighted)
@@ -27,7 +27,7 @@ void sgl::view::adjacency_list::add_node()
         it = --this->list.end();
     }
 
-    sgl::node_id_t node_id = 1;
+    sgl::node_id_t node_id = 0;
 
     if(it != this->list.end())
     {
@@ -127,8 +127,14 @@ void sgl::view::adjacency_list::add_edge(const sgl::edge& edge)
             }
             else
             {
-                throw std::runtime_error("adjacency_list::add_edge: "
-                    "internal list corrupted");
+                sgl::view::adjacency_list::adjacency_nodes_t adjacency_nodes;
+                adjacency_nodes.insert(std::make_pair(
+                    edge.get_first(), edge.get_weight()));
+
+                sgl::view::adjacency_list::adjacency_info_t adjacency_info =
+                    std::make_pair(edge.get_second(), adjacency_nodes);
+
+                this->list.insert(adjacency_info);
             }
         }
     }
@@ -231,10 +237,47 @@ sgl::view::type sgl::view::adjacency_list::get_type() const
 
 
 
-std::size_t sgl::view::adjacency_list::get_nodes_count() const
+sgl::node_set_t sgl::view::adjacency_list::get_nodes() const
 {
-    // TODO
-    return 0;
+    sgl::node_set_t nodes;
+
+    for(const adjacency_info_t& adjacency_info : this->list)
+    {
+        nodes.insert(adjacency_info.first);
+
+        for(const edge_info_t& edge_info : adjacency_info.second)
+        {
+            nodes.insert(edge_info.first);
+        }
+    }
+
+    return nodes;
+}
+
+
+
+sgl::edge_set_t sgl::view::adjacency_list::get_edges() const
+{
+    sgl::edge_set_t edges;
+
+    for(const adjacency_info_t& adjacency_info : this->list)
+    {
+        for(const edge_info_t& edge_info : adjacency_info.second)
+        {
+            sgl::edge edge_forward(adjacency_info.first, edge_info.first, edge_info.second);
+            sgl::edge edge_backward(edge_info.first, adjacency_info.first, edge_info.second);
+
+            sgl::edge_set_t::const_iterator it_forward = edges.find(edge_forward);
+            sgl::edge_set_t::const_iterator it_backward = edges.find(edge_backward);
+
+            if(it_forward == edges.end() && it_backward == edges.end())
+            {
+                edges.insert(edge_forward);
+            }
+        }
+    }
+
+    return edges;
 }
 
 
@@ -307,4 +350,11 @@ bool sgl::view::adjacency_list::exists(const sgl::node& node) const
     }
 
     return exists;
+}
+
+
+sgl::view::adjacency_list::adjacency_nodes_t
+sgl::view::adjacency_list::get_adjacency_nodes(const sgl::node& node) const
+{
+    return this->list.at(node);
 }

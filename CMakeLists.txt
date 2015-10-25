@@ -23,6 +23,7 @@ include_directories(${FAKEIT_MODULE_PATH}/include)
 include_directories(${FAKEIT_MODULE_PATH}/single_header/standalone)
 
 add_compile_options(-std=c++11)
+add_compile_options(-Wall)
 
 file(GLOB TARGET_SRC "${TARGET_SRC_PATH}/*.cpp")
 file(GLOB VIEW_SRC "${TARGET_SRC_PATH}/view/*.cpp")

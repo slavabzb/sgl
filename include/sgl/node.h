@@ -2,8 +2,9 @@
 
 #include <cstdint>
 #include <memory>
-#include <string>
+#include <ostream>
 #include <set>
+#include <string>
 
 namespace sgl {
 
@@ -25,6 +26,7 @@ private:
 };
 
 typedef std::set<node> node_set_t;
-//typedef const std::set<node> const_node_set_t;
 
 } // sgl
+
+std::ostream& operator<<(std::ostream& ostream, const sgl::node& node);

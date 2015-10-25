@@ -160,6 +160,36 @@ public:
     
     
     
+    void test_get_nodes()
+    {
+        sgl::node_set_t nodes;
+        nodes.insert(0);
+        nodes.insert(1);
+        
+        std::size_t nodes_count = 2;
+        this->add_nodes(nodes_count);
+        
+        TS_ASSERT_EQUALS(this->view->get_nodes(), nodes);
+    }
+    
+    
+    
+    void test_get_edges()
+    {
+        std::size_t nodes = 2;
+        this->add_nodes(nodes);
+        
+        sgl::edge edge(0, 1, 1);
+        this->add_edge(edge);
+        
+        sgl::edge_set_t edges;
+        edges.insert(sgl::edge(0, 1, 1));
+        
+        TS_ASSERT_EQUALS(this->view->get_edges(), edges);
+    }
+    
+    
+    
 private:
     void add_nodes(std::size_t nodes)
     {

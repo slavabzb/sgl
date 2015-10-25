@@ -122,9 +122,47 @@ sgl::view::type sgl::view::adjacency_matrix::get_type() const
 
 
 
-std::size_t sgl::view::adjacency_matrix::get_nodes_count() const
+sgl::node_set_t sgl::view::adjacency_matrix::get_nodes() const
 {
-    return this->matrix.size();
+    sgl::node_set_t nodes;
+
+    for(sgl::node_id_t node_id = 0; node_id < this->matrix.size(); ++node_id)
+    {
+        nodes.insert(node_id);
+    }
+
+    return nodes;
+}
+
+
+
+sgl::edge_set_t sgl::view::adjacency_matrix::get_edges() const
+{
+    sgl::edge_set_t edges;
+
+    for(sgl::node_id_t first = 0; first < this->matrix.size(); ++first)
+    {
+        for(sgl::node_id_t second = 0; second < this->matrix[first].size(); ++second)
+        {
+            sgl::weight_t weight = this->matrix[first][second];
+
+            if(weight != 0)
+            {
+                sgl::edge edge_forward(first, second, weight);
+                sgl::edge edge_backward(second, first, weight);
+
+                sgl::edge_set_t::const_iterator it_forward = edges.find(edge_forward);
+                sgl::edge_set_t::const_iterator it_backward = edges.find(edge_backward);
+
+                if(it_forward == edges.end() && it_backward == edges.end())
+                {
+                    edges.insert(edge_forward);
+                }
+            }
+        }
+    }
+
+    return edges;
 }
 
 
@@ -182,18 +220,21 @@ bool sgl::view::adjacency_matrix::exists(const sgl::node& node) const
 
 
 sgl::weight_t sgl::view::adjacency_matrix::get_weight(
-    sgl::node_id_t first, sgl::node_id_t second) const
+    const sgl::node& first, const sgl::node& second) const
 {
-    if(!this->in_range(first, second))
+    sgl::node_id_t from = first.get_id();
+    sgl::node_id_t to = second.get_id();
+
+    if(!this->in_range(from, to))
     {
         throw std::out_of_range("adjacency_matrix::get_weight(): "
             "can't retrieve a weight of edge: "
             "the node with node_id = " +
-            std::to_string(std::max(first, second)) +
+            std::to_string(std::max(from, to)) +
             " doesn't exists");
     }
 
-    return this->matrix[first][second];
+    return this->matrix[from][to];
 }
 
 
