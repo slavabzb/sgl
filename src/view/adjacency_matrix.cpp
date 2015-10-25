@@ -48,20 +48,11 @@ void sgl::view::adjacency_matrix::add_edge(const sgl::edge& edge)
 
     if(weight > 0)
     {
-        if(this->exists(edge))
-        {
-            throw std::invalid_argument("adjacency_matrix::add_edge: "
-                "can't add edge (" + edge.to_string() + "): "
-                "edge already exists");
-        }
-        else
-        {
-            this->matrix[from][to] = weight;
+        this->matrix[from][to] = weight;
 
-            if(!this->is_oriented())
-            {
-                this->matrix[to][from] = weight;
-            }
+        if(!this->is_oriented())
+        {
+            this->matrix[to][from] = weight;
         }
     }
 }
