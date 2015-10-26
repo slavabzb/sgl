@@ -119,6 +119,11 @@ void sgl::view::edge_list::remove_node(const sgl::node& node)
 void sgl::view::edge_list::remove_edge(const sgl::edge& edge)
 {
     this->edges.erase(edge);
+
+    if(!this->is_oriented())
+    {
+        this->edges.erase(sgl::edge(edge.get_second(), edge.get_first(), edge.get_weight()));
+    }
 }
 
 
