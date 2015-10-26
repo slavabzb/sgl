@@ -197,7 +197,10 @@ void sgl::view::adjacency_list::remove_edge(const sgl::edge& edge)
         {
             it->second.erase(pos);
         }
+    }
 
+    if(!this->is_oriented())
+    {
         it = this->list.find(edge.get_second());
 
         if(it != this->list.end())
@@ -219,11 +222,6 @@ void sgl::view::adjacency_list::remove_edge(const sgl::edge& edge)
             {
                 it->second.erase(pos);
             }
-        }
-        else
-        {
-            throw std::runtime_error("adjacency_list::remove_edge: "
-                "internal list corrupted");
         }
     }
 }

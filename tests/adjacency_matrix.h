@@ -93,7 +93,7 @@ public:
         TS_ASSERT_EQUALS(this->view->matrix.at(1).at(0), edge.get_weight());
         TS_ASSERT_EQUALS(this->view->matrix.at(1).at(1), 0);
         
-        TS_ASSERT_THROWS(this->view->add_edge(edge), std::invalid_argument);
+        TS_ASSERT_THROWS_NOTHING(this->view->add_edge(edge));
     }
 
         
