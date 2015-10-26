@@ -46,7 +46,7 @@ set_target_properties(
         VERSION ${PROJECT_VERSION})
 
 if(BUILD_TESTS)
-	find_package(CxxTest REQUIRED)
+	find_package(CxxTest)
 	if(CXXTEST_FOUND)
 		include_directories(${CXXTEST_INCLUDE_DIR})
 		enable_testing()
