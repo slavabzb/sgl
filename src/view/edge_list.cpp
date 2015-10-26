@@ -41,8 +41,35 @@ void sgl::view::edge_list::add_node()
 
 void sgl::view::edge_list::add_edge(const sgl::edge& edge)
 {
-    this->nodes.insert(edge.get_first());
-    this->nodes.insert(edge.get_second());
+    sgl::edge_set_t::const_iterator it = std::find_if(this->edges.begin(), this->edges.end(),
+        [this, &edge](const sgl::edge& item)
+        {
+            if(item.get_first() == edge.get_first() && item.get_second() == edge.get_second())
+            {
+                return true;
+            }
+
+            if(!this->is_oriented())
+            {
+                if(item.get_second() == edge.get_first() && item.get_first() == edge.get_second())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+
+    if(it != this->edges.end())
+    {
+        this->edges.erase(it);
+    }
+    else
+    {
+        this->nodes.insert(edge.get_first());
+        this->nodes.insert(edge.get_second());
+    }
+
     this->edges.insert(edge);
 }
 
