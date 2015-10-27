@@ -1,7 +1,7 @@
 #pragma once
 
-#include <sgl/node.h>
-#include <sgl/edge.h>
+#include <sgl/core/node.h>
+#include <sgl/core/edge.h>
 #include <sgl/view/type.h>
 
 namespace sgl {

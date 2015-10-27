@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <sgl/node.h>
+#include <sgl/core/node.h>
 
 namespace sgl {
 

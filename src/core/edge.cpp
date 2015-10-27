@@ -1,4 +1,4 @@
-#include <sgl/edge.h>
+#include <sgl/core/edge.h>
 
 
 

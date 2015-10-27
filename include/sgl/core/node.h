@@ -2,7 +2,6 @@
 
 #include <cstdint>
 #include <memory>
-#include <ostream>
 #include <set>
 #include <string>
 
@@ -28,5 +27,3 @@ private:
 typedef std::set<node> node_set_t;
 
 } // sgl
-
-std::ostream& operator<<(std::ostream& ostream, const sgl::node& node);

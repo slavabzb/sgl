@@ -1,3 +1,5 @@
+#include <sgl/core/node.h>
+
 #include <sgl/view/adjacency_matrix.h>
 #include <sgl/view/adjacency_list.h>
 #include <sgl/view/edge_list.h>
@@ -105,7 +107,7 @@ void sgl::view::simple_writer::write_adjacency_list(
         {
             for(const sgl::view::adjacency_list::edge_info_t& edge_info : adjacency_nodes)
             {
-                this->ostream << edge_info.first;
+                this->ostream << edge_info.first.get_id();
 
                 if(adjacency_list->is_weighted())
                 {
@@ -146,7 +148,7 @@ void sgl::view::simple_writer::write_edge_list(sgl::view::const_view_t& view)
 
     for(const sgl::edge& edge : edges)
     {
-        this->ostream << edge.get_first() << ' ' << edge.get_second();
+        this->ostream << edge.get_first().get_id() << ' ' << edge.get_second().get_id();
 
         if(edge_list->is_weighted())
         {
