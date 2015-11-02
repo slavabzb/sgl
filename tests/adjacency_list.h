@@ -44,13 +44,13 @@ public:
     void test_add_node()
     {
         TS_ASSERT_EQUALS(this->oriented_view->list.size(), 0);
-        TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_node());
+        TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_node(0));
         TS_ASSERT_EQUALS(this->oriented_view->list.size(), 1);
         TS_ASSERT_EQUALS(this->oriented_view->list.begin()->first, 0);
         TS_ASSERT_EQUALS(this->oriented_view->list.at(0).size(), 0);
         
         TS_ASSERT_EQUALS(this->oriented_view->list.size(), 1);
-        TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_node());
+        TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_node(1));
         TS_ASSERT_EQUALS(this->oriented_view->list.size(), 2);
         TS_ASSERT_EQUALS(this->oriented_view->list.begin()->first, 0);
         TS_ASSERT_EQUALS((++this->oriented_view->list.begin())->first, 1);
@@ -376,7 +376,7 @@ public:
             
             sgl::view::edge_list rhs;
             rhs.add_edge(edge);
-            rhs.add_node();
+            rhs.add_node(3);
             
             TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
             TS_ASSERT(this->not_oriented_view->exists(edge));

@@ -12,6 +12,14 @@ sgl::view::adjacency_matrix::adjacency_matrix(std::size_t nodes, bool oriented, 
 
 
 
+sgl::view::adjacency_matrix::adjacency_matrix(const sgl::view::view& other)
+    : base_t(other.is_oriented(), other.is_weighted())
+{
+    *this = other;
+}
+
+
+
 sgl::view::adjacency_matrix::~adjacency_matrix()
 {
 
@@ -19,15 +27,20 @@ sgl::view::adjacency_matrix::~adjacency_matrix()
 
 
 
-void sgl::view::adjacency_matrix::add_node()
+void sgl::view::adjacency_matrix::add_node(const node& node)
 {
-    std::for_each(this->matrix.begin(), this->matrix.end(),
-        [](matrix_row_t& row)
+    matrix_t::size_type diff = this->matrix.size() - node.get_id() + 1;
+
+    if(diff > 0)
+    {
+        std::for_each(this->matrix.begin(), this->matrix.end(),
+        [&diff](matrix_row_t& row)
         {
-            row.push_back(0);
+            row.insert(row.end(), diff, 0);
         });
 
-    this->matrix.push_back(matrix_row_t(this->matrix.size() + 1, 0));
+        this->matrix.push_back(matrix_row_t(this->matrix.size() + diff, 0));
+    }
 }
 
 

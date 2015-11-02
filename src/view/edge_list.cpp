@@ -4,9 +4,17 @@
 
 
 sgl::view::edge_list::edge_list(bool oriented, bool weighted)
-    : view(oriented, weighted)
+    : base_t(oriented, weighted)
 {
 
+}
+
+
+
+sgl::view::edge_list::edge_list(const sgl::view::view& other)
+    : base_t(other.is_oriented(), other.is_weighted())
+{
+    *this = other;
 }
 
 
@@ -18,23 +26,9 @@ sgl::view::edge_list::~edge_list()
 
 
 
-void sgl::view::edge_list::add_node()
+void sgl::view::edge_list::add_node(const node& node)
 {
-    sgl::node_set_t::const_iterator it = this->nodes.end();
-
-    if(this->nodes.size() != 0)
-    {
-        it = --this->nodes.end();
-    }
-
-    sgl::node_id_t node_id = 0;
-
-    if(it != this->nodes.end())
-    {
-        node_id = it->get_id() + 1;
-    }
-
-    this->nodes.insert(node_id);
+    this->nodes.insert(node);
 }
 
 

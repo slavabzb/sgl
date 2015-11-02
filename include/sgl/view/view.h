@@ -13,7 +13,7 @@ public:
     view(bool oriented = false, bool weighted = false);
     virtual ~view();
 
-    virtual void add_node() = 0;
+    virtual void add_node(const node& node) = 0;
     virtual void add_edge(const edge& edge) = 0;
 
     virtual void remove_node(const node& node) = 0;

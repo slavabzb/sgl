@@ -18,9 +18,10 @@ class edge_list: public view
 
 public:
     edge_list(bool oriented = false, bool weighted = false);
+    edge_list(const view& other);
     virtual ~edge_list();
 
-    virtual void add_node() override;
+    virtual void add_node(const node& node) override;
     virtual void add_edge(const edge& edge) override;
 
     virtual void remove_node(const node& node) override;

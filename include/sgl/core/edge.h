@@ -31,6 +31,5 @@ private:
 };
 
 typedef std::set<edge> edge_set_t;
-typedef const std::set<edge> const_edge_set_t;
 
 } // sgl

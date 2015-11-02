@@ -20,14 +20,11 @@ class adjacency_matrix: public view
     using matrix_t = std::vector<matrix_row_t>;    
 
 public:
-    adjacency_matrix(
-        std::size_t nodes = 0,
-        bool oriented = false,
-        bool weighted = false);
-    
+    adjacency_matrix(std::size_t nodes = 0, bool oriented = false, bool weighted = false);
+    adjacency_matrix(const view& other);
     virtual ~adjacency_matrix();
 
-    virtual void add_node() override;
+    virtual void add_node(const node& node) override;
     virtual void add_edge(const edge& edge) override;
 
     virtual void remove_node(const node& node) override;

@@ -17,5 +17,5 @@ public:
 private:
     sgl::view::view_t view;
 };
-    
+
 } // sgl

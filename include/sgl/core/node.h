@@ -12,7 +12,7 @@ typedef uint32_t node_id_t;
 class node
 {
 public:
-    node(node_id_t node_id);
+    node(node_id_t node_id = 0);
 
     node_id_t get_id() const;
     std::string to_string() const;

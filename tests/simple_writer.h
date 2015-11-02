@@ -93,10 +93,11 @@ private:
         
         this->view = std::make_shared<sgl::view::adjacency_list>(0, 1);
         
-        this->view->add_node();
-        this->view->add_node();
-        this->view->add_node();
-        this->view->add_node();
+        const std::size_t nodes = 4;
+        for(sgl::node_id_t node = 0; node < nodes; ++node)
+        {
+            this->view->add_node(node);
+        }
         
         sgl::edge edge0(0, 1, 2);
         sgl::edge edge1(0, 3, 5);
@@ -117,10 +118,11 @@ private:
         
         this->view = std::make_shared<sgl::view::edge_list>(0, 1);
         
-        this->view->add_node();
-        this->view->add_node();
-        this->view->add_node();
-        this->view->add_node();
+        const std::size_t nodes = 4;
+        for(sgl::node_id_t node = 0; node < nodes; ++node)
+        {
+            this->view->add_node(node);
+        }
         
         this->view->add_edge(sgl::edge(0, 1, 2));
         this->view->add_edge(sgl::edge(0, 3, 5));

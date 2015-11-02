@@ -46,8 +46,8 @@ sgl::weight_t sgl::edge::get_weight() const
 std::string sgl::edge::to_string() const
 {
     std::string string =
-        "from: " + std::to_string(this->first.get_id()) + ", "
-        "to: " + std::to_string(this->second.get_id()) + ", "
+        "first: " + std::to_string(this->first.get_id()) + ", "
+        "second: " + std::to_string(this->second.get_id()) + ", "
         "weight: " + std::to_string(this->weight);
 
     return string;

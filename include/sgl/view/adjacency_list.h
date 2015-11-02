@@ -26,9 +26,10 @@ private:
     
 public:
     adjacency_list(bool oriented = false, bool weighted = false);
+    adjacency_list(const view& other);
     virtual ~adjacency_list();
 
-    virtual void add_node() override;
+    virtual void add_node(const node& node) override;
     virtual void add_edge(const edge& edge) override;
 
     virtual void remove_node(const node& node) override;

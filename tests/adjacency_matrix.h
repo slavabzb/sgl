@@ -47,7 +47,7 @@ public:
     
     void test_add_node()
     {
-        TS_ASSERT_THROWS_NOTHING(this->view->add_node());
+        TS_ASSERT_THROWS_NOTHING(this->view->add_node(0));
         TS_ASSERT_EQUALS(this->view->matrix.size(), 1);
         TS_ASSERT_EQUALS(this->view->matrix.at(0).size(), 1);
         TS_ASSERT_EQUALS(this->view->matrix.at(0).at(0), 0);
@@ -203,8 +203,8 @@ public:
         
         {
             sgl::view::adjacency_matrix rhs(5);
-            rhs.add_node();
-            rhs.add_node();
+            rhs.add_node(0);
+            rhs.add_node(1);
             rhs.add_edge(sgl::edge(0, 1, 2));
             
             TS_ASSERT_THROWS_NOTHING(*this->view = rhs);
@@ -213,8 +213,8 @@ public:
         
         {
             sgl::view::adjacency_list rhs;
-            rhs.add_node();
-            rhs.add_node();
+            rhs.add_node(0);
+            rhs.add_node(1);
             rhs.add_edge(sgl::edge(0, 1, 2));
             
             TS_ASSERT_THROWS_NOTHING(*this->view = rhs);            
@@ -227,8 +227,8 @@ public:
         
         {
             sgl::view::edge_list rhs;
-            rhs.add_node();
-            rhs.add_node();
+            rhs.add_node(0);
+            rhs.add_node(1);
             rhs.add_edge(sgl::edge(0, 1, 2));
             
             TS_ASSERT_THROWS_NOTHING(*this->view = rhs);            

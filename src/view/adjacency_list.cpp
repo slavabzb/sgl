@@ -4,9 +4,17 @@
 
 
 sgl::view::adjacency_list::adjacency_list(bool oriented, bool weighted)
-    : view(oriented, weighted)
+    : base_t(oriented, weighted)
 {
 
+}
+
+
+
+sgl::view::adjacency_list::adjacency_list(const sgl::view::view& other)
+    : base_t(other.is_oriented(), other.is_weighted())
+{
+    *this = other;
 }
 
 
@@ -18,23 +26,8 @@ sgl::view::adjacency_list::~adjacency_list()
 
 
 
-void sgl::view::adjacency_list::add_node()
+void sgl::view::adjacency_list::add_node(const node& node)
 {
-    list_t::iterator it = this->list.end();
-
-    if(this->list.size() != 0)
-    {
-        it = --this->list.end();
-    }
-
-    sgl::node_id_t node_id = 0;
-
-    if(it != this->list.end())
-    {
-        node_id = it->first.get_id() + 1;
-    }
-
-    sgl::node node(node_id);
     adjacency_info_t adjacency_info = std::make_pair(node, adjacency_nodes_t());
     this->list.insert(adjacency_info);
 }

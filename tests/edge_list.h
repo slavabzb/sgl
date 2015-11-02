@@ -28,11 +28,13 @@ public:
     
     void test_add_node()
     {
-        TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_node());
+        TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_node(0));
         TS_ASSERT_EQUALS(this->oriented_view->nodes.size(), 1);
+        TS_ASSERT(this->oriented_view->nodes.find(0) != this->oriented_view->nodes.end());
         
-        TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_node());
+        TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_node(1));
         TS_ASSERT_EQUALS(this->oriented_view->nodes.size(), 2);
+        TS_ASSERT(this->oriented_view->nodes.find(1) != this->oriented_view->nodes.end());
     }
     
     void test_add_edge()
@@ -148,7 +150,7 @@ public:
         {
             sgl::view::edge_list rhs(0, 1);
             rhs.add_edge(edge);
-            rhs.add_node();
+            rhs.add_node(3);
             
             TS_ASSERT_THROWS(*this->oriented_view = rhs, std::invalid_argument);
             
@@ -176,7 +178,7 @@ public:
         {
             sgl::view::adjacency_list rhs(0, 1);
             rhs.add_edge(edge);
-            rhs.add_node();
+            rhs.add_node(3);
             
             TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
             
