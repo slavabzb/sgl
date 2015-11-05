@@ -66,10 +66,10 @@ void sgl::view::simple_writer::write_adjacency_matrix(sgl::view::const_view_t& v
     {
         for(sgl::node_id_t second = 0; second < nodes_count - 1; ++second)
         {
-            this->ostream << adjacency_matrix->get_weight(first, second) << ' ';
+            this->ostream << adjacency_matrix->get_edge_weight(first, second) << ' ';
         }
 
-        this->ostream << adjacency_matrix->get_weight(first, nodes_count - 1);
+        this->ostream << adjacency_matrix->get_edge_weight(first, nodes_count - 1);
         this->ostream << '\n';
     }
 }

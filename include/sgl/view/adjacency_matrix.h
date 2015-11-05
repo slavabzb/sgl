@@ -37,7 +37,7 @@ public:
     virtual bool exists(const edge& edge) const override;
     virtual bool exists(const node& node) const override;
     
-    weight_t get_weight(const node& first, const node& second) const;
+    weight_t get_edge_weight(const node& first, const node& second) const;
     
     bool operator==(const adjacency_matrix& rhs) const;
 

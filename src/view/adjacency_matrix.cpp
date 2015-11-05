@@ -222,7 +222,7 @@ bool sgl::view::adjacency_matrix::exists(const sgl::node& node) const
 
 
 
-sgl::weight_t sgl::view::adjacency_matrix::get_weight(
+sgl::weight_t sgl::view::adjacency_matrix::get_edge_weight(
     const sgl::node& first, const sgl::node& second) const
 {
     sgl::node_id_t from = first.get_id();

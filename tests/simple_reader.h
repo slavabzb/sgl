@@ -41,15 +41,15 @@ public:
         const std::size_t nodes_count = adjacency_matrix->get_nodes().size();
         TS_ASSERT_EQUALS(nodes_count, 3);
         
-        TS_ASSERT_EQUALS(adjacency_matrix->get_weight(0, 0), 0);
-        TS_ASSERT_EQUALS(adjacency_matrix->get_weight(0, 1), 2);
-        TS_ASSERT_EQUALS(adjacency_matrix->get_weight(0, 2), 0);
-        TS_ASSERT_EQUALS(adjacency_matrix->get_weight(1, 0), 2);
-        TS_ASSERT_EQUALS(adjacency_matrix->get_weight(1, 1), 0);
-        TS_ASSERT_EQUALS(adjacency_matrix->get_weight(1, 2), 5);
-        TS_ASSERT_EQUALS(adjacency_matrix->get_weight(2, 0), 0);
-        TS_ASSERT_EQUALS(adjacency_matrix->get_weight(2, 1), 5);
-        TS_ASSERT_EQUALS(adjacency_matrix->get_weight(2, 2), 0);
+        TS_ASSERT_EQUALS(adjacency_matrix->get_edge_weight(0, 0), 0);
+        TS_ASSERT_EQUALS(adjacency_matrix->get_edge_weight(0, 1), 2);
+        TS_ASSERT_EQUALS(adjacency_matrix->get_edge_weight(0, 2), 0);
+        TS_ASSERT_EQUALS(adjacency_matrix->get_edge_weight(1, 0), 2);
+        TS_ASSERT_EQUALS(adjacency_matrix->get_edge_weight(1, 1), 0);
+        TS_ASSERT_EQUALS(adjacency_matrix->get_edge_weight(1, 2), 5);
+        TS_ASSERT_EQUALS(adjacency_matrix->get_edge_weight(2, 0), 0);
+        TS_ASSERT_EQUALS(adjacency_matrix->get_edge_weight(2, 1), 5);
+        TS_ASSERT_EQUALS(adjacency_matrix->get_edge_weight(2, 2), 0);
     }
     
     void test_read_adjacency_list()

@@ -3,11 +3,11 @@ cmake_minimum_required(VERSION 2.8.5)
 project(sgl)
 
 set(PROJECT_VERSION_MAJOR "0")
-set(PROJECT_VERSION_MINOR "5")
+set(PROJECT_VERSION_MINOR "6")
 set(PROJECT_VERSION_PATCH "0")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 
-set(TARGET "${PROJECT_NAME}")
+set(TARGET ${PROJECT_NAME})
 set(TARGET_INSTALL_PATH "lib")
 set(TARGET_INCLUDE_PATH "include")
 set(TARGET_SRC_PATH "src")
@@ -66,10 +66,39 @@ if(BUILD_EXAMPLES)
 
     file(GLOB EXAMPLES_SUBDIRS_LIST "${EXAMPLES_SOURCE_DIR}/*")
     foreach(EXAMPLE_SUBDIR ${EXAMPLES_SUBDIRS_LIST})
-            if(IS_DIRECTORY ${EXAMPLE_SUBDIR})
-                    add_subdirectory(${EXAMPLE_SUBDIR})
-            endif()
+        if(IS_DIRECTORY ${EXAMPLE_SUBDIR})
+            add_subdirectory(${EXAMPLE_SUBDIR})
+        endif()
     endforeach()
+endif()
+
+if(BUILD_DOCS)
+    find_package(Doxygen)
+    if(DOXYGEN_FOUND)
+        set(DOCS_SRC_DIR "docs")
+        set(DOCS_OUT_DIR "docs")
+        set(DOCS_INSTALL_DIR "docs")
+        set(DOCS_DIRS
+            "${CMAKE_SOURCE_DIR}/include/sgl \\
+            ${CMAKE_SOURCE_DIR}/${DOCS_SRC_DIR}")
+
+        configure_file(${DOCS_SRC_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+        
+        add_custom_target(docs ALL
+            ${CMAKE_COMMAND} -E make_directory ${DOCS_OUT_DIR}
+            COMMAND doxygen 2>doxygen.log)
+
+        install(DIRECTORY ${DOCS_OUT_DIR}
+            DESTINATION ${DOCS_INSTALL_DIR}
+            DIRECTORY_PERMISSIONS
+                OWNER_EXECUTE OWNER_WRITE OWNER_READ
+                GROUP_EXECUTE GROUP_READ
+                WORLD_EXECUTE WORLD_READ
+            FILE_PERMISSIONS 
+                OWNER_WRITE OWNER_READ
+                GROUP_READ
+                WORLD_READ)
+    endif()
 endif()
 
 install(TARGETS ${TARGET}

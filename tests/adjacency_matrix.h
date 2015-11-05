@@ -154,11 +154,11 @@ public:
         
         sgl::weight_t weight_retrieved = 0;
         TS_ASSERT_THROWS_NOTHING(
-            weight_retrieved = this->view->get_weight(0, 1));
+            weight_retrieved = this->view->get_edge_weight(0, 1));
         TS_ASSERT_EQUALS(weight_retrieved, weight);
                 
         TS_ASSERT_THROWS(
-            this->view->get_weight(0, 2),
+            this->view->get_edge_weight(0, 2),
             std::out_of_range);
     }
     

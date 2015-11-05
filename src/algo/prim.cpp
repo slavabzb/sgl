@@ -2,7 +2,6 @@
 #include <sgl/view/adjacency_list.h>
 #include <limits>
 #include <algorithm>
-#include <iostream>
 
 
 
