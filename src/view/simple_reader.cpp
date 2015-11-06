@@ -4,7 +4,7 @@
 #include <sgl/view/adjacency_matrix.h>
 #include <sgl/view/adjacency_list.h>
 #include <sgl/view/edge_list.h>
-#include <sgl/view/converter.h>
+#include <sgl/details/converter.h>
 
 
 sgl::view::simple_reader::simple_reader(std::istream& istream)
@@ -29,7 +29,7 @@ sgl::view::view_t sgl::view::simple_reader::read()
     char char_type = 0;
     this->istream >> char_type;
 
-    sgl::view::type type = sgl::view::converter::convert(char_type);
+    sgl::view::type type = sgl::details::converter::convert(char_type);
 
     switch(type)
     {

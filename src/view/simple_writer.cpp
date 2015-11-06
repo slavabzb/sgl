@@ -3,7 +3,7 @@
 #include <sgl/view/adjacency_matrix.h>
 #include <sgl/view/adjacency_list.h>
 #include <sgl/view/edge_list.h>
-#include <sgl/view/converter.h>
+#include <sgl/details/converter.h>
 #include <sgl/view/simple_writer.h>
 
 
@@ -27,7 +27,7 @@ void sgl::view::simple_writer::write(sgl::view::const_view_t& view)
 {
     sgl::view::type type = view->get_type();
 
-    this->ostream << sgl::view::converter::convert(type) << ' ';
+    this->ostream << sgl::details::converter::convert(type) << ' ';
 
     switch(type)
     {

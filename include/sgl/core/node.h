@@ -19,6 +19,7 @@ public:
 
     bool operator<(const node& rhs) const;
     bool operator==(const node& rhs) const;
+	bool operator!=(const node& rhs) const;
 
 private:
     node_id_t node_id;
