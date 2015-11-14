@@ -81,6 +81,7 @@ if(BUILD_DOCS)
     if(DOXYGEN_FOUND)
         set(DOCS_SRC_DIR "${CMAKE_SOURCE_DIR}/docs")
         set(DOCS_OUT_DIR "${CMAKE_BINARY_DIR}/docs")
+        set(DOCS_LOGFILE "doxygen.log")
         set(DOCS_INSTALL_DIR ${CMAKE_INSTALL_PREFIX})
         set(DOCS_DIRS
             "${CMAKE_SOURCE_DIR}/include/sgl \\
@@ -90,8 +91,8 @@ if(BUILD_DOCS)
         
         add_custom_target(docs ALL
             ${CMAKE_COMMAND} -E make_directory ${DOCS_OUT_DIR}
-            COMMAND doxygen 2>doxygen.log
-            COMMAND test -f ./doxygen.log && echo "Error occurred while doxygen compiling documentation. Check doxygen.log")
+            COMMAND doxygen
+            COMMAND test -f "./${DOCS_LOGFILE}" && echo "Error occurred while doxygen compiling documentation. Check ${DOCS_LOGFILE}")
 
         install(DIRECTORY ${DOCS_OUT_DIR}
             DESTINATION ${DOCS_INSTALL_DIR}
