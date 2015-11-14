@@ -64,7 +64,7 @@ public:
     
     void test_oriented_view_add_edge()
     {   
-        sgl::edge edge(0, 1, 2);
+        sgl::core::edge edge(0, 1, 2);
         
         TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_edge(edge));
         TS_ASSERT_EQUALS(this->oriented_view->list.size(), 1);
@@ -94,7 +94,7 @@ public:
     
     void test_not_oriented_view_add_edge()
     {   
-        sgl::edge edge(0, 1, 2);
+        sgl::core::edge edge(0, 1, 2);
         
         TS_ASSERT_THROWS_NOTHING(this->not_oriented_view->add_edge(edge));
         TS_ASSERT_EQUALS(this->not_oriented_view->list.size(), 2);
@@ -145,12 +145,12 @@ public:
         const std::size_t nodes = 3;
         this->add_nodes(this->not_oriented_view, nodes);
         
-        sgl::weight_t weight0 = 2;
-        sgl::weight_t weight1 = 5;
+        sgl::core::weight_t weight0 = 2;
+        sgl::core::weight_t weight1 = 5;
         
-        sgl::node node0(0);
-        sgl::node node1(1);
-        sgl::node node2(2);
+        sgl::core::node node0(0);
+        sgl::core::node node1(1);
+        sgl::core::node node2(2);
         
         this->not_oriented_view->list[0].insert(std::make_pair(node1, weight0));
         this->not_oriented_view->list[0].insert(std::make_pair(node2, weight1));
@@ -186,19 +186,19 @@ public:
         const std::size_t nodes = 3;
         this->add_nodes(this->not_oriented_view, nodes);
         
-        sgl::weight_t weight0 = 2;
-        sgl::weight_t weight1 = 5;
+        sgl::core::weight_t weight0 = 2;
+        sgl::core::weight_t weight1 = 5;
         
-        sgl::node node0(0);
-        sgl::node node1(1);
-        sgl::node node2(2);
+        sgl::core::node node0(0);
+        sgl::core::node node1(1);
+        sgl::core::node node2(2);
                 
         this->not_oriented_view->list[0].insert(std::make_pair(node1, weight0));
         this->not_oriented_view->list[0].insert(std::make_pair(node2, weight1));
         this->not_oriented_view->list[1].insert(std::make_pair(node0, weight0));
         this->not_oriented_view->list[2].insert(std::make_pair(node0, weight1));
         
-        sgl::edge edge(node0, node1, weight0);
+        sgl::core::edge edge(node0, node1, weight0);
         TS_ASSERT_THROWS_NOTHING(this->not_oriented_view->remove_edge(edge));
         
         TS_ASSERT_EQUALS(this->not_oriented_view->list.size(), 3);
@@ -231,20 +231,20 @@ public:
         const std::size_t nodes = 3;
         this->add_nodes(this->not_oriented_view, nodes);
         
-        sgl::weight_t weight0 = 2;
-        sgl::weight_t weight1 = 5;
+        sgl::core::weight_t weight0 = 2;
+        sgl::core::weight_t weight1 = 5;
         
-        sgl::node node0(0);
-        sgl::node node1(1);
-        sgl::node node2(2);
+        sgl::core::node node0(0);
+        sgl::core::node node1(1);
+        sgl::core::node node2(2);
                 
         this->not_oriented_view->list[0].insert(std::make_pair(node1, weight0));
         this->not_oriented_view->list[0].insert(std::make_pair(node2, weight1));
         this->not_oriented_view->list[1].insert(std::make_pair(node0, weight0));
         this->not_oriented_view->list[2].insert(std::make_pair(node0, weight1));
         
-        sgl::edge existing_edge(node0, node1, weight0);
-        sgl::edge not_existing_edge(node1, node2, weight0);
+        sgl::core::edge existing_edge(node0, node1, weight0);
+        sgl::core::edge not_existing_edge(node1, node2, weight0);
         
         bool exists = false;
         TS_ASSERT_THROWS_NOTHING(exists = this->not_oriented_view->exists(existing_edge));
@@ -256,7 +256,7 @@ public:
         TS_ASSERT_THROWS_NOTHING(exists = this->not_oriented_view->exists(node0));
         TS_ASSERT_EQUALS(exists, true);      
         
-        sgl::node not_existing_node(node2.get_id() + 1);
+        sgl::core::node not_existing_node(node2.get_id() + 1);
         TS_ASSERT_THROWS_NOTHING(exists = this->not_oriented_view->exists(not_existing_node));
         TS_ASSERT_EQUALS(exists, false);
     }
@@ -268,17 +268,17 @@ public:
         const std::size_t nodes_count = 3;
         this->add_nodes(this->oriented_view, nodes_count);
         
-        sgl::weight_t weight0 = 2;
-        sgl::weight_t weight1 = 5;
+        sgl::core::weight_t weight0 = 2;
+        sgl::core::weight_t weight1 = 5;
         
-        sgl::node node0(0);
-        sgl::node node1(1);
-        sgl::node node2(2);
+        sgl::core::node node0(0);
+        sgl::core::node node1(1);
+        sgl::core::node node2(2);
                 
         this->oriented_view->list[0].insert(std::make_pair(node2, weight1));
         this->oriented_view->list[1].insert(std::make_pair(node0, weight0));
         
-        sgl::node_set_t nodes;
+        sgl::core::node_set_t nodes;
         nodes.insert(node0);
         nodes.insert(node1);
         nodes.insert(node2);
@@ -294,12 +294,12 @@ public:
         this->add_nodes(this->oriented_view, nodes_count);
         this->add_nodes(this->not_oriented_view, nodes_count);
         
-        sgl::weight_t weight0 = 2;
-        sgl::weight_t weight1 = 5;
+        sgl::core::weight_t weight0 = 2;
+        sgl::core::weight_t weight1 = 5;
         
-        sgl::node node0(0);
-        sgl::node node1(1);
-        sgl::node node2(2);
+        sgl::core::node node0(0);
+        sgl::core::node node1(1);
+        sgl::core::node node2(2);
                 
         this->oriented_view->list[0].insert(std::make_pair(node2, weight1));
         this->oriented_view->list[1].insert(std::make_pair(node0, weight0));
@@ -309,15 +309,15 @@ public:
         this->not_oriented_view->list[1].insert(std::make_pair(node0, weight0));
         this->not_oriented_view->list[2].insert(std::make_pair(node0, weight1));
         
-        sgl::edge_set_t edges;
-        edges.insert(sgl::edge(node0, node2, weight1));
-        edges.insert(sgl::edge(node1, node0, weight0));
+        sgl::core::edge_set_t edges;
+        edges.insert(sgl::core::edge(node0, node2, weight1));
+        edges.insert(sgl::core::edge(node1, node0, weight0));
         
         TS_ASSERT_EQUALS(this->oriented_view->get_edges(), edges);
         
         edges.clear();
-        edges.insert(sgl::edge(node0, node1, weight0));
-        edges.insert(sgl::edge(node0, node2, weight1));
+        edges.insert(sgl::core::edge(node0, node1, weight0));
+        edges.insert(sgl::core::edge(node0, node2, weight1));
         
         TS_ASSERT_EQUALS(this->not_oriented_view->get_edges(), edges);
     }
@@ -328,7 +328,7 @@ public:
     {
         {
             sgl::view::adjacency_list rhs;
-            rhs.add_edge(sgl::edge(0, 1, 2));
+            rhs.add_edge(sgl::core::edge(0, 1, 2));
             
             TS_ASSERT_THROWS(*this->oriented_view = rhs, std::invalid_argument);
             TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
@@ -337,12 +337,12 @@ public:
         
         {
             sgl::view::adjacency_matrix rhs(3);
-            sgl::edge edge(0, 1, 2);
+            sgl::core::edge edge(0, 1, 2);
             rhs.add_edge(edge);
             
             TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
             
-            sgl::node_set_t nodes = this->not_oriented_view->get_nodes();
+            sgl::core::node_set_t nodes = this->not_oriented_view->get_nodes();
             TS_ASSERT_EQUALS(nodes.size(), 3);
             TS_ASSERT(this->not_oriented_view->list.find(0) != this->not_oriented_view->list.end());
             TS_ASSERT(this->not_oriented_view->list.find(1) != this->not_oriented_view->list.end());
@@ -350,7 +350,7 @@ public:
             
             TS_ASSERT(this->not_oriented_view->exists(edge));
             
-            sgl::edge_set_t edges = this->not_oriented_view->get_edges();
+            sgl::core::edge_set_t edges = this->not_oriented_view->get_edges();
             TS_ASSERT_EQUALS(edges.size(), 1);
             TS_ASSERT(edges.find(edge) != edges.end());
             
@@ -369,10 +369,10 @@ public:
         }
         
         {
-            sgl::node first(1);
-            sgl::node second(2);
-            sgl::weight_t weight = 3;
-            sgl::edge edge(first, second, weight);
+            sgl::core::node first(1);
+            sgl::core::node second(2);
+            sgl::core::weight_t weight = 3;
+            sgl::core::edge edge(first, second, weight);
             
             sgl::view::edge_list rhs;
             rhs.add_edge(edge);
@@ -383,14 +383,14 @@ public:
             TS_ASSERT(this->not_oriented_view->exists(first));
             TS_ASSERT(this->not_oriented_view->exists(second));
             
-            sgl::node_set_t nodes = this->not_oriented_view->get_nodes();
+            sgl::core::node_set_t nodes = this->not_oriented_view->get_nodes();
             TS_ASSERT_EQUALS(nodes.size(), 3);
             TS_ASSERT(nodes.find(0) == nodes.end());
             TS_ASSERT(nodes.find(1) != nodes.end());
             TS_ASSERT(nodes.find(2) != nodes.end());
             TS_ASSERT(nodes.find(3) != nodes.end());
             
-            sgl::edge_set_t edges = this->not_oriented_view->get_edges();
+            sgl::core::edge_set_t edges = this->not_oriented_view->get_edges();
             TS_ASSERT_EQUALS(edges.size(), 1);
             TS_ASSERT(edges.find(edge) != edges.end());
             
@@ -417,7 +417,7 @@ public:
 private:
     void add_nodes(sgl::view::adjacency_list_t& view, std::size_t nodes)
     {
-        for(sgl::node_id_t node_id = 0; node_id < nodes; ++node_id)
+        for(sgl::core::node_id_t node_id = 0; node_id < nodes; ++node_id)
         {
             sgl::view::adjacency_list::adjacency_info_t adjacency_info =
                 std::make_pair(

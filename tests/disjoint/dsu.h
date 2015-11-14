@@ -3,13 +3,13 @@
 #include <cxxtest/TestSuite.h>
 
 #include <sgl/core/node.h>
-#include <sgl/details/dsu.h>
+#include <sgl/disjoint/dsu.h>
 
 
 
 class dsu_test: public CxxTest::TestSuite
 {
-    typedef sgl::details::dsu dsu_type;
+    typedef disjoint::dsu dsu_type;
     typedef dsu_type* dsu_ptr_type;
 
     dsu_ptr_type dsu;
@@ -28,7 +28,7 @@ private:
 public:
     void test_dsu()
     {
-        sgl::node node;
+        sgl::core::node node;
         TS_ASSERT_THROWS_NOTHING(node = this->dsu->find(1));
         TS_ASSERT_EQUALS(node.get_id(), 1);
 

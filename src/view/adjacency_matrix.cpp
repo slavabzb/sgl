@@ -27,7 +27,7 @@ sgl::view::adjacency_matrix::~adjacency_matrix()
 
 
 
-void sgl::view::adjacency_matrix::add_node(const node& node)
+void sgl::view::adjacency_matrix::add_node(const sgl::core::node& node)
 {
     matrix_t::size_type diff = this->matrix.size() - node.get_id() + 1;
 
@@ -45,11 +45,11 @@ void sgl::view::adjacency_matrix::add_node(const node& node)
 
 
 
-void sgl::view::adjacency_matrix::add_edge(const sgl::edge& edge)
+void sgl::view::adjacency_matrix::add_edge(const sgl::core::edge& edge)
 {
-    sgl::node_id_t from = edge.get_first().get_id();
-    sgl::node_id_t to = edge.get_second().get_id();
-    sgl::weight_t weight = edge.get_weight();
+    sgl::core::node_id_t from = edge.get_first().get_id();
+    sgl::core::node_id_t to = edge.get_second().get_id();
+    sgl::core::weight_t weight = edge.get_weight();
 
     if(!this->in_range(from, to))
     {
@@ -72,7 +72,7 @@ void sgl::view::adjacency_matrix::add_edge(const sgl::edge& edge)
 
 
 
-void sgl::view::adjacency_matrix::remove_node(const sgl::node& node)
+void sgl::view::adjacency_matrix::remove_node(const sgl::core::node& node)
 {
     if(!this->exists(node))
     {
@@ -94,10 +94,10 @@ void sgl::view::adjacency_matrix::remove_node(const sgl::node& node)
 
 
 
-void sgl::view::adjacency_matrix::remove_edge(const sgl::edge& edge)
+void sgl::view::adjacency_matrix::remove_edge(const sgl::core::edge& edge)
 {
-    sgl::node_id_t from = edge.get_first().get_id();
-    sgl::node_id_t to = edge.get_second().get_id();
+    sgl::core::node_id_t from = edge.get_first().get_id();
+    sgl::core::node_id_t to = edge.get_second().get_id();
 
     if(!this->in_range(from, to))
     {
@@ -125,11 +125,11 @@ sgl::view::type sgl::view::adjacency_matrix::get_type() const
 
 
 
-sgl::node_set_t sgl::view::adjacency_matrix::get_nodes() const
+sgl::core::node_set_t sgl::view::adjacency_matrix::get_nodes() const
 {
-    sgl::node_set_t nodes;
+    sgl::core::node_set_t nodes;
 
-    for(sgl::node_id_t node_id = 0; node_id < this->matrix.size(); ++node_id)
+    for(sgl::core::node_id_t node_id = 0; node_id < this->matrix.size(); ++node_id)
     {
         nodes.insert(node_id);
     }
@@ -139,23 +139,23 @@ sgl::node_set_t sgl::view::adjacency_matrix::get_nodes() const
 
 
 
-sgl::edge_set_t sgl::view::adjacency_matrix::get_edges() const
+sgl::core::edge_set_t sgl::view::adjacency_matrix::get_edges() const
 {
-    sgl::edge_set_t edges;
+    sgl::core::edge_set_t edges;
 
-    for(sgl::node_id_t first = 0; first < this->matrix.size(); ++first)
+    for(sgl::core::node_id_t first = 0; first < this->matrix.size(); ++first)
     {
-        for(sgl::node_id_t second = 0; second < this->matrix[first].size(); ++second)
+        for(sgl::core::node_id_t second = 0; second < this->matrix[first].size(); ++second)
         {
-            sgl::weight_t weight = this->matrix[first][second];
+            sgl::core::weight_t weight = this->matrix[first][second];
 
             if(weight != 0)
             {
-                sgl::edge edge_forward(first, second, weight);
-                sgl::edge edge_backward(second, first, weight);
+                sgl::core::edge edge_forward(first, second, weight);
+                sgl::core::edge edge_backward(second, first, weight);
 
-                sgl::edge_set_t::const_iterator it_forward = edges.find(edge_forward);
-                sgl::edge_set_t::const_iterator it_backward = edges.find(edge_backward);
+                sgl::core::edge_set_t::const_iterator it_forward = edges.find(edge_forward);
+                sgl::core::edge_set_t::const_iterator it_backward = edges.find(edge_backward);
 
                 if(it_forward == edges.end() && it_backward == edges.end())
                 {
@@ -170,12 +170,12 @@ sgl::edge_set_t sgl::view::adjacency_matrix::get_edges() const
 
 
 
-bool sgl::view::adjacency_matrix::exists(const sgl::edge& edge) const
+bool sgl::view::adjacency_matrix::exists(const sgl::core::edge& edge) const
 {
     bool exists = true;
 
-    sgl::node_id_t from = edge.get_first().get_id();
-    sgl::node_id_t to = edge.get_second().get_id();
+    sgl::core::node_id_t from = edge.get_first().get_id();
+    sgl::core::node_id_t to = edge.get_second().get_id();
 
     if(this->in_range(from, to))
     {
@@ -204,7 +204,7 @@ bool sgl::view::adjacency_matrix::exists(const sgl::edge& edge) const
 
 
 
-bool sgl::view::adjacency_matrix::exists(const sgl::node& node) const
+bool sgl::view::adjacency_matrix::exists(const sgl::core::node& node) const
 {
     bool exists = false;
 
@@ -222,11 +222,11 @@ bool sgl::view::adjacency_matrix::exists(const sgl::node& node) const
 
 
 
-sgl::weight_t sgl::view::adjacency_matrix::get_edge_weight(
-    const sgl::node& first, const sgl::node& second) const
+sgl::core::weight_t sgl::view::adjacency_matrix::get_edge_weight(
+    const sgl::core::node& first, const sgl::core::node& second) const
 {
-    sgl::node_id_t from = first.get_id();
-    sgl::node_id_t to = second.get_id();
+    sgl::core::node_id_t from = first.get_id();
+    sgl::core::node_id_t to = second.get_id();
 
     if(!this->in_range(from, to))
     {
@@ -243,9 +243,9 @@ sgl::weight_t sgl::view::adjacency_matrix::get_edge_weight(
 
 
 bool sgl::view::adjacency_matrix::in_range(
-    sgl::node_id_t from, sgl::node_id_t to) const
+    sgl::core::node_id_t from, sgl::core::node_id_t to) const
 {
-    sgl::node_id_t max = std::max(from, to);
+    sgl::core::node_id_t max = std::max(from, to);
 
     return max < this->matrix.size();
 }
@@ -295,15 +295,15 @@ sgl::view::adjacency_matrix& sgl::view::adjacency_matrix::operator=(const sgl::v
 
     this->matrix.clear();
 
-    sgl::node_set_t nodes = rhs.get_nodes();
+    sgl::core::node_set_t nodes = rhs.get_nodes();
     this->matrix.resize(nodes.size(), matrix_row_t(nodes.size()));
 
-    sgl::edge_set_t edges = rhs.get_edges();
-    for(const sgl::edge& edge : edges)
+    sgl::core::edge_set_t edges = rhs.get_edges();
+    for(const sgl::core::edge& edge : edges)
     {
-        sgl::node_id_t first = edge.get_first().get_id();
-        sgl::node_id_t second = edge.get_second().get_id();
-        sgl::weight_t weight = edge.get_weight();
+        sgl::core::node_id_t first = edge.get_first().get_id();
+        sgl::core::node_id_t second = edge.get_second().get_id();
+        sgl::core::weight_t weight = edge.get_weight();
 
         if(this->is_weighted())
         {

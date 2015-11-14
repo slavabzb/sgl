@@ -26,17 +26,17 @@ sgl::view::edge_list::~edge_list()
 
 
 
-void sgl::view::edge_list::add_node(const node& node)
+void sgl::view::edge_list::add_node(const sgl::core::node& node)
 {
     this->nodes.insert(node);
 }
 
 
 
-void sgl::view::edge_list::add_edge(const sgl::edge& edge)
+void sgl::view::edge_list::add_edge(const sgl::core::edge& edge)
 {
-    sgl::edge_set_t::const_iterator it = std::find_if(this->edges.begin(), this->edges.end(),
-        [this, &edge](const sgl::edge& item)
+    sgl::core::edge_set_t::const_iterator it = std::find_if(this->edges.begin(), this->edges.end(),
+        [this, &edge](const sgl::core::edge& item)
         {
             if(item.get_first() == edge.get_first() && item.get_second() == edge.get_second())
             {
@@ -69,11 +69,11 @@ void sgl::view::edge_list::add_edge(const sgl::edge& edge)
 
 
 
-void sgl::view::edge_list::remove_node(const sgl::node& node)
+void sgl::view::edge_list::remove_node(const sgl::core::node& node)
 {
-   sgl::edge_set_t::const_iterator it_begin =
+   sgl::core::edge_set_t::const_iterator it_begin =
         std::find_if(this->edges.begin(), this->edges.end(),
-            [&node](const sgl::edge& edge)
+            [&node](const sgl::core::edge& edge)
             {
                 if(edge.get_first() == node)
                 {
@@ -83,9 +83,9 @@ void sgl::view::edge_list::remove_node(const sgl::node& node)
                 return false;
             });
 
-    sgl::edge_set_t::const_iterator it_end =
+    sgl::core::edge_set_t::const_iterator it_end =
         std::find_if(this->edges.begin(), this->edges.end(),
-            [&node](const sgl::edge& edge)
+            [&node](const sgl::core::edge& edge)
             {
                 if(edge.get_second() == node)
                 {
@@ -110,13 +110,13 @@ void sgl::view::edge_list::remove_node(const sgl::node& node)
 
 
 
-void sgl::view::edge_list::remove_edge(const sgl::edge& edge)
+void sgl::view::edge_list::remove_edge(const sgl::core::edge& edge)
 {
     this->edges.erase(edge);
 
     if(!this->is_oriented())
     {
-        this->edges.erase(sgl::edge(edge.get_second(), edge.get_first(), edge.get_weight()));
+        this->edges.erase(sgl::core::edge(edge.get_second(), edge.get_first(), edge.get_weight()));
     }
 }
 
@@ -129,28 +129,28 @@ sgl::view::type sgl::view::edge_list::get_type() const
 
 
 
-sgl::node_set_t sgl::view::edge_list::get_nodes() const
+sgl::core::node_set_t sgl::view::edge_list::get_nodes() const
 {
     return this->nodes;
 }
 
 
 
-sgl::edge_set_t sgl::view::edge_list::get_edges() const
+sgl::core::edge_set_t sgl::view::edge_list::get_edges() const
 {
     return this->edges;
 }
 
 
 
-bool sgl::view::edge_list::exists(const sgl::edge& edge) const
+bool sgl::view::edge_list::exists(const sgl::core::edge& edge) const
 {
-    sgl::edge_set_t::const_iterator it_forward = this->edges.find(edge);
+    sgl::core::edge_set_t::const_iterator it_forward = this->edges.find(edge);
 
-    sgl::edge_set_t::const_iterator it_backward = this->edges.end();
+    sgl::core::edge_set_t::const_iterator it_backward = this->edges.end();
     if(!this->is_oriented())
     {
-        sgl::edge edge_backward(edge.get_second(), edge.get_first(), edge.get_weight());
+        sgl::core::edge edge_backward(edge.get_second(), edge.get_first(), edge.get_weight());
         it_backward = this->edges.find(edge_backward);
     }
 
@@ -164,7 +164,7 @@ bool sgl::view::edge_list::exists(const sgl::edge& edge) const
 
 
 
-bool sgl::view::edge_list::exists(const sgl::node& node) const
+bool sgl::view::edge_list::exists(const sgl::core::node& node) const
 {
     return this->nodes.find(node) != this->nodes.end();
 }

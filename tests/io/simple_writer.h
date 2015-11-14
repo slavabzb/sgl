@@ -4,7 +4,7 @@
 
 #include <cxxtest/TestSuite.h>
 
-#include <sgl/view/simple_writer.h>
+#include <sgl/io/simple_writer.h>
 #include <sgl/view/adjacency_matrix.h>
 #include <sgl/view/adjacency_list.h>
 #include <sgl/view/edge_list.h>
@@ -15,7 +15,7 @@ class simple_writer_test: public CxxTest::TestSuite
 {
     std::stringstream stringstream;
     std::string string;
-    sgl::view::writer_t writer;
+    sgl::io::writer_t writer;
     sgl::view::view_t view;
  
     
@@ -24,7 +24,7 @@ public:
     virtual void setUp() override
     {
         this->stringstream.str(std::string());
-        this->writer = std::make_shared<sgl::view::simple_writer>(this->stringstream);
+        this->writer = std::make_shared<sgl::io::simple_writer>(this->stringstream);
     }
     
     
@@ -72,8 +72,8 @@ private:
                 
         this->view = std::make_shared<sgl::view::adjacency_matrix>(3);
         
-        sgl::edge edge0(0, 1, 2);
-        sgl::edge edge1(1, 2, 5);
+        sgl::core::edge edge0(0, 1, 2);
+        sgl::core::edge edge1(1, 2, 5);
         
         this->view->add_edge(edge0);       
         this->view->add_edge(edge1);
@@ -94,13 +94,13 @@ private:
         this->view = std::make_shared<sgl::view::adjacency_list>(0, 1);
         
         const std::size_t nodes = 4;
-        for(sgl::node_id_t node = 0; node < nodes; ++node)
+        for(sgl::core::node_id_t node = 0; node < nodes; ++node)
         {
             this->view->add_node(node);
         }
         
-        sgl::edge edge0(0, 1, 2);
-        sgl::edge edge1(0, 3, 5);
+        sgl::core::edge edge0(0, 1, 2);
+        sgl::core::edge edge1(0, 3, 5);
         
         this->view->add_edge(edge0);       
         this->view->add_edge(edge1);
@@ -119,12 +119,12 @@ private:
         this->view = std::make_shared<sgl::view::edge_list>(0, 1);
         
         const std::size_t nodes = 4;
-        for(sgl::node_id_t node = 0; node < nodes; ++node)
+        for(sgl::core::node_id_t node = 0; node < nodes; ++node)
         {
             this->view->add_node(node);
         }
         
-        this->view->add_edge(sgl::edge(0, 1, 2));
-        this->view->add_edge(sgl::edge(0, 3, 5));
+        this->view->add_edge(sgl::core::edge(0, 1, 2));
+        this->view->add_edge(sgl::core::edge(0, 3, 5));
     }
 };

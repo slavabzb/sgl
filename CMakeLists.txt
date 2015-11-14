@@ -48,7 +48,7 @@ if(BUILD_TESTS)
 
         set(EXECUTABLE_OUTPUT_PATH ${CXXTEST_BIN_DIR})
 
-        file(GLOB src_list "${CXXTEST_SRC_DIR}/*.h")
+        file(GLOB_RECURSE src_list "${CXXTEST_SRC_DIR}/*.h")
         foreach(src ${src_list})
             get_filename_component(test_name ${src} NAME_WE)
             set(test_gen_src "${CXXTEST_GEN_DIR}/${test_name}.cpp")

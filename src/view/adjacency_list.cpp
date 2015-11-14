@@ -26,7 +26,7 @@ sgl::view::adjacency_list::~adjacency_list()
 
 
 
-void sgl::view::adjacency_list::add_node(const node& node)
+void sgl::view::adjacency_list::add_node(const sgl::core::node& node)
 {
     adjacency_info_t adjacency_info = std::make_pair(node, adjacency_nodes_t());
     this->list.insert(adjacency_info);
@@ -34,7 +34,7 @@ void sgl::view::adjacency_list::add_node(const node& node)
 
 
 
-void sgl::view::adjacency_list::add_edge(const sgl::edge& edge)
+void sgl::view::adjacency_list::add_edge(const sgl::core::edge& edge)
 {
     list_t::iterator it = this->list.find(edge.get_first());
 
@@ -135,7 +135,7 @@ void sgl::view::adjacency_list::add_edge(const sgl::edge& edge)
 
 
 
-void sgl::view::adjacency_list::remove_node(const sgl::node& node)
+void sgl::view::adjacency_list::remove_node(const sgl::core::node& node)
 {
     for(list_t::iterator it = this->list.begin(); it != this->list.end(); ++it)
     {
@@ -167,7 +167,7 @@ void sgl::view::adjacency_list::remove_node(const sgl::node& node)
 
 
 
-void sgl::view::adjacency_list::remove_edge(const sgl::edge& edge)
+void sgl::view::adjacency_list::remove_edge(const sgl::core::edge& edge)
 {
     list_t::iterator it = this->list.find(edge.get_first());
 
@@ -228,9 +228,9 @@ sgl::view::type sgl::view::adjacency_list::get_type() const
 
 
 
-sgl::node_set_t sgl::view::adjacency_list::get_nodes() const
+sgl::core::node_set_t sgl::view::adjacency_list::get_nodes() const
 {
-    sgl::node_set_t nodes;
+    sgl::core::node_set_t nodes;
 
     for(const adjacency_info_t& adjacency_info : this->list)
     {
@@ -247,19 +247,19 @@ sgl::node_set_t sgl::view::adjacency_list::get_nodes() const
 
 
 
-sgl::edge_set_t sgl::view::adjacency_list::get_edges() const
+sgl::core::edge_set_t sgl::view::adjacency_list::get_edges() const
 {
-    sgl::edge_set_t edges;
+    sgl::core::edge_set_t edges;
 
     for(const adjacency_info_t& adjacency_info : this->list)
     {
         for(const edge_info_t& edge_info : adjacency_info.second)
         {
-            sgl::edge edge_forward(adjacency_info.first, edge_info.first, edge_info.second);
-            sgl::edge edge_backward(edge_info.first, adjacency_info.first, edge_info.second);
+            sgl::core::edge edge_forward(adjacency_info.first, edge_info.first, edge_info.second);
+            sgl::core::edge edge_backward(edge_info.first, adjacency_info.first, edge_info.second);
 
-            sgl::edge_set_t::const_iterator it_forward = edges.find(edge_forward);
-            sgl::edge_set_t::const_iterator it_backward = edges.find(edge_backward);
+            sgl::core::edge_set_t::const_iterator it_forward = edges.find(edge_forward);
+            sgl::core::edge_set_t::const_iterator it_backward = edges.find(edge_backward);
 
             if(it_forward == edges.end() && it_backward == edges.end())
             {
@@ -273,7 +273,7 @@ sgl::edge_set_t sgl::view::adjacency_list::get_edges() const
 
 
 
-bool sgl::view::adjacency_list::exists(const sgl::edge& edge) const
+bool sgl::view::adjacency_list::exists(const sgl::core::edge& edge) const
 {
     bool exists = false;
 
@@ -305,7 +305,7 @@ bool sgl::view::adjacency_list::exists(const sgl::edge& edge) const
 
 
 
-bool sgl::view::adjacency_list::exists(const sgl::node& node) const
+bool sgl::view::adjacency_list::exists(const sgl::core::node& node) const
 {
     bool exists = false;
 
@@ -345,7 +345,7 @@ bool sgl::view::adjacency_list::exists(const sgl::node& node) const
 
 
 sgl::view::adjacency_list::adjacency_nodes_t
-sgl::view::adjacency_list::get_adjacency_nodes(const sgl::node& node) const
+sgl::view::adjacency_list::get_adjacency_nodes(const sgl::core::node& node) const
 {
     return this->list.at(node);
 }
@@ -395,14 +395,14 @@ sgl::view::adjacency_list& sgl::view::adjacency_list::operator=(const sgl::view:
 
     this->list.clear();
 
-    sgl::edge_set_t edges = rhs.get_edges();
-    for(const sgl::edge& edge : edges)
+    sgl::core::edge_set_t edges = rhs.get_edges();
+    for(const sgl::core::edge& edge : edges)
     {
         this->add_edge(edge);
     }
 
-    sgl::node_set_t nodes = rhs.get_nodes();
-    for(const sgl::node& node : nodes)
+    sgl::core::node_set_t nodes = rhs.get_nodes();
+    for(const sgl::core::node& node : nodes)
     {
         if(!this->exists(node))
         {

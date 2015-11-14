@@ -2,10 +2,10 @@
 
 
 
-sgl::edge::edge(
-    const sgl::node& first,
-    const sgl::node& second,
-    sgl::weight_t weight)
+sgl::core::edge::edge(
+    const sgl::core::node& first,
+    const sgl::core::node& second,
+    sgl::core::weight_t weight)
         : first(first)
         , second(second)
         , weight(weight)
@@ -15,35 +15,35 @@ sgl::edge::edge(
 
 
 
-const sgl::node& sgl::edge::get_first() const
+const sgl::core::node& sgl::core::edge::get_first() const
 {
     return this->first;
 }
 
 
 
-const sgl::node& sgl::edge::get_second() const
+const sgl::core::node& sgl::core::edge::get_second() const
 {
     return this->second;
 }
 
 
 
-void sgl::edge::set_weight(sgl::weight_t weight)
+void sgl::core::edge::set_weight(sgl::core::weight_t weight)
 {
     this->weight = weight;
 }
 
 
 
-sgl::weight_t sgl::edge::get_weight() const
+sgl::core::weight_t sgl::core::edge::get_weight() const
 {
     return this->weight;
 }
 
 
 
-std::string sgl::edge::to_string() const
+std::string sgl::core::edge::to_string() const
 {
     std::string string =
         "first: " + std::to_string(this->first.get_id()) + ", "
@@ -55,7 +55,7 @@ std::string sgl::edge::to_string() const
 
 
 
-bool sgl::edge::operator<(const edge& rhs) const
+bool sgl::core::edge::operator<(const edge& rhs) const
 {
     bool less =
         (this->first < rhs.first) ||
@@ -67,7 +67,7 @@ bool sgl::edge::operator<(const edge& rhs) const
 
 
 
-bool sgl::edge::operator==(const edge& rhs) const
+bool sgl::core::edge::operator==(const edge& rhs) const
 {
     bool equal =
         (this->first == rhs.first) &&

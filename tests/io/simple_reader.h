@@ -4,7 +4,7 @@
 
 #include <cxxtest/TestSuite.h>
 
-#include <sgl/view/simple_reader.h>
+#include <sgl/io/simple_reader.h>
 #include <sgl/view/adjacency_matrix.h>
 #include <sgl/view/adjacency_list.h>
 #include <sgl/view/edge_list.h>
@@ -13,14 +13,14 @@
 class simple_reader_test: public CxxTest::TestSuite
 {
     std::stringstream stringstream;
-    sgl::view::reader_t reader;
-    sgl::node_set_t nodes;
-    sgl::edge_set_t edges;
+    sgl::io::reader_t reader;
+    sgl::core::node_set_t nodes;
+    sgl::core::edge_set_t edges;
 
 public:
     virtual void setUp() override
     {
-        this->reader = std::make_shared<sgl::view::simple_reader>(this->stringstream);
+        this->reader = std::make_shared<sgl::io::simple_reader>(this->stringstream);
         this->stringstream.str(std::string());
     }
     
@@ -98,17 +98,17 @@ public:
         TS_ASSERT(!edge_list->is_oriented());
         TS_ASSERT(edge_list->is_weighted());
         
-        sgl::node_set_t nodes = edge_list->get_nodes();               
+        sgl::core::node_set_t nodes = edge_list->get_nodes();               
         TS_ASSERT_EQUALS(nodes.size(), 4);
         TS_ASSERT(nodes.find(0) != nodes.end());
         TS_ASSERT(nodes.find(1) != nodes.end());
         TS_ASSERT(nodes.find(2) != nodes.end());
         TS_ASSERT(nodes.find(3) != nodes.end());
         
-        sgl::edge_set_t edges = edge_list->get_edges();
+        sgl::core::edge_set_t edges = edge_list->get_edges();
         TS_ASSERT_EQUALS(edges.size(), 2);
-        TS_ASSERT(edges.find(sgl::edge(0, 1, 2)) != edges.end());
-        TS_ASSERT(edges.find(sgl::edge(0, 3, 5)) != edges.end());
+        TS_ASSERT(edges.find(sgl::core::edge(0, 1, 2)) != edges.end());
+        TS_ASSERT(edges.find(sgl::core::edge(0, 3, 5)) != edges.end());
     }
     
 private:

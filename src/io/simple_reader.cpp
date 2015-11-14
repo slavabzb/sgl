@@ -1,13 +1,13 @@
 #include <sstream>
 
-#include <sgl/view/simple_reader.h>
+#include <sgl/io/simple_reader.h>
 #include <sgl/view/adjacency_matrix.h>
 #include <sgl/view/adjacency_list.h>
 #include <sgl/view/edge_list.h>
 #include <sgl/details/converter.h>
 
 
-sgl::view::simple_reader::simple_reader(std::istream& istream)
+sgl::io::simple_reader::simple_reader(std::istream& istream)
     : istream(istream)
 {
 
@@ -15,14 +15,14 @@ sgl::view::simple_reader::simple_reader(std::istream& istream)
 
 
 
-sgl::view::simple_reader::~simple_reader()
+sgl::io::simple_reader::~simple_reader()
 {
 
 }
 
 
 
-sgl::view::view_t sgl::view::simple_reader::read()
+sgl::view::view_t sgl::io::simple_reader::read()
 {
     sgl::view::view_t view;
 
@@ -49,7 +49,7 @@ sgl::view::view_t sgl::view::simple_reader::read()
 
 
 
-void sgl::view::simple_reader::read_adjacency_matrix(sgl::view::view_t& view)
+void sgl::io::simple_reader::read_adjacency_matrix(sgl::view::view_t& view)
 {
     std::size_t nodes = 0;
     this->istream >> nodes;
@@ -67,10 +67,10 @@ void sgl::view::simple_reader::read_adjacency_matrix(sgl::view::view_t& view)
     {
         for(std::size_t column = 0; column < nodes; ++column)
         {
-            sgl::weight_t weight;
+            sgl::core::weight_t weight;
             this->istream >> weight;
 
-            sgl::edge edge(row, column, weight);
+            sgl::core::edge edge(row, column, weight);
             if(!view->exists(edge))
             {
                 view->add_edge(edge);
@@ -81,7 +81,7 @@ void sgl::view::simple_reader::read_adjacency_matrix(sgl::view::view_t& view)
 
 
 
-void sgl::view::simple_reader::read_adjacency_list(sgl::view::view_t& view)
+void sgl::io::simple_reader::read_adjacency_list(sgl::view::view_t& view)
 {
     std::size_t nodes = 0;
     this->istream >> nodes;
@@ -96,7 +96,7 @@ void sgl::view::simple_reader::read_adjacency_list(sgl::view::view_t& view)
 
     this->istream.ignore();
 
-    for(sgl::node_id_t first = 0; first < nodes; ++first)
+    for(sgl::core::node_id_t first = 0; first < nodes; ++first)
     {
         std::string adjacency_info;
         std::getline(this->istream, adjacency_info);
@@ -108,16 +108,16 @@ void sgl::view::simple_reader::read_adjacency_list(sgl::view::view_t& view)
 
             while(!stringstream.eof())
             {
-                sgl::node_id_t second = 0;
+                sgl::core::node_id_t second = 0;
                 stringstream >> second;
 
-                sgl::weight_t weight = 0;
+                sgl::core::weight_t weight = 0;
                 if(view->is_weighted())
                 {
                     stringstream >> weight;
                 }
 
-                view->add_edge(sgl::edge(first, second, weight));
+                view->add_edge(sgl::core::edge(first, second, weight));
             }
         }
         else
@@ -129,7 +129,7 @@ void sgl::view::simple_reader::read_adjacency_list(sgl::view::view_t& view)
 
 
 
-void sgl::view::simple_reader::read_edge_list(sgl::view::view_t& view)
+void sgl::io::simple_reader::read_edge_list(sgl::view::view_t& view)
 {
     std::size_t nodes = 0;
     this->istream >> nodes;
@@ -145,7 +145,7 @@ void sgl::view::simple_reader::read_edge_list(sgl::view::view_t& view)
 
     view = std::make_shared<sgl::view::edge_list>(oriented, weighted);
 
-    for(sgl::node_id_t node = 0; node < nodes; ++node)
+    for(sgl::core::node_id_t node = 0; node < nodes; ++node)
     {
         view->add_node(node);
     }
@@ -164,19 +164,19 @@ void sgl::view::simple_reader::read_edge_list(sgl::view::view_t& view)
 
             while(!stringstream.eof())
             {
-                sgl::node_id_t first = 0;
+                sgl::core::node_id_t first = 0;
                 stringstream >> first;
 
-                sgl::node_id_t second = 0;
+                sgl::core::node_id_t second = 0;
                 stringstream >> second;
 
-                sgl::weight_t weight = 0;
+                sgl::core::weight_t weight = 0;
                 if(view->is_weighted())
                 {
                     stringstream >> weight;
                 }
 
-                view->add_edge(sgl::edge(first, second, weight));
+                view->add_edge(sgl::core::edge(first, second, weight));
             }
         }
     }

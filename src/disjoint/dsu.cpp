@@ -1,8 +1,8 @@
-#include <sgl/details/dsu.h>
+#include <sgl/disjoint/dsu.h>
 
 
 
-sgl::details::dsu::dsu(size_type size)
+disjoint::dsu::dsu(size_type size)
     : parent(size, 0)
     , rank(size, 0)
 {
@@ -14,7 +14,7 @@ sgl::details::dsu::dsu(size_type size)
 
 
 
-sgl::details::dsu::value_type sgl::details::dsu::find(value_type value)
+disjoint::dsu::value_type disjoint::dsu::find(value_type value)
 {
     if(value == this->parent[value])
     {
@@ -26,7 +26,7 @@ sgl::details::dsu::value_type sgl::details::dsu::find(value_type value)
 
 
 
-void sgl::details::dsu::unite(value_type first, value_type second)
+void disjoint::dsu::unite(value_type first, value_type second)
 {
     first = this->find(first);
     second = this->find(second);
@@ -49,7 +49,7 @@ void sgl::details::dsu::unite(value_type first, value_type second)
 
 
 
-sgl::details::dsu::size_type sgl::details::dsu::size() const
+disjoint::dsu::size_type disjoint::dsu::size() const
 {
     return this->parent.size();
 }

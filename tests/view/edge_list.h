@@ -39,7 +39,7 @@ public:
     
     void test_add_edge()
     {
-        sgl::edge edge(0, 1, 2);
+        sgl::core::edge edge(0, 1, 2);
         TS_ASSERT_THROWS_NOTHING(this->oriented_view->add_edge(edge));
         TS_ASSERT_EQUALS(this->oriented_view->nodes.size(), 2);
         TS_ASSERT(this->oriented_view->nodes.find(0) != this->oriented_view->nodes.end());
@@ -59,9 +59,9 @@ public:
         this->oriented_view->nodes.insert(2);
         this->oriented_view->nodes.insert(3);
         
-        this->oriented_view->edges.insert(sgl::edge(0, 1, 4));
-        this->oriented_view->edges.insert(sgl::edge(1, 2, 5));
-        this->oriented_view->edges.insert(sgl::edge(2, 3, 6));
+        this->oriented_view->edges.insert(sgl::core::edge(0, 1, 4));
+        this->oriented_view->edges.insert(sgl::core::edge(1, 2, 5));
+        this->oriented_view->edges.insert(sgl::core::edge(2, 3, 6));
         
         TS_ASSERT_THROWS_NOTHING(this->oriented_view->remove_node(2));
         TS_ASSERT_EQUALS(this->oriented_view->nodes.size(), 3);
@@ -70,9 +70,9 @@ public:
         TS_ASSERT(this->oriented_view->nodes.find(2) == this->oriented_view->nodes.end());
         TS_ASSERT(this->oriented_view->nodes.find(3) != this->oriented_view->nodes.end());
         TS_ASSERT_EQUALS(this->oriented_view->edges.size(), 1);
-        TS_ASSERT(this->oriented_view->edges.find(sgl::edge(0, 1, 4)) != this->oriented_view->edges.end());
-        TS_ASSERT(this->oriented_view->edges.find(sgl::edge(1, 2, 5)) == this->oriented_view->edges.end());
-        TS_ASSERT(this->oriented_view->edges.find(sgl::edge(2, 3, 6)) == this->oriented_view->edges.end());
+        TS_ASSERT(this->oriented_view->edges.find(sgl::core::edge(0, 1, 4)) != this->oriented_view->edges.end());
+        TS_ASSERT(this->oriented_view->edges.find(sgl::core::edge(1, 2, 5)) == this->oriented_view->edges.end());
+        TS_ASSERT(this->oriented_view->edges.find(sgl::core::edge(2, 3, 6)) == this->oriented_view->edges.end());
     }
     
     void test_remove_edge()
@@ -82,16 +82,16 @@ public:
         this->oriented_view->nodes.insert(2);
         this->oriented_view->nodes.insert(3);
         
-        this->oriented_view->edges.insert(sgl::edge(0, 1, 4));
-        this->oriented_view->edges.insert(sgl::edge(1, 2, 5));
-        this->oriented_view->edges.insert(sgl::edge(2, 3, 6));
+        this->oriented_view->edges.insert(sgl::core::edge(0, 1, 4));
+        this->oriented_view->edges.insert(sgl::core::edge(1, 2, 5));
+        this->oriented_view->edges.insert(sgl::core::edge(2, 3, 6));
         
-        TS_ASSERT_THROWS_NOTHING(this->oriented_view->remove_edge(sgl::edge(1, 2, 5)));
+        TS_ASSERT_THROWS_NOTHING(this->oriented_view->remove_edge(sgl::core::edge(1, 2, 5)));
         TS_ASSERT_EQUALS(this->oriented_view->nodes.size(), 4);
         TS_ASSERT_EQUALS(this->oriented_view->edges.size(), 2);
-        TS_ASSERT(this->oriented_view->edges.find(sgl::edge(0, 1, 4)) != this->oriented_view->edges.end());
-        TS_ASSERT(this->oriented_view->edges.find(sgl::edge(1, 2, 5)) == this->oriented_view->edges.end());
-        TS_ASSERT(this->oriented_view->edges.find(sgl::edge(2, 3, 6)) != this->oriented_view->edges.end());
+        TS_ASSERT(this->oriented_view->edges.find(sgl::core::edge(0, 1, 4)) != this->oriented_view->edges.end());
+        TS_ASSERT(this->oriented_view->edges.find(sgl::core::edge(1, 2, 5)) == this->oriented_view->edges.end());
+        TS_ASSERT(this->oriented_view->edges.find(sgl::core::edge(2, 3, 6)) != this->oriented_view->edges.end());
     }
     
     void test_get_nodes()
@@ -99,7 +99,7 @@ public:
         this->oriented_view->nodes.insert(0);
         this->oriented_view->nodes.insert(1);
         
-        sgl::node_set_t nodes;
+        sgl::core::node_set_t nodes;
         TS_ASSERT_THROWS_NOTHING(nodes = this->oriented_view->get_nodes());
         TS_ASSERT_EQUALS(nodes.size(), 2)
         TS_ASSERT(nodes.find(0) != nodes.end());
@@ -109,16 +109,16 @@ public:
     
     void test_get_edges()
     {
-        this->oriented_view->edges.insert(sgl::edge(0, 1, 4));
-        this->oriented_view->edges.insert(sgl::edge(1, 2, 5));
-        this->oriented_view->edges.insert(sgl::edge(2, 3, 6));
+        this->oriented_view->edges.insert(sgl::core::edge(0, 1, 4));
+        this->oriented_view->edges.insert(sgl::core::edge(1, 2, 5));
+        this->oriented_view->edges.insert(sgl::core::edge(2, 3, 6));
         
-        sgl::edge_set_t edges;
+        sgl::core::edge_set_t edges;
         TS_ASSERT_THROWS_NOTHING(edges = this->oriented_view->get_edges());
         TS_ASSERT_EQUALS(edges.size(), 3);
-        TS_ASSERT(this->oriented_view->edges.find(sgl::edge(0, 1, 4)) != this->oriented_view->edges.end());
-        TS_ASSERT(this->oriented_view->edges.find(sgl::edge(1, 2, 5)) != this->oriented_view->edges.end());
-        TS_ASSERT(this->oriented_view->edges.find(sgl::edge(2, 3, 6)) != this->oriented_view->edges.end());
+        TS_ASSERT(this->oriented_view->edges.find(sgl::core::edge(0, 1, 4)) != this->oriented_view->edges.end());
+        TS_ASSERT(this->oriented_view->edges.find(sgl::core::edge(1, 2, 5)) != this->oriented_view->edges.end());
+        TS_ASSERT(this->oriented_view->edges.find(sgl::core::edge(2, 3, 6)) != this->oriented_view->edges.end());
     }
     
     void test_exists()
@@ -128,24 +128,24 @@ public:
         this->oriented_view->nodes.insert(2);
         this->oriented_view->nodes.insert(3);
         
-        this->oriented_view->edges.insert(sgl::edge(0, 1, 4));
-        this->oriented_view->edges.insert(sgl::edge(1, 2, 5));
-        this->oriented_view->edges.insert(sgl::edge(2, 3, 6));
+        this->oriented_view->edges.insert(sgl::core::edge(0, 1, 4));
+        this->oriented_view->edges.insert(sgl::core::edge(1, 2, 5));
+        this->oriented_view->edges.insert(sgl::core::edge(2, 3, 6));
         
         TS_ASSERT(this->oriented_view->exists(2));
         TS_ASSERT(!this->oriented_view->exists(4));
-        TS_ASSERT(this->oriented_view->exists(sgl::edge(0, 1, 4)));
-        TS_ASSERT(!this->oriented_view->exists(sgl::edge(1, 0, 4)));
+        TS_ASSERT(this->oriented_view->exists(sgl::core::edge(0, 1, 4)));
+        TS_ASSERT(!this->oriented_view->exists(sgl::core::edge(1, 0, 4)));
         
-        this->not_oriented_view->edges.insert(sgl::edge(0, 1, 4));
+        this->not_oriented_view->edges.insert(sgl::core::edge(0, 1, 4));
         
-        TS_ASSERT(this->not_oriented_view->exists(sgl::edge(0, 1, 4)));
-        TS_ASSERT(this->not_oriented_view->exists(sgl::edge(1, 0, 4)));
+        TS_ASSERT(this->not_oriented_view->exists(sgl::core::edge(0, 1, 4)));
+        TS_ASSERT(this->not_oriented_view->exists(sgl::core::edge(1, 0, 4)));
     }
     
     void test_conversion()
     {
-        sgl::edge edge(1, 2, 3);
+        sgl::core::edge edge(1, 2, 3);
         
         {
             sgl::view::edge_list rhs(0, 1);
@@ -164,13 +164,13 @@ public:
             
             TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
             
-            sgl::node_set_t nodes = this->not_oriented_view->get_nodes();
+            sgl::core::node_set_t nodes = this->not_oriented_view->get_nodes();
             TS_ASSERT_EQUALS(nodes.size(), 3);
             TS_ASSERT(nodes.find(0) != nodes.end());
             TS_ASSERT(nodes.find(1) != nodes.end());
             TS_ASSERT(nodes.find(2) != nodes.end());
             
-            sgl::edge_set_t edges = this->not_oriented_view->get_edges();
+            sgl::core::edge_set_t edges = this->not_oriented_view->get_edges();
             TS_ASSERT_EQUALS(edges.size(), 1);
             TS_ASSERT_EQUALS(*edges.begin(), edge);
         }
@@ -182,14 +182,14 @@ public:
             
             TS_ASSERT_THROWS_NOTHING(*this->not_oriented_view = rhs);
             
-            sgl::node_set_t nodes = this->not_oriented_view->get_nodes();
+            sgl::core::node_set_t nodes = this->not_oriented_view->get_nodes();
             TS_ASSERT_EQUALS(nodes.size(), 3);
             TS_ASSERT(nodes.find(0) == nodes.end());
             TS_ASSERT(nodes.find(1) != nodes.end());
             TS_ASSERT(nodes.find(2) != nodes.end());
             TS_ASSERT(nodes.find(3) != nodes.end());
             
-            sgl::edge_set_t edges = this->not_oriented_view->get_edges();
+            sgl::core::edge_set_t edges = this->not_oriented_view->get_edges();
             TS_ASSERT_EQUALS(edges.size(), 1);
             TS_ASSERT_EQUALS(*edges.begin(), edge);
         }

@@ -1,14 +1,14 @@
 #include <sgl/core/node.h>
 
+#include <sgl/io/simple_writer.h>
 #include <sgl/view/adjacency_matrix.h>
 #include <sgl/view/adjacency_list.h>
 #include <sgl/view/edge_list.h>
 #include <sgl/details/converter.h>
-#include <sgl/view/simple_writer.h>
 
 
 
-sgl::view::simple_writer::simple_writer(std::ostream& ostream)
+sgl::io::simple_writer::simple_writer(std::ostream& ostream)
     : ostream(ostream)
 {
 
@@ -16,14 +16,14 @@ sgl::view::simple_writer::simple_writer(std::ostream& ostream)
 
 
 
-sgl::view::simple_writer::~simple_writer()
+sgl::io::simple_writer::~simple_writer()
 {
 
 }
 
 
 
-void sgl::view::simple_writer::write(sgl::view::const_view_t& view)
+void sgl::io::simple_writer::write(sgl::view::const_view_t& view)
 {
     sgl::view::type type = view->get_type();
 
@@ -45,7 +45,7 @@ void sgl::view::simple_writer::write(sgl::view::const_view_t& view)
 
 
 
-void sgl::view::simple_writer::write_adjacency_matrix(sgl::view::const_view_t& view)
+void sgl::io::simple_writer::write_adjacency_matrix(sgl::view::const_view_t& view)
 {
     sgl::view::const_adjacency_matrix_t adjacency_matrix =
         std::dynamic_pointer_cast<const sgl::view::adjacency_matrix>(view);
@@ -62,9 +62,9 @@ void sgl::view::simple_writer::write_adjacency_matrix(sgl::view::const_view_t& v
     this->ostream << adjacency_matrix->is_oriented() << ' ';
     this->ostream << adjacency_matrix->is_weighted() << '\n';
 
-    for(sgl::node_id_t first = 0; first < nodes_count; ++first)
+    for(sgl::core::node_id_t first = 0; first < nodes_count; ++first)
     {
-        for(sgl::node_id_t second = 0; second < nodes_count - 1; ++second)
+        for(sgl::core::node_id_t second = 0; second < nodes_count - 1; ++second)
         {
             this->ostream << adjacency_matrix->get_edge_weight(first, second) << ' ';
         }
@@ -76,7 +76,7 @@ void sgl::view::simple_writer::write_adjacency_matrix(sgl::view::const_view_t& v
 
 
 
-void sgl::view::simple_writer::write_adjacency_list(
+void sgl::io::simple_writer::write_adjacency_list(
     sgl::view::const_view_t& view)
 {
     sgl::view::const_adjacency_list_t adjacency_list =
@@ -88,13 +88,13 @@ void sgl::view::simple_writer::write_adjacency_list(
             "can't write: the type of view is not a adjacency_list");
     }
 
-    sgl::node_set_t nodes = adjacency_list->get_nodes();
+    sgl::core::node_set_t nodes = adjacency_list->get_nodes();
 
     this->ostream << nodes.size() << '\n';
     this->ostream << adjacency_list->is_oriented() << ' ';
     this->ostream << adjacency_list->is_weighted() << '\n';
 
-    for(const sgl::node& node : nodes)
+    for(const sgl::core::node& node : nodes)
     {
         sgl::view::adjacency_list::adjacency_nodes_t adjacency_nodes =
             adjacency_list->get_adjacency_nodes(node);
@@ -127,7 +127,7 @@ void sgl::view::simple_writer::write_adjacency_list(
 
 
 
-void sgl::view::simple_writer::write_edge_list(sgl::view::const_view_t& view)
+void sgl::io::simple_writer::write_edge_list(sgl::view::const_view_t& view)
 {
     sgl::view::const_edge_list_t edge_list = std::dynamic_pointer_cast<const sgl::view::edge_list>(view);
 
@@ -137,8 +137,8 @@ void sgl::view::simple_writer::write_edge_list(sgl::view::const_view_t& view)
             "can't write: the type of view is not a edge_list");
     }
 
-    sgl::node_set_t nodes = edge_list->get_nodes();
-    sgl::edge_set_t edges = edge_list->get_edges();
+    sgl::core::node_set_t nodes = edge_list->get_nodes();
+    sgl::core::edge_set_t edges = edge_list->get_edges();
 
     this->ostream << nodes.size() << ' ';
     this->ostream << edges.size() << '\n';
@@ -146,7 +146,7 @@ void sgl::view::simple_writer::write_edge_list(sgl::view::const_view_t& view)
     this->ostream << edge_list->is_oriented() << ' ';
     this->ostream << edge_list->is_weighted() << '\n';
 
-    for(const sgl::edge& edge : edges)
+    for(const sgl::core::edge& edge : edges)
     {
         this->ostream << edge.get_first().get_id() << ' ' << edge.get_second().get_id();
 
