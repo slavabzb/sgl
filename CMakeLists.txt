@@ -14,6 +14,7 @@ set(TARGET_SRC_PATH "src")
 set(TARGET_LINK_LIBS )
 
 set(FAKEIT_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/FakeIt")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 set(LIBRARY_OUTPUT_PATH "lib")
 
@@ -29,6 +30,9 @@ file(GLOB_RECURSE TARGET_SRC "${TARGET_SRC_PATH}/*.cpp")
 add_library(${TARGET} SHARED ${TARGET_SRC})
 target_link_libraries(${TARGET} ${TARGET_LINK_LIBS})
 set_target_properties(${TARGET} PROPERTIES VERSION ${PROJECT_VERSION})
+
+include("${CMAKE_MODULE_PATH}/include_foreach.cmake")
+include_foreach(${TARGET_INCLUDE_PATH} "*.h" "docs/copyright.txt")
 
 if(BUILD_TESTS)
     find_package(CxxTest)
@@ -75,18 +79,19 @@ endif()
 if(BUILD_DOCS)
     find_package(Doxygen)
     if(DOXYGEN_FOUND)
-        set(DOCS_SRC_DIR "docs")
-        set(DOCS_OUT_DIR "docs")
-        set(DOCS_INSTALL_DIR "docs")
+        set(DOCS_SRC_DIR "${CMAKE_SOURCE_DIR}/docs")
+        set(DOCS_OUT_DIR "${CMAKE_BINARY_DIR}/docs")
+        set(DOCS_INSTALL_DIR ${CMAKE_INSTALL_PREFIX})
         set(DOCS_DIRS
             "${CMAKE_SOURCE_DIR}/include/sgl \\
-            ${CMAKE_SOURCE_DIR}/${DOCS_SRC_DIR}")
+            ${DOCS_SRC_DIR}")
 
-        configure_file(${DOCS_SRC_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+        configure_file(${DOCS_SRC_DIR}/Doxyfile.in ${CMAKE_BINARY_DIR}/Doxyfile)
         
         add_custom_target(docs ALL
             ${CMAKE_COMMAND} -E make_directory ${DOCS_OUT_DIR}
-            COMMAND doxygen 2>doxygen.log)
+            COMMAND doxygen 2>doxygen.log
+            COMMAND test -f ./doxygen.log && echo "Error occurred while doxygen compiling documentation. Check doxygen.log")
 
         install(DIRECTORY ${DOCS_OUT_DIR}
             DESTINATION ${DOCS_INSTALL_DIR}
@@ -108,3 +113,7 @@ install(TARGETS ${TARGET}
         OWNER_WRITE OWNER_READ OWNER_EXECUTE
         GROUP_WRITE GROUP_READ OWNER_EXECUTE
         WORLD_READ)
+
+add_custom_target(uninstall
+    COMMAND "${CMAKE_COMMAND}" -DINSTALL_DIR=${CMAKE_INSTALL_PREFIX} -P
+    "${CMAKE_MODULE_PATH}/uninstall.cmake")
