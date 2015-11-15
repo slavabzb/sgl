@@ -1,0 +1,94 @@
+/*!@page sr-graph SR-graph
+
+@section sr-graph-about Simple graph representation.
+There are a lot of ways to represent a graph. @ref sgl uses several graph
+representations called @ref sr-graph representations or @b views.
+When we said that graph is a @ref sr-graph we mean that graph is
+<i><b>S</b>iply <b>R</b>epresented</i> and uses one of the views listed below.
+
+
+
+@subsection adjacency_matrix Adjacency matrix view
+The view uses an adjacency matrix to represent a graph.
+
+The view has the following template.
+@code{.unparsed}
+C N W
+a a a ...
+a a a ...
+...
+a a a ...
+(empty line)
+@endcode
+
+The abbreviations have the following meanings.
+- @b C - a character stands for that kind of graph view.
+- @b N - a number of graph nodes.
+- @b W - flag. If W is equal to 1, graph is weighted (each edge has a weight), otherwise not.
+- @b a - a number placed in @b i-th row and @b j-th column describes an edge starts from
+the @b i-th node and ends to the @b j-th node. If the number is equal to 0, there is
+no such edge in the graph. Otherwise the meaning of the
+number depends on weight property of the graph.
+    - If graph is weighted, the number means a weight of the edge;
+    - If graph is not weighted and the number is equal to 1, there is such edge
+in the graph.
+
+@b Precondition: template should has @b N lines after first and @b N numbers per line.
+
+
+
+@subsection adjacency_list Adjacency list view
+The view uses an adjacency list to represent a graph.
+
+The view has the following template.
+@code{.unparsed}
+L N
+R W
+b [w] b [w] b [w] ...
+b [w] b [w] b [w] ...
+...
+b [w] b [w] b [w] ...
+(empty line)
+@endcode
+
+The abbreviations have the following meanings.
+- @b L - a character stands for that kind of graph view.
+- @b N - a number of graph nodes.
+- @b R - flag. If R is equal to 1, graph is oriented (each edge has a direction), otherwise not.
+- @b W - flag. If W is equal to 1, graph is weighted (each edge has a weight), otherwise not.
+- @b b - a number placed in @b i-th row describes an edge starts from
+the @b i-th node and ends to the @b b-th node.
+- @b w - a number placed <b>only if graph is weighted (W is equal to 1)</b> stands for the weight of the edge.
+
+@b Precondition: template should has @b N lines after first two.
+
+
+
+@subsection edge_list Edge list view
+The view uses an edge list to represent a graph.
+
+The view has the following template.
+@code{.unparsed}
+E N M
+R W
+a b [w] a b [w] a b [w] ...
+a b [w] a b [w] a b [w] ...
+...
+a b [w] a b [w] a b [w] ...
+(empty line)
+@endcode
+
+The abbreviations have the following meanings.
+- @b E - a character stands for that kind of graph view.
+- @b N - a number of graph nodes.
+- @b M - a number of graph edges.
+- @b R - flag. If R is equal to 1, graph is oriented (each edge has a direction), otherwise not.
+- @b W - flag. If W is equal to 1, graph is weighted (each edge has a weight), otherwise not.
+- @b a - a number stands for the beginning of the edge.
+- @b b - a number stands for the end of the edge.
+- @b w - a number placed <b>only if graph is weighted (W is equal to 1)</b> stands for the weight of the edge.
+
+@b Precondition: template should has @b M lines after first two.
+
+
+*/

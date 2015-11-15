@@ -171,33 +171,6 @@ bool sgl::view::edge_list::exists(const sgl::core::node& node) const
 
 
 
-bool sgl::view::edge_list::operator==(const edge_list& rhs) const
-{
-    if(this->is_oriented() != rhs.is_oriented())
-    {
-        return false;
-    }
-
-    if(this->is_weighted() != rhs.is_weighted())
-    {
-        return false;
-    }
-
-    if(this->nodes != rhs.nodes)
-    {
-        return false;
-    }
-
-    if(this->edges != rhs.edges)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-
-
 sgl::view::edge_list& sgl::view::edge_list::operator=(const sgl::view::edge_list& rhs)
 {
     if(this == &rhs)
@@ -205,7 +178,10 @@ sgl::view::edge_list& sgl::view::edge_list::operator=(const sgl::view::edge_list
         return *this;
     }
 
-    this->check_flags(rhs);
+    if(this->is_oriented() != rhs.is_oriented() || this->is_weighted() != rhs.is_weighted())
+    {
+        throw std::invalid_argument("edge_list::operator=: can't assign: oriented/weighted flags mismatch");
+    }
 
     this->nodes = rhs.nodes;
     this->edges = rhs.edges;
@@ -217,7 +193,10 @@ sgl::view::edge_list& sgl::view::edge_list::operator=(const sgl::view::edge_list
 
 sgl::view::edge_list& sgl::view::edge_list::operator=(const sgl::view::view& rhs)
 {
-    this->check_flags(rhs);
+    if(this->is_oriented() != rhs.is_oriented() || this->is_weighted() != rhs.is_weighted())
+    {
+        throw std::invalid_argument("edge_list::operator=: can't assign: oriented/weighted flags mismatch");
+    }
 
     this->nodes = rhs.get_nodes();
     this->edges = rhs.get_edges();

@@ -2,13 +2,10 @@
 
 
 
-sgl::core::edge::edge(
-    const sgl::core::node& first,
-    const sgl::core::node& second,
-    sgl::core::weight_t weight)
-        : first(first)
-        , second(second)
-        , weight(weight)
+sgl::core::edge::edge(const sgl::core::node& first, const sgl::core::node& second, sgl::core::weight_t weight)
+    : first(first)
+    , second(second)
+    , weight(weight)
 {
 
 }

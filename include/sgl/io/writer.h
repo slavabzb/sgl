@@ -25,14 +25,22 @@ namespace sgl
 {
     namespace io
     {
+        /**
+         * Represents an interface for sgl::view::view writers.
+         */
         class writer
         {
         public:
             virtual ~writer() {}
 
+            /**
+             * Writes a sgl::view::view.
+             * 
+             * @param view - a sgl::view::view.
+             */
             virtual void write(sgl::view::const_view_t& view) = 0;
         };
 
-        typedef std::shared_ptr<writer> writer_t;
+        typedef std::shared_ptr<writer> writer_t;   ///< writer type.
     } // io
 } // sgl

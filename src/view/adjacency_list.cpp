@@ -352,28 +352,6 @@ sgl::view::adjacency_list::get_adjacency_nodes(const sgl::core::node& node) cons
 
 
 
-bool sgl::view::adjacency_list::operator==(const adjacency_list& rhs) const
-{
-    if(this->is_oriented() != rhs.is_oriented())
-    {
-        return false;
-    }
-
-    if(this->is_weighted() != rhs.is_weighted())
-    {
-        return false;
-    }
-
-    if(this->list != rhs.list)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-
-
 sgl::view::adjacency_list& sgl::view::adjacency_list::operator=(const sgl::view::adjacency_list& rhs)
 {
     if(this == &rhs)
@@ -381,7 +359,10 @@ sgl::view::adjacency_list& sgl::view::adjacency_list::operator=(const sgl::view:
         return *this;
     }
 
-    this->check_flags(rhs);
+    if(this->is_oriented() != rhs.is_oriented() || this->is_weighted() != rhs.is_weighted())
+    {
+        throw std::invalid_argument("adjacency_list::operator=: can't assign: oriented/weighted flags mismatch");
+    }
 
     this->list = rhs.list;
 
@@ -391,7 +372,10 @@ sgl::view::adjacency_list& sgl::view::adjacency_list::operator=(const sgl::view:
 
 sgl::view::adjacency_list& sgl::view::adjacency_list::operator=(const sgl::view::view& rhs)
 {
-    this->check_flags(rhs);
+    if(this->is_oriented() != rhs.is_oriented() || this->is_weighted() != rhs.is_weighted())
+    {
+        throw std::invalid_argument("adjacency_list::operator=: can't assign: oriented/weighted flags mismatch");
+    }
 
     this->list.clear();
 

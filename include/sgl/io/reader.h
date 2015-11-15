@@ -25,15 +25,23 @@ namespace sgl
 {
     namespace io
     {
+        /**
+         * Represents an interface for sgl::view::view readers.
+         */
         class reader
         {
         public:
             virtual ~reader() {}
 
+            /**
+             * Reads a view.
+             * 
+             * @return A view.
+             */
             virtual sgl::view::view_t read() = 0;
         };
 
-        typedef std::shared_ptr<reader> reader_t;
+        typedef std::shared_ptr<reader> reader_t;   ///< reader type.
 
     } // io
 } // sgl

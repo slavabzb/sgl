@@ -252,27 +252,6 @@ bool sgl::view::adjacency_matrix::in_range(
 
 
 
-bool sgl::view::adjacency_matrix::operator==(const adjacency_matrix& rhs) const
-{
-    if(this->is_oriented() != rhs.is_oriented())
-    {
-        return false;
-    }
-
-    if(this->is_weighted() != rhs.is_weighted())
-    {
-        return false;
-    }
-
-    if(this->matrix != rhs.matrix)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-
 sgl::view::adjacency_matrix& sgl::view::adjacency_matrix::operator=(const sgl::view::adjacency_matrix& rhs)
 {
     if(this == &rhs)
@@ -280,7 +259,10 @@ sgl::view::adjacency_matrix& sgl::view::adjacency_matrix::operator=(const sgl::v
         return *this;
     }
 
-    this->check_flags(rhs);
+    if(this->is_oriented() != rhs.is_oriented() || this->is_weighted() != rhs.is_weighted())
+    {
+        throw std::invalid_argument("adjacency_matrix::operator=: can't assign: oriented/weighted flags mismatch");
+    }
 
     this->matrix = rhs.matrix;
 
@@ -291,7 +273,10 @@ sgl::view::adjacency_matrix& sgl::view::adjacency_matrix::operator=(const sgl::v
 
 sgl::view::adjacency_matrix& sgl::view::adjacency_matrix::operator=(const sgl::view::view& rhs)
 {
-    this->check_flags(rhs);
+    if(this->is_oriented() != rhs.is_oriented() || this->is_weighted() != rhs.is_weighted())
+    {
+        throw std::invalid_argument("adjacency_matrix::operator=: can't assign: oriented/weighted flags mismatch");
+    }
 
     this->matrix.clear();
 

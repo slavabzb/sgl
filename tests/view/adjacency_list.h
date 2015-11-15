@@ -414,6 +414,20 @@ public:
     
     
     
+    void test_operator_equal()
+    {
+        TS_ASSERT(*this->oriented_view != *this->not_oriented_view);
+        
+        this->oriented_view->add_edge(sgl::core::edge(0, 1, 2));
+        this->oriented_view->add_node(2);
+        
+        sgl::view::adjacency_list copy(*this->oriented_view);
+        
+        TS_ASSERT(copy == *this->oriented_view);
+    }
+    
+    
+    
 private:
     void add_nodes(sgl::view::adjacency_list_t& view, std::size_t nodes)
     {

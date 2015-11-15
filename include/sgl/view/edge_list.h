@@ -24,21 +24,43 @@
 
 #include <sgl/view/view.h>
 
+#ifdef TESTS
 class edge_list_test;
+#endif
 
 namespace sgl
 {
     namespace view
     {
+        /**
+         * @ref edge_list
+         */
         class edge_list: public view
         {
         #ifdef TESTS
             friend class ::edge_list_test;
         #endif
 
+            using base_t = view;
+            
         public:
+            /**
+             * Constructor.
+             * Constructs an edge_list using given properties.
+             * 
+             * @param oriented - a flag; true, if graph is oriented, false otherwise,
+             * @param weighted - a flag; true, if graph is weighted, false otherwise.
+             */
             edge_list(bool oriented = false, bool weighted = false);
+            
+            /**
+             * Copy constructor.
+             * Constructs an edge_list using other as pattern.
+             * 
+             * @param other - a view to be constructed from.
+             */
             edge_list(const view& other);
+            
             virtual ~edge_list();
 
             virtual void add_node(const sgl::core::node& node) override;
@@ -54,9 +76,22 @@ namespace sgl
             virtual bool exists(const sgl::core::edge& edge) const override;
             virtual bool exists(const sgl::core::node& node) const override;
 
-            bool operator==(const edge_list& rhs) const;
-
+            /**
+             * Assigns rhs to the edge_list.
+             * 
+             * @param rhs - an edge_list to be assigned with.
+             * @return The edge_list.
+             * @throw std::invalid_argument if oriented/weighted flags are mismatched.
+             */
             edge_list& operator=(const edge_list& rhs);
+            
+            /**
+             * Assigns ths to the edge_list.
+             * 
+             * @param rhs - an edge_list to be assigned with.
+             * @return The edge_list.
+             * @throw std::invalid_argument if oriented/weighted flags are mismatched.
+             */
             edge_list& operator=(const view& rhs);
 
         private:
@@ -64,8 +99,8 @@ namespace sgl
             sgl::core::node_set_t nodes;
         };
 
-        typedef std::shared_ptr<edge_list> edge_list_t;
-        typedef const std::shared_ptr<const edge_list> const_edge_list_t;
+        typedef std::shared_ptr<edge_list> edge_list_t;                     ///< edge_list type.
+        typedef const std::shared_ptr<const edge_list> const_edge_list_t;   ///< const edge_list type.
 
     } // view
 } // sgl

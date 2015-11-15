@@ -44,7 +44,7 @@ namespace sgl
              * @param weight - weight of the edge.
              */
             edge(const node& first, const node& second, weight_t weight = 0);
-
+            
             /**
              * Retrieves the first node of the edge.
              * 
@@ -80,8 +80,20 @@ namespace sgl
              */
             std::string to_string() const;
 
-            // operators
+            /**
+             * Compares the edge and rhs.
+             * 
+             * @param rhs - an edge to be compared with.
+             * @return Flag; true, if the first node or the second node or the weight of the node is less than rhs ones.
+             */
             bool operator<(const edge& rhs) const;
+            
+            /**
+             * Compares the edge and rhs.
+             * 
+             * @param rhs - an edge to be compared with.
+             * @return Flag; true, if the first node and the second node and the weight of the node is equal to rhs ones.
+             */
             bool operator==(const edge& rhs) const;
 
         private:

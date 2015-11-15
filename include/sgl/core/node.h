@@ -59,9 +59,28 @@ namespace sgl
              */
             std::string to_string() const;
 
-            // operators
+            /**
+             * Compares the node and rhs.
+             * 
+             * @param rhs - a node to be compared with.
+             * @return Flag; true, if id of the node is less than rhs id.
+             */
             bool operator<(const node& rhs) const;
+            
+            /**
+             * Compares the node and rhs.
+             * 
+             * @param rhs - a node to be compared with.
+             * @return Flag; true, if id of the node is equal to rhs id.
+             */
             bool operator==(const node& rhs) const;
+            
+            /**
+             * Compares the node and rhs.
+             * 
+             * @param rhs - a node to be compared with.
+             * @return Flag; true, if id of the node is not equal to rhs id.
+             */
             bool operator!=(const node& rhs) const;
 
         private:

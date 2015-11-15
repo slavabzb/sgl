@@ -22,24 +22,46 @@
 #include <vector>
 #include <sgl/view/view.h>
 
+#ifdef TESTS
 class adjacency_matrix_test;
+#endif
 
 namespace sgl
 {
     namespace view
     {
+        /**
+         * @ref adjacency_matrix
+         */
         class adjacency_matrix: public view
         {
         #ifdef TESTS
             friend class ::adjacency_matrix_test;
         #endif
 
+            using base_t = view;
             using matrix_row_t = std::vector<sgl::core::node_id_t>;
             using matrix_t = std::vector<matrix_row_t>;    
 
         public:
+            /**
+             * Constructor.
+             * Constructs an adjacency_matrix using given properties.
+             * 
+             * @param nodes - a number of nodes in the view,
+             * @param oriented - a flag; true, if graph is oriented, false otherwise,
+             * @param weighted - a flag; true, if graph is weighted, false otherwise.
+             */
             adjacency_matrix(std::size_t nodes = 0, bool oriented = false, bool weighted = false);
+            
+            /**
+             * Copy constructor.
+             * Constructs an adjacency_matrix using other as pattern.
+             * 
+             * @param other - a view to be constructed from.
+             */
             adjacency_matrix(const view& other);
+            
             virtual ~adjacency_matrix();
 
             virtual void add_node(const sgl::core::node& node) override;
@@ -55,11 +77,32 @@ namespace sgl
             virtual bool exists(const sgl::core::edge& edge) const override;
             virtual bool exists(const sgl::core::node& node) const override;
 
+            /**
+             * Retrieves a weight of the edge.
+             * 
+             * @param first - the beginning of the edge,
+             * @param second - the end of the edge.
+             * @return A weight of the edge.
+             * @throw std::out_of_range if there is no first and/or second node in the adjacency_matrix.
+             */
             sgl::core::weight_t get_edge_weight(const sgl::core::node& first, const sgl::core::node& second) const;
 
-            bool operator==(const adjacency_matrix& rhs) const;
-
+            /**
+             * Assigns rhs to the adjacency_matrix.
+             * 
+             * @param rhs - an adjacency_matrix to be assigned with.
+             * @return The adjacency_matrix.
+             * @throw std::invalid_argument if oriented/weighted flags are mismatched.
+             */
             adjacency_matrix& operator=(const sgl::view::adjacency_matrix& rhs);
+            
+            /**
+             * Assigns ths to the adjacency_matrix.
+             * 
+             * @param rhs - an adjacency_matrix to be assigned with.
+             * @return The adjacency_matrix.
+             * @throw std::invalid_argument if oriented/weighted flags are mismatched.
+             */
             adjacency_matrix& operator=(const sgl::view::view& rhs);
 
         private:
@@ -69,7 +112,7 @@ namespace sgl
             matrix_t matrix;
         };
 
-        typedef std::shared_ptr<adjacency_matrix> adjacency_matrix_t;
-        typedef const std::shared_ptr<const adjacency_matrix> const_adjacency_matrix_t;
+        typedef std::shared_ptr<adjacency_matrix> adjacency_matrix_t;                       ///< adjacency_matrix type.
+        typedef const std::shared_ptr<const adjacency_matrix> const_adjacency_matrix_t;     ///< const adjacency_matrix type.
     } // view
 } // sgl

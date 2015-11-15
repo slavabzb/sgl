@@ -26,9 +26,21 @@ namespace sgl
 {
     namespace io
     {
+        /**
+         * A @ref sr-graph reader.
+         * 
+         * Reads @ref sr-graph from input stream.
+         */
         class simple_reader: public reader
         {
         public:
+            /**
+             * Constructor.
+             * 
+             * Constructs a simple_reader and provide istream as input stream.
+             * 
+             * @param istream - an input stream.
+             */
             simple_reader(std::istream& istream);
             virtual ~simple_reader();
 
@@ -43,6 +55,6 @@ namespace sgl
             std::istream& istream;
         };
 
-        typedef std::shared_ptr<simple_reader> simple_reader_t;
+        typedef std::shared_ptr<simple_reader> simple_reader_t;     ///< simple_reader type.
     } // io
 } // sgl

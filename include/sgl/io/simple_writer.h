@@ -26,9 +26,21 @@ namespace sgl
 {
     namespace io
     {
+        /**
+         * A @ref sr-graph writer.
+         * 
+         * Writes a @ref sr-graph to output stream.
+         */
         class simple_writer: public writer
         {
         public:
+            /**
+             * Constructor.
+             * 
+             * Constructs a simple_writer and provides ostream as output stream.
+             * 
+             * @param ostream - an output stream.
+             */
             simple_writer(std::ostream& ostream);
             virtual ~simple_writer();
 
@@ -43,6 +55,6 @@ namespace sgl
             std::ostream& ostream;
         };
 
-        typedef std::shared_ptr<simple_writer> simple_writer_t;
+        typedef std::shared_ptr<simple_writer> simple_writer_t;     ///< simple_writer type.
     } // io
 } // sgl

@@ -32,10 +32,34 @@ bool sgl::view::view::is_weighted() const
 
 
 
-void sgl::view::view::check_flags(const sgl::view::view& view) const
+bool sgl::view::view::operator==(const sgl::view::view& rhs) const
 {
-    if(this->is_oriented() != view.is_oriented() || this->is_weighted() != view.is_weighted())
+    if(this->is_oriented() != rhs.is_oriented())
     {
-        throw std::invalid_argument("view::check_flags: oriented / weighted flags mismatch");
+        return false;
     }
+
+    if(this->is_weighted() != rhs.is_weighted())
+    {
+        return false;
+    }
+
+    if(this->get_nodes() != rhs.get_nodes())
+    {
+        return false;
+    }
+
+    if(this->get_edges() != rhs.get_edges())
+    {
+        return false;
+    }
+
+    return true;
+}
+
+
+
+bool sgl::view::view::operator!=(const sgl::view::view& rhs) const
+{
+    return !(*this == rhs);
 }
