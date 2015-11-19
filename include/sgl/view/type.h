@@ -1,4 +1,6 @@
 /**
+ * @cond
+ *
  * Copyright (c) 2015-2016
  * 
  * Bezborodov, V.A. vyacheslav.bezborodov@gmail.com
@@ -15,19 +17,26 @@
  * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * @endcond
  */
 
 #pragma once
 
-namespace sgl {
-namespace view {
-
-enum class type: int8_t
+namespace sgl
 {
-    adjacency_matrix,
-    adjacency_list,
-    edge_list
-};
-
-} // view
+    namespace view
+    {
+        /**
+         * Graph representation types.
+         * 
+         * @ingroup view
+         */
+        enum class type: int8_t
+        {
+            adjacency_matrix,
+            adjacency_list,
+            edge_list
+        };
+    } // view
 } // sgl

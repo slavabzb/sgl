@@ -21,32 +21,35 @@
  * @endcond
  */
 
+/**
+ * @defgroup algo Algorithms
+ * Algorithms.
+ * 
+ * @defgroup core Core
+ * Main parts.
+ * 
+ * @defgroup io I/O
+ * Input/output.
+ * 
+ * @defgroup view Views
+ * Representations.
+ */
+
 #pragma once
 
+#include <sgl/algo/prim.h>
+
+#include <sgl/core/edge.h>
+#include <sgl/core/graph.h>
+#include <sgl/core/node.h>
+
+#include <sgl/io/reader.h>
+#include <sgl/io/writer.h>
+#include <sgl/io/simple_reader.h>
+#include <sgl/io/simple_writer.h>
+
 #include <sgl/view/view.h>
-
-namespace sgl
-{
-    namespace io
-    {
-        /**
-         * Represents an interface for sgl::view::view writers.
-         * 
-         * @ingroup io
-         */
-        class writer
-        {
-        public:
-            virtual ~writer() {}
-
-            /**
-             * Writes a sgl::view::view.
-             * 
-             * @param view - a sgl::view::view.
-             */
-            virtual void write(sgl::view::const_view_t& view) = 0;
-        };
-
-        typedef std::shared_ptr<writer> writer_t;   ///< writer type.
-    } // io
-} // sgl
+#include <sgl/view/type.h>
+#include <sgl/view/adjacency_matrix.h>
+#include <sgl/view/adjacency_list.h>
+#include <sgl/view/edge_list.h>

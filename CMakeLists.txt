@@ -8,12 +8,12 @@ set(PROJECT_VERSION_PATCH "0")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 
 set(TARGET ${PROJECT_NAME})
-set(TARGET_INSTALL_PATH "lib")
-set(TARGET_INCLUDE_PATH "include")
-set(TARGET_SRC_PATH "src")
+set(TARGET_INSTALL_PATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(TARGET_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
+set(TARGET_SRC_PATH "${CMAKE_SOURCE_DIR}/src")
 set(TARGET_LINK_LIBS )
 
-set(FAKEIT_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/FakeIt")
+set(FAKEIT_MODULE_PATH "${CMAKE_SOURCE_DIR}/FakeIt")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 set(LIBRARY_OUTPUT_PATH "lib")
@@ -31,8 +31,8 @@ add_library(${TARGET} SHARED ${TARGET_SRC})
 target_link_libraries(${TARGET} ${TARGET_LINK_LIBS})
 set_target_properties(${TARGET} PROPERTIES VERSION ${PROJECT_VERSION})
 
-include("${CMAKE_MODULE_PATH}/include_foreach.cmake")
-include_foreach(${TARGET_INCLUDE_PATH} "*.h" "docs/copyright.txt")
+include("${CMAKE_MODULE_PATH}/foreach.cmake")
+foreach_include(${TARGET_INCLUDE_PATH} "*.h" "docs/copyright.txt")
 
 if(BUILD_TESTS)
     find_package(CxxTest)
@@ -81,18 +81,19 @@ if(BUILD_DOCS)
     if(DOXYGEN_FOUND)
         set(DOCS_SRC_DIR "${CMAKE_SOURCE_DIR}/docs")
         set(DOCS_OUT_DIR "${CMAKE_BINARY_DIR}/docs")
+        set(DOCS_DIA_DIR "${DOCS_SRC_DIR}/dia")
         set(DOCS_LOGFILE "doxygen.log")
         set(DOCS_INSTALL_DIR ${CMAKE_INSTALL_PREFIX})
+
         set(DOCS_DIRS
-            "${CMAKE_SOURCE_DIR}/include/sgl \\
+            "${TARGET_INCLUDE_PATH}/sgl/ \\
             ${DOCS_SRC_DIR}")
 
         configure_file(${DOCS_SRC_DIR}/Doxyfile.in ${CMAKE_BINARY_DIR}/Doxyfile)
         
         add_custom_target(docs ALL
             ${CMAKE_COMMAND} -E make_directory ${DOCS_OUT_DIR}
-            COMMAND doxygen
-            COMMAND test -f "./${DOCS_LOGFILE}" && echo "Error occurred while doxygen compiling documentation. Check ${DOCS_LOGFILE}")
+            COMMAND doxygen)
 
         install(DIRECTORY ${DOCS_OUT_DIR}
             DESTINATION ${DOCS_INSTALL_DIR}

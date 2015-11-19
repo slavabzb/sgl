@@ -1,4 +1,6 @@
 /**
+ * @cond
+ *
  * Copyright (c) 2015-2016
  * 
  * Bezborodov, V.A. vyacheslav.bezborodov@gmail.com
@@ -15,6 +17,8 @@
  * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * @endcond
  */
 
 #pragma once
@@ -27,12 +31,13 @@ namespace sgl
     {
         /**
          * Prim's algorithm.
+         * Finds a minimum spanning tree for a weighted not oriented graph.
          * 
-         * Finds a minimum spanning tree for a weighted undirected graph.
-         *
-         * @param adjacency_list - an adjacency list view that contains source graph info
-         * @return Minimum spanning tree, if adjacency_list is NOT oriented and IS weighted;
+         * @param adjacency_list - an adjacency list view that contains source graph info.
+         * @return Minimum spanning tree, if adjacency_list is not oriented and is weighted;
          * nullptr otherwise.
+         * 
+         * @ingroup algo
          */
         sgl::view::view_t prim(sgl::view::const_adjacency_list_t adjacency_list);
     } // algo

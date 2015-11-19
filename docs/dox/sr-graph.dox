@@ -1,6 +1,8 @@
 /*!@page sr-graph SR-graph
 
-@section sr-graph-about Simple graph representation.
+@tableofcontents
+
+@section sr-graph-about Simple graph representation
 There are a lot of ways to represent a graph. @ref sgl uses several graph
 representations called @ref sr-graph representations or @b views.
 When we said that graph is a @ref sr-graph we mean that graph is
@@ -33,7 +35,7 @@ number depends on weight property of the graph.
     - If graph is not weighted and the number is equal to 1, there is such edge
 in the graph.
 
-@b Precondition: template should has @b N lines after first and @b N numbers per line.
+@note Template should has @b N lines after first and @b N numbers per line.
 
 
 
@@ -60,7 +62,7 @@ The abbreviations have the following meanings.
 the @b i-th node and ends to the @b b-th node.
 - @b w - a number placed <b>only if graph is weighted (W is equal to 1)</b> stands for the weight of the edge.
 
-@b Precondition: template should has @b N lines after first two.
+@note Template should has @b N lines after first two.
 
 
 
@@ -88,7 +90,6 @@ The abbreviations have the following meanings.
 - @b b - a number stands for the end of the edge.
 - @b w - a number placed <b>only if graph is weighted (W is equal to 1)</b> stands for the weight of the edge.
 
-@b Precondition: template should has @b M lines after first two.
-
+@note Template should has @b M lines after first two.
 
 */

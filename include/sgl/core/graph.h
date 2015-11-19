@@ -1,4 +1,6 @@
 /**
+ * @cond
+ *
  * Copyright (c) 2015-2016
  * 
  * Bezborodov, V.A. vyacheslav.bezborodov@gmail.com
@@ -15,6 +17,8 @@
  * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * @endcond
  */
 
 #pragma once
@@ -27,7 +31,9 @@ namespace sgl
     {
         /**
          * Graph.
-         * Graph represented in selected view.     
+         * Graph represented in selected view.
+         * 
+         * @ingroup core   
          */
         class graph
         {
