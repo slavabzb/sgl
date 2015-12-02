@@ -11,7 +11,7 @@ set(TARGET ${PROJECT_NAME})
 set(TARGET_INSTALL_PATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(TARGET_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
 set(TARGET_SRC_PATH "${CMAKE_SOURCE_DIR}/src")
-set(TARGET_LINK_LIBS )
+set(TARGET_LINK_LIBS)
 
 set(FAKEIT_MODULE_PATH "${CMAKE_SOURCE_DIR}/FakeIt")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -35,77 +35,16 @@ include("${CMAKE_MODULE_PATH}/foreach.cmake")
 foreach_include(${TARGET_INCLUDE_PATH} "*.h" "docs/copyright.txt")
 
 if(BUILD_TESTS)
-    find_package(CxxTest)
-    if(CXXTEST_FOUND)
-        include_directories(${CXXTEST_INCLUDE_DIR})
-        enable_testing()
-        add_definitions(-DTESTS)
-
-        set(CXXTEST_SRC_DIR "tests")
-        set(CXXTEST_OUT_DIR "tests")
-        set(CXXTEST_GEN_DIR "${CXXTEST_OUT_DIR}/src")
-        set(CXXTEST_BIN_DIR "${CXXTEST_OUT_DIR}/bin")
-
-        file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/${CXXTEST_OUT_DIR}")
-        file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/${CXXTEST_GEN_DIR}")
-        file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/${CXXTEST_BIN_DIR}")
-
-        set(EXECUTABLE_OUTPUT_PATH ${CXXTEST_BIN_DIR})
-
-        file(GLOB_RECURSE src_list "${CXXTEST_SRC_DIR}/*.h")
-        foreach(src ${src_list})
-            get_filename_component(test_name ${src} NAME_WE)
-            set(test_gen_src "${CXXTEST_GEN_DIR}/${test_name}.cpp")
-            cxxtest_add_test(${test_name} ${test_gen_src} ${src})
-            target_link_libraries(${test_name} ${PROJECT_NAME})
-        endforeach()
-    endif()
+    add_definitions(-DTESTS)
+	include(cxxtest)
 endif()
 
 if(BUILD_EXAMPLES)
-    set(EXAMPLES_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/examples")
-    set(EXAMPLES_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/examples")
-
-    file(MAKE_DIRECTORY ${EXAMPLES_OUTPUT_DIR})
-
-    file(GLOB EXAMPLES_SUBDIRS_LIST "${EXAMPLES_SOURCE_DIR}/*")
-    foreach(EXAMPLE_SUBDIR ${EXAMPLES_SUBDIRS_LIST})
-        if(IS_DIRECTORY ${EXAMPLE_SUBDIR})
-            add_subdirectory(${EXAMPLE_SUBDIR})
-        endif()
-    endforeach()
+    include(examples)
 endif()
 
 if(BUILD_DOCS)
-    find_package(Doxygen)
-    if(DOXYGEN_FOUND)
-        set(DOCS_SRC_DIR "${CMAKE_SOURCE_DIR}/docs")
-        set(DOCS_OUT_DIR "${CMAKE_BINARY_DIR}/docs")
-        set(DOCS_DIA_DIR "${DOCS_SRC_DIR}/dia")
-        set(DOCS_LOGFILE "doxygen.log")
-        set(DOCS_INSTALL_DIR ${CMAKE_INSTALL_PREFIX})
-
-        set(DOCS_DIRS
-            "${TARGET_INCLUDE_PATH}/sgl/ \\
-            ${DOCS_SRC_DIR}")
-
-        configure_file(${DOCS_SRC_DIR}/Doxyfile.in ${CMAKE_BINARY_DIR}/Doxyfile)
-        
-        add_custom_target(docs ALL
-            ${CMAKE_COMMAND} -E make_directory ${DOCS_OUT_DIR}
-            COMMAND doxygen)
-
-        install(DIRECTORY ${DOCS_OUT_DIR}
-            DESTINATION ${DOCS_INSTALL_DIR}
-            DIRECTORY_PERMISSIONS
-                OWNER_EXECUTE OWNER_WRITE OWNER_READ
-                GROUP_EXECUTE GROUP_READ
-                WORLD_EXECUTE WORLD_READ
-            FILE_PERMISSIONS 
-                OWNER_WRITE OWNER_READ
-                GROUP_READ
-                WORLD_READ)
-    endif()
+    include(doxygen)
 endif()
 
 install(TARGETS ${TARGET}
@@ -117,5 +56,4 @@ install(TARGETS ${TARGET}
         WORLD_READ)
 
 add_custom_target(uninstall
-    COMMAND "${CMAKE_COMMAND}" -DINSTALL_DIR=${CMAKE_INSTALL_PREFIX} -P
-    "${CMAKE_MODULE_PATH}/uninstall.cmake")
+	COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_MODULE_PATH}/uninstall.cmake")
