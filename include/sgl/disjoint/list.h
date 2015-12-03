@@ -29,7 +29,10 @@ namespace sgl
 {
     namespace disjoint
     {
-        template<typename T, typename Rank = int>
+        template<typename T>
+        class list_iterator;
+        
+        template<typename T, typename Rank = std::size_t>
         class list
         {
             typedef T value_type;
@@ -41,21 +44,37 @@ namespace sgl
             typedef std::list<node_ptr_type> node_list_type;
             typedef node_list_type* node_list_ptr_type;
 
+        public:
+            typedef typename node_list_type::iterator iterator;
+            typedef typename node_list_type::const_iterator const_iterator;
+            
         private:
             node_ptr_type root;
+            mutable node_list_ptr_type childs;
 
         public:        
             list(const node_ptr_type& root)
             {
+                if(!root)
+                {
+                    throw std::invalid_argument("list::list: root is nullptr");
+                }
+                
                 this->root = root;
                 this->root->set_parent(root);
+                this->childs = new node_list_type();
             }
 
             virtual ~list()
             {
-                
+                delete this->childs;
             }
 
+            /*node_ptr_type get_root()
+            {
+                return this->root;
+            }*/
+            
             node_ptr_type find(const node_ptr_type& node) const
             {
                 if(node->get_parent() != node)
@@ -68,21 +87,40 @@ namespace sgl
 
             void unite(const my_ptr_type& list)
             {
+                if(!list)
+                {
+                    throw std::invalid_argument("list::unite: list is nullptr");
+                }
+                
                 this->link(this->root, list->root, list);
             }
 
-        private:
-            /*void get_childs(const node_list_ptr_type& list, const node_ptr_type& node)
+            iterator begin()
             {
-                typename node_list_type::const_iterator it = node->get_childs()->begin();
-                list->push_front(node);
-
-                for(; it != node->get_childs()->end(); ++it)
-                {
-                    this->get_childs(list, *it);
-                }
-            }*/
-
+                this->childs->clear();
+                this->get_childs(this->childs, this->root);
+                
+                return this->childs->begin();
+            }
+            
+            const_iterator begin() const
+            {
+                this->childs->clear();
+                this->get_childs(this->childs, this->root);
+                
+                return this->childs->begin();
+            }
+            
+            iterator end()
+            {
+                return this->childs->end();
+            }
+            
+            const_iterator end() const
+            {
+                return this->childs->end();
+            }
+            
         private:
             void link(node_ptr_type& lhs, node_ptr_type& rhs, const my_ptr_type& set)
             {
@@ -101,7 +139,18 @@ namespace sgl
 
                 if(lhs->get_rank() == rhs->get_rank())
                 {
-                    rhs->set_rank(++rhs->get_rank());
+                    rhs->set_rank(rhs->get_rank() + 1);
+                }
+            }
+            
+            void get_childs(const node_list_ptr_type& list, const node_ptr_type& node) const
+            {
+                typename node_list_type::const_iterator it = node->get_childs()->begin();
+                list->push_front(node);
+
+                for(; it != node->get_childs()->end(); ++it)
+                {
+                    this->get_childs(list, *it);
                 }
             }
         };

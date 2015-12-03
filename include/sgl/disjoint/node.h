@@ -54,6 +54,7 @@ namespace sgl
             const my_ptr_type& get_parent() const { return this->parent; }
             const rank_type& get_rank() const { return this->rank; }
             const node_list_ptr_type& get_childs() { return this->childs; }
+            const value_type& get_value() const { return this->value; }
 
             void set_parent(const my_ptr_type& parent) { this->parent = parent; }
             void set_rank(const rank_type& rank) { this->rank = rank; }
