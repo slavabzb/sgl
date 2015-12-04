@@ -24,6 +24,7 @@ include_directories(${FAKEIT_MODULE_PATH}/single_header/standalone)
 
 add_compile_options(-std=c++11)
 add_compile_options(-Wall)
+add_compile_options(-g)
 
 file(GLOB_RECURSE TARGET_SRC "${TARGET_SRC_PATH}/*.cpp")
 
@@ -55,5 +56,4 @@ install(TARGETS ${TARGET}
         GROUP_WRITE GROUP_READ OWNER_EXECUTE
         WORLD_READ)
 
-add_custom_target(uninstall
-	COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_MODULE_PATH}/uninstall.cmake")
+add_custom_target(uninstall COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_MODULE_PATH}/uninstall.cmake")
