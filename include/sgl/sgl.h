@@ -1,7 +1,4 @@
-/**
- * @cond
- *
- * Copyright (c) 2015-2016
+/* Copyright (c) 2015
  * 
  * Bezborodov, V.A. vyacheslav.bezborodov@gmail.com
  * Golodov, V.A. avaksa@gmail.com
@@ -17,8 +14,6 @@
  * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *
- * @endcond
  */
 
 /**
@@ -35,7 +30,7 @@
  * Representations.
  */
 
-#pragma once
+#pragma once /** @file sgl.h Single header for @ref sgl library. */
 
 #include <sgl/algo/prim.h>
 

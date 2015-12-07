@@ -1,7 +1,4 @@
-/**
- * @cond
- *
- * Copyright (c) 2015-2016
+/* Copyright (c) 2015
  * 
  * Bezborodov, V.A. vyacheslav.bezborodov@gmail.com
  * Golodov, V.A. avaksa@gmail.com
@@ -17,11 +14,9 @@
  * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *
- * @endcond
  */
 
-#pragma once
+#pragma once /** @file converter.h Views converter. */
 
 #include <map>
 #include <sgl/view/type.h>
@@ -31,7 +26,7 @@ namespace sgl
     namespace details
     {
         /**
-         * Graph view type - char converter.
+         * Graph view type <-> char converter.
          * Converts graph view type to char and back.
          */
         class converter
