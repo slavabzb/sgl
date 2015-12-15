@@ -388,11 +388,8 @@ sgl::view::adjacency_list& sgl::view::adjacency_list::operator=(const sgl::view:
     sgl::core::node_set_t nodes = rhs.get_nodes();
     for(const sgl::core::node& node : nodes)
     {
-        if(!this->exists(node))
-        {
-            adjacency_info_t adjacency_info = std::make_pair(node, adjacency_nodes_t());
-            this->list.insert(adjacency_info);
-        }
+        adjacency_info_t adjacency_info = std::make_pair(node, adjacency_nodes_t());
+        this->list.insert(adjacency_info);
     }
 
     return *this;

@@ -15,7 +15,8 @@ The view uses an adjacency matrix to represent a graph.
 
 The view has the following template.
 @code{.unparsed}
-C N W
+C N
+R W
 a a a ...
 a a a ...
 ...
@@ -26,6 +27,7 @@ a a a ...
 The abbreviations have the following meanings.
 - @b C - a character stands for that kind of graph view.
 - @b N - a number of graph nodes.
+- @b R - flag. If R is equal to 1, graph is oriented (each edge has a direction), otherwise not.
 - @b W - flag. If W is equal to 1, graph is weighted (each edge has a weight), otherwise not.
 - @b a - a number placed in @b i-th row and @b j-th column describes an edge starts from
 the @b i-th node and ends to the @b j-th node. If the number is equal to 0, there is

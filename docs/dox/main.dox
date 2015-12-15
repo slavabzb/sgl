@@ -1,7 +1,15 @@
 /*!@mainpage Simple Graph Library
 
+@tableofcontents
+
 @section sgl SGL
 
-@subpage arch
+Welcome to SGL project main page! 
+
+SGL is a lightweight library for graph manipulation. It's free and simple for use.
+
+@example graph.cpp
+@ref sgl in action.
+Here is an example how to use @ref sgl in your application.
 
 */

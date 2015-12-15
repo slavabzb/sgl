@@ -20,6 +20,12 @@
  * @defgroup algo Algorithms
  * Algorithms.
  * 
+ * @todo Kruskal's algorithm.
+ * @todo Borůvka's algorithm.
+ * @todo Fleury's algorithm.
+ * @todo Kuhn–Munkres algorithm.
+ * @todo Edmonds–Karp algorithm.
+ * 
  * @defgroup core Core
  * Main parts.
  * 
@@ -28,6 +34,8 @@
  * 
  * @defgroup view Views
  * Representations.
+ * 
+ * @todo Iterators.
  */
 
 #pragma once /** @file sgl.h Single header for @ref sgl library. */

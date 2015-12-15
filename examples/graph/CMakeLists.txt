@@ -14,6 +14,8 @@ add_compile_options(-std=c++11)
 
 file(GLOB SRC "${TARGET_SRC_PATH}/*.cpp")
 
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
+
 add_executable(${TARGET} ${SRC})
 
 target_link_libraries(
